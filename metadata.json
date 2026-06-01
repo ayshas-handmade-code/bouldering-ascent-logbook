@@ -1,0 +1,6 @@
+{
+  "name": "Bouldering Ascent Logbook",
+  "description": "A mobile-first bouldering logbook for tracking climbing sessions, sends, grades, and progress over time.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

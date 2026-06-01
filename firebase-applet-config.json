@@ -1,0 +1,10 @@
+{
+  "projectId": "<TODO_REPLACE>",
+  "appId": "<TODO_REPLACE>",
+  "apiKey": "<TODO_REPLACE>",
+  "authDomain": "<TODO_REPLACE>",
+  "firestoreDatabaseId": "<TODO_REPLACE>",
+  "storageBucket": "<TODO_REPLACE>",
+  "messagingSenderId": "<TODO_REPLACE>",
+  "measurementId": ""
+}

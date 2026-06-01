@@ -1,0 +1,99 @@
+{
+  "entities": {
+    "Location": {
+      "title": "Location",
+      "description": "A climbing climbing gym or outdoor location defined by the user",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique location identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the gym or crag"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["gym", "outdoor"],
+          "description": "Location classification"
+        },
+        "isFavorite": {
+          "type": "boolean",
+          "description": "Marks location as starred"
+        },
+        "city": {
+          "type": "string",
+          "description": "City or general region of the location"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner user UID"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["id", "name", "type", "isFavorite", "userId"]
+    },
+    "ClimbingSession": {
+      "title": "ClimbingSession",
+      "description": "A single climbing session logged by the user with routes climbed",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique session identifier"
+        },
+        "date": {
+          "type": "string",
+          "description": "Climbing date in YYYY-MM-DD"
+        },
+        "locationId": {
+          "type": "string",
+          "description": "Associated location ID"
+        },
+        "locationName": {
+          "type": "string",
+          "description": "Name of location"
+        },
+        "locationType": {
+          "type": "string",
+          "enum": ["gym", "outdoor"]
+        },
+        "climbsCount": {
+          "type": "number",
+          "description": "Number of items in routes"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Free-form text notes"
+        },
+        "routes": {
+          "type": "array",
+          "description": "List of sent climb route logs"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner user UID"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["id", "date", "locationId", "locationName", "locationType", "climbsCount", "notes", "routes", "userId"]
+    }
+  },
+  "firestore": {
+    "/locations/{locationId}": {
+      "schema": "Location",
+      "description": "User climbing locations collection"
+    },
+    "/sessions/{sessionId}": {
+      "schema": "ClimbingSession",
+      "description": "User recorded climbing sessions collection"
+    }
+  }
+}

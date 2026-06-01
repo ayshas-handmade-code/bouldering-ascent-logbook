@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Quicksand", "Fredoka", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fredoka", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-accent: #FF9EB5; /* Sweet pastel strawberry pink */
+  --color-accent-hover: #FFB5C5; /* Warm bubblegum pink */
+  --color-choco-dark: #503C3C; /* Soft warm chocolate cocoa text */
+  --color-choco-medium: #7F6363; /* Medium cocoa milk brown text */
+  --color-choco-light: #A58B8B; /* Soft rose-cappuccino neutral */
+  --color-cream-base: #FFF5F6; /* Extremely soft candy baby pink/milk background */
+  --color-cream-card: #FFFFFF; /* Fluffy marshmallow white cards */
+  --color-mint-accent: #9EE09E; /* Sweet marshmallow mint green */
+  --color-sky-accent: #A2D2FF; /* Soft pastel sky blue */
+  --color-rose-border: #FFD3DC; /* Sweet rose outline */
+  --color-cookie-bg: #FFFBFB; /* Warm cozy cookie dough card overlay */
+}
+
+@layer utilities {
+  .climb-grade {
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+  .border-heavy {
+    border-width: 3px;
+    border-color: #FFD3DC;
+  }
+  .text-giant {
+    font-family: var(--font-display);
+    font-size: 5rem;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.25s ease-out forwards;
+  }
+  .animate-slide-up {
+    animation: slideUp 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Custom scrollbars for cute marshmallow scroll design */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FFF5F6;
+}
+::-webkit-scrollbar-thumb {
+  background: #FFD3DC;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #FF9EB5;
+}
+
