@@ -231,7 +231,7 @@ export default function SessionForm({
 
   return (
     <div id="session-form-modal-overlay"
-    className="fixed  items-center inset-0 bg-choco-dark/40 backdrop-blur-xs z-40 flex flex-col justify-end sm:justify-center p-0 sm:p-4 transition-all">
+      className="fixed  items-center inset-0 bg-choco-dark/40 backdrop-blur-xs z-40 flex flex-col justify-end sm:justify-center p-0 sm:p-4 transition-all">
       <div
         id="session-form-container"
         className="bg-cream-card w-full sm:max-w-2xl sm:rounded-[32px] shadow-xl flex flex-col max-h-[92vh] sm:max-h-[85vh] rounded-t-none border border-rose-border overflow-hidden animate-slide-up"
@@ -330,8 +330,8 @@ export default function SessionForm({
                   type="button"
                   onClick={() => setActiveGradeSystem('v')}
                   className={`px-3 py-1 rounded-full transition-all uppercase ${activeGradeSystem === 'v'
-                      ? 'bg-accent text-choco-dark font-display font-bold'
-                      : 'text-choco-medium'
+                    ? 'bg-accent text-choco-dark font-display font-bold'
+                    : 'text-choco-medium'
                     }`}
                 >
                   V-Scale
@@ -341,8 +341,8 @@ export default function SessionForm({
                   type="button"
                   onClick={() => setActiveGradeSystem('font')}
                   className={`px-3 py-1 rounded-full transition-all uppercase ${activeGradeSystem === 'font'
-                      ? 'bg-accent text-choco-dark font-display font-bold'
-                      : 'text-choco-medium'
+                    ? 'bg-accent text-choco-dark font-display font-bold'
+                    : 'text-choco-medium'
                     }`}
                 >
                   Font
@@ -442,23 +442,20 @@ export default function SessionForm({
                             </label>
 
                             <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto bg-cream-base p-2 rounded-2xl border border-rose-border/60 shadow-3xs">
-                              {(activeGradeSystem === 'v' ? BOULDERING_GRADES_V : BOULDERING_GRADES_FONT).map((gradeVal) => {
-                                const selected = route.grade === gradeVal;
-                                return (
-                                  <button
-                                    id={`btn-grade-opt-${route.id}-${gradeVal}`}
-                                    key={gradeVal}
-                                    type="button"
-                                    onClick={() => handleUpdateRouteField(route.id, 'grade', gradeVal)}
-                                    className={`text-[10px] px-3 py-1 rounded-full font-display font-bold border transition-all cursor-pointer ${selected
-                                        ? 'bg-accent border-accent text-choco-dark shadow-3xs shadow-accent/25'
-                                        : 'bg-cream-card border-rose-border/40 text-choco-medium hover:bg-rose-border/20'
-                                      }`}
-                                  >
-                                    {gradeVal}
-                                  </button>
-                                );
-                              })}
+                              <input
+                                id={`input-grade-${route.id}`}
+                                type="text"
+                                list={`grade-list-${route.id}`}
+                                placeholder="e.g. V3 or 6a"
+                                value={route.grade}
+                                onChange={(e) => handleUpdateRouteField(route.id, 'grade', e.target.value)}
+                                className="w-full text-xs font-display font-semibold text-choco-dark bg-cream-base border border-rose-border/85 rounded-full px-4 py-2.5 outline-none focus:border-accent"
+                              />
+                              <datalist id={`grade-list-${route.id}`}>
+                                {(activeGradeSystem === 'v' ? BOULDERING_GRADES_V : BOULDERING_GRADES_FONT).map((gradeVal) => (
+                                  <option key={gradeVal} value={gradeVal}>{gradeVal}</option>
+                                ))}
+                              </datalist>
                             </div>
                           </div>
 
@@ -483,8 +480,8 @@ export default function SessionForm({
                                   >
                                     {selected && (
                                       <Check className={`w-4 h-4 font-bold ${colObj.name === 'White' || colObj.name === 'Yellow'
-                                          ? 'text-slate-900'
-                                          : 'text-white'
+                                        ? 'text-slate-900'
+                                        : 'text-white'
                                         }`} />
                                     )}
                                   </button>
@@ -583,8 +580,8 @@ export default function SessionForm({
                                     type="button"
                                     onClick={() => handleHoldTypeToggle(route.id, hold)}
                                     className={`text-[10px] lowercase px-3 py-1.5 rounded-full font-display font-bold transition-all border cursor-pointer ${selected
-                                        ? 'bg-accent border-accent text-choco-dark shadow-3xs'
-                                        : 'bg-cream-base border-rose-border/40 text-choco-medium hover:bg-rose-border/10'
+                                      ? 'bg-accent border-accent text-choco-dark shadow-3xs'
+                                      : 'bg-cream-base border-rose-border/40 text-choco-medium hover:bg-rose-border/10'
                                       }`}
                                   >
                                     {hold}
@@ -608,8 +605,8 @@ export default function SessionForm({
                                     type="button"
                                     onClick={() => handleRouteTypeToggle(route.id, rType)}
                                     className={`text-[10px] lowercase px-3 py-1.5 rounded-full font-display font-bold transition-all border cursor-pointer ${selected
-                                        ? 'bg-sky-accent border-sky-accent/[0.45] text-choco-dark shadow-3xs'
-                                        : 'bg-cream-base border-rose-border/40 text-choco-medium hover:bg-rose-border/10'
+                                      ? 'bg-sky-accent border-sky-accent/[0.45] text-choco-dark shadow-3xs'
+                                      : 'bg-cream-base border-rose-border/40 text-choco-medium hover:bg-rose-border/10'
                                       }`}
                                   >
                                     {rType}
@@ -685,8 +682,8 @@ export default function SessionForm({
                                   type="button"
                                   onClick={() => handleUpdateRouteField(route.id, 'flashes', route.flashes === 1 ? 0 : 1)}
                                   className={`px-3.5 py-1 rounded-full text-[9px] font-display font-bold transition-all border shadow-3xs cursor-pointer ${route.flashes === 1
-                                      ? 'bg-accent border-accent text-choco-dark'
-                                      : 'bg-cream-base border-rose-border/50 text-choco-medium'
+                                    ? 'bg-accent border-accent text-choco-dark'
+                                    : 'bg-cream-base border-rose-border/50 text-choco-medium'
                                     }`}
                                 >
                                   {route.flashes === 1 ? 'Yes ✨' : 'No 🧸'}
