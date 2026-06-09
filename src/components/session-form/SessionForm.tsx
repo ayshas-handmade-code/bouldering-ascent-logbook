@@ -453,7 +453,13 @@ export default function SessionForm({
                               />
                               <datalist id={`grade-list-${route.id}`}>
                                 {(activeGradeSystem === 'v' ? BOULDERING_GRADES_V : BOULDERING_GRADES_FONT).map((gradeVal) => (
-                                  <option key={gradeVal} value={gradeVal}>{gradeVal}</option>
+                                  <option
+                                    key={gradeVal}
+                                    value={gradeVal}
+                                    selected={gradeVal === "V3"}
+                                  >
+                                    {gradeVal}
+                                  </option>
                                 ))}
                               </datalist>
                             </div>
