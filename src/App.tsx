@@ -8,7 +8,7 @@ import { ClimbingSession, Location } from './types';
 import { INITIAL_LOCATIONS, generateSampleSessions } from './data';
 import DashboardTab from './components/dashboard-tab/DashboardTab';
 import LogbookTab from './components/LogbookTab';
-import LocationsTab from './components/LocationsTab';
+import LocationsTab from './components/locations-tab/LocationsTab';
 import SessionForm from './components/SessionForm';
 import {
   Trophy, History, MapPin, Compass, Plus,
