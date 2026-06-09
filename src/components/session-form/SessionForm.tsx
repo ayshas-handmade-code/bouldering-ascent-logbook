@@ -450,6 +450,11 @@ export default function SessionForm({
                           />
                         </div>
 
+                        <AttemptTracker
+                          handleUpdateRouteField={handleUpdateRouteField}
+                          route={route}
+                        />
+
                         {/* ROW 2: Wall Location & Photo Upload */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
@@ -575,13 +580,6 @@ export default function SessionForm({
                           </div>
 
                         </div>
-
-                        {/* ROW 4: Attempts, Sends, Flashes Tracking */}
-                        <AttemptTracker
-                          handleUpdateRouteField={handleUpdateRouteField}
-                          route={route}
-                        />
-
                       </div>
                     )
                     }
