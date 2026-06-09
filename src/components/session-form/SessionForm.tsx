@@ -4,19 +4,19 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ClimbingSession, RouteLog, Location } from '../types';
-import { 
-  BOULDERING_GRADES_V, 
-  BOULDERING_GRADES_FONT, 
-  HOLD_TYPES, 
-  ROUTE_TYPES, 
-  CLIMB_COLORS, 
-  WALL_LOCATIONS 
-} from '../data';
-import { processPhotoUpload } from '../utils';
-import { savePhoto, getPhoto } from '../photoStore';
-import { 
-  X, Plus, ChevronDown, Check, Star, Sparkles, 
+import { ClimbingSession, RouteLog, Location } from '../../types';
+import {
+  BOULDERING_GRADES_V,
+  BOULDERING_GRADES_FONT,
+  HOLD_TYPES,
+  ROUTE_TYPES,
+  CLIMB_COLORS,
+  WALL_LOCATIONS
+} from '../../data';
+import { processPhotoUpload } from '../../utils';
+import { savePhoto, getPhoto } from '../../photoStore';
+import {
+  X, Plus, ChevronDown, Check, Star, Sparkles,
   Camera, Trash2, Calendar, MapPin, AlignLeft, Info
 } from 'lucide-react';
 
@@ -98,9 +98,9 @@ export default function SessionForm({
     setRoutes(
       routes.map((r) => {
         if (r.id !== routeId) return r;
-        
+
         const updated = { ...r, [field]: value };
-        
+
         // Auto-synchronize attempts, sends, and flashes
         if (field === 'flashes' && value === 1) {
           updated.attempts = 1;
@@ -113,7 +113,7 @@ export default function SessionForm({
             updated.flashes = 1;
           }
         }
-        
+
         return updated;
       })
     );
@@ -126,10 +126,10 @@ export default function SessionForm({
     try {
       const resizedBase64 = await processPhotoUpload(file);
       const photoId = `photo-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-      
+
       // Save directly to raw IndexedDB
       await savePhoto(photoId, resizedBase64);
-      
+
       // Update routes state
       handleUpdateRouteField(routeId, 'photoId', photoId);
       setPhotoPreviews(prev => ({ ...prev, [routeId]: resizedBase64 }));
@@ -231,7 +231,7 @@ export default function SessionForm({
 
   return (
     <div id="session-form-modal-overlay" className="fixed inset-0 bg-choco-dark/40 backdrop-blur-xs z-40 flex flex-col justify-end sm:justify-center p-0 sm:p-4 transition-all">
-      <div 
+      <div
         id="session-form-container"
         className="bg-cream-card w-full sm:max-w-2xl sm:rounded-[32px] shadow-xl flex flex-col max-h-[92vh] sm:max-h-[85vh] rounded-t-none border border-rose-border overflow-hidden animate-slide-up"
       >
@@ -245,7 +245,7 @@ export default function SessionForm({
               {sessionToEdit ? 'Edit Session Log' : 'Log Climbing Session'}
             </h2>
           </div>
-          <button 
+          <button
             id="btn-close-session-form"
             onClick={onClose}
             className="p-1.5 bg-cream-base border border-rose-border text-choco-medium hover:text-choco-dark rounded-full transition-all cursor-pointer"
@@ -261,7 +261,7 @@ export default function SessionForm({
             <h3 className="text-[10px] font-display font-bold text-choco-dark uppercase flex items-center gap-1 border-b border-rose-border/30 pb-2">
               <MapPin className="w-3.5 h-3.5 text-accent" /> Session Info 🧸
             </h3>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-[10px] font-display font-bold uppercase text-choco-medium mb-1.5 flex items-center gap-1">
@@ -321,18 +321,17 @@ export default function SessionForm({
               <h3 className="text-xs font-display font-bold text-choco-dark flex items-center gap-2">
                 Logged Ascents ✨ ({routes.length})
               </h3>
-              
+
               {/* Diff system selector */}
               <div className="flex bg-cream-base p-1 border border-rose-border/50 rounded-full text-[9px] font-display font-bold uppercase">
                 <button
                   id="tab-toggle-v"
                   type="button"
                   onClick={() => setActiveGradeSystem('v')}
-                  className={`px-3 py-1 rounded-full transition-all uppercase ${
-                    activeGradeSystem === 'v' 
-                      ? 'bg-accent text-choco-dark font-display font-bold' 
+                  className={`px-3 py-1 rounded-full transition-all uppercase ${activeGradeSystem === 'v'
+                      ? 'bg-accent text-choco-dark font-display font-bold'
                       : 'text-choco-medium'
-                  }`}
+                    }`}
                 >
                   V-Scale
                 </button>
@@ -340,11 +339,10 @@ export default function SessionForm({
                   id="tab-toggle-font"
                   type="button"
                   onClick={() => setActiveGradeSystem('font')}
-                  className={`px-3 py-1 rounded-full transition-all uppercase ${
-                    activeGradeSystem === 'font' 
-                      ? 'bg-accent text-choco-dark font-display font-bold' 
+                  className={`px-3 py-1 rounded-full transition-all uppercase ${activeGradeSystem === 'font'
+                      ? 'bg-accent text-choco-dark font-display font-bold'
                       : 'text-choco-medium'
-                  }`}
+                    }`}
                 >
                   Font
                 </button>
@@ -366,19 +364,19 @@ export default function SessionForm({
                 const activePhotoBase64 = photoPreviews[route.id];
 
                 return (
-                  <div 
+                  <div
                     id={`route-entry-block-${route.id}`}
-                    key={route.id} 
+                    key={route.id}
                     className="bg-cream-card rounded-[24px] border border-rose-border/90 overflow-hidden transition-all duration-250 hover:border-accent shadow-3xs"
                   >
                     {/* Header bar of the climb (Collapsible toggler) */}
-                    <div 
+                    <div
                       id={`route-header-${route.id}`}
                       className="px-4 py-3 bg-cream-base/30 border-b border-rose-border/30 flex items-center justify-between cursor-pointer select-none"
                       onClick={() => toggleRouteCollapse(route.id)}
                     >
                       <div className="flex items-center gap-2.5">
-                        <span 
+                        <span
                           id={`route-color-badge-${route.id}`}
                           className="w-4 h-4 rounded-full border border-rose-border shrink-0 flex items-center justify-center text-xs shadow-xs"
                           style={{ backgroundColor: CLIMB_COLORS.find(c => c.name === route.color)?.hex || '#ccc' }}
@@ -388,7 +386,7 @@ export default function SessionForm({
                             climb #{idx + 1}: <span className="text-accent font-extrabold">{route.grade}</span> — {route.color}
                           </p>
                           <p className="text-[10px] font-display font-semibold text-choco-medium lowercase mt-0.5">
-                            zone: {route.wallLocation || 'main'} 
+                            zone: {route.wallLocation || 'main'}
                             {route.attempts > 0 && ` • ${route.attempts} try`}
                             {route.sends > 0 && ` • sent ✓`}
                             {route.flashes > 0 && ` • flash ⚡`}
@@ -402,9 +400,8 @@ export default function SessionForm({
                           id={`btn-fav-route-${route.id}`}
                           type="button"
                           onClick={() => handleUpdateRouteField(route.id, 'isFavorite', !route.isFavorite)}
-                          className={`p-1.5 rounded-full border bg-cream-base border-rose-border/50 transition-all ${
-                            route.isFavorite ? 'text-berry-accent border-accent/60 bg-accent/25' : 'text-choco-light hover:text-choco-medium'
-                          }`}
+                          className={`p-1.5 rounded-full border bg-cream-base border-rose-border/50 transition-all ${route.isFavorite ? 'text-berry-accent border-accent/60 bg-accent/25' : 'text-choco-light hover:text-choco-medium'
+                            }`}
                         >
                           <Star className={`w-3.5 h-3.5 ${route.isFavorite ? 'fill-accent' : ''}`} />
                         </button>
@@ -436,13 +433,13 @@ export default function SessionForm({
                       <div className="p-5 space-y-5 font-sans animate-fade-in bg-cookie-bg/40">
                         {/* ROW 1: Grade Selector & Color Picker */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          
+
                           {/* Required: Grade */}
                           <div>
                             <label className="block text-[10px] font-display font-semibold text-choco-medium uppercase tracking-wider mb-2">
                               Difficulty Grade *
                             </label>
-                            
+
                             <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto bg-cream-base p-2 rounded-2xl border border-rose-border/60 shadow-3xs">
                               {(activeGradeSystem === 'v' ? BOULDERING_GRADES_V : BOULDERING_GRADES_FONT).map((gradeVal) => {
                                 const selected = route.grade === gradeVal;
@@ -452,11 +449,10 @@ export default function SessionForm({
                                     key={gradeVal}
                                     type="button"
                                     onClick={() => handleUpdateRouteField(route.id, 'grade', gradeVal)}
-                                    className={`text-[10px] px-3 py-1 rounded-full font-display font-bold border transition-all cursor-pointer ${
-                                      selected 
-                                        ? 'bg-accent border-accent text-choco-dark shadow-3xs shadow-accent/25' 
+                                    className={`text-[10px] px-3 py-1 rounded-full font-display font-bold border transition-all cursor-pointer ${selected
+                                        ? 'bg-accent border-accent text-choco-dark shadow-3xs shadow-accent/25'
                                         : 'bg-cream-card border-rose-border/40 text-choco-medium hover:bg-rose-border/20'
-                                    }`}
+                                      }`}
                                   >
                                     {gradeVal}
                                   </button>
@@ -480,17 +476,15 @@ export default function SessionForm({
                                     type="button"
                                     onClick={() => handleUpdateRouteField(route.id, 'color', colObj.name)}
                                     title={colObj.name}
-                                    className={`relative w-full aspect-square rounded-full border border-rose-border/30 flex items-center justify-center transition-transform transform active:scale-90 cursor-pointer ${
-                                      selected ? 'ring-2 ring-accent scale-102' : 'hover:scale-102'
-                                    }`}
+                                    className={`relative w-full aspect-square rounded-full border border-rose-border/30 flex items-center justify-center transition-transform transform active:scale-90 cursor-pointer ${selected ? 'ring-2 ring-accent scale-102' : 'hover:scale-102'
+                                      }`}
                                     style={{ backgroundColor: colObj.hex }}
                                   >
                                     {selected && (
-                                      <Check className={`w-4 h-4 font-bold ${
-                                        colObj.name === 'White' || colObj.name === 'Yellow' 
-                                          ? 'text-slate-900' 
+                                      <Check className={`w-4 h-4 font-bold ${colObj.name === 'White' || colObj.name === 'Yellow'
+                                          ? 'text-slate-900'
                                           : 'text-white'
-                                      }`} />
+                                        }`} />
                                     )}
                                   </button>
                                 );
@@ -502,7 +496,7 @@ export default function SessionForm({
 
                         {/* ROW 2: Wall Location & Photo Upload */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          
+
                           {/* Required: Wall Location */}
                           <div>
                             <label className="block text-[10px] font-display font-semibold text-choco-medium uppercase tracking-wider mb-1.5">
@@ -534,9 +528,9 @@ export default function SessionForm({
 
                             {activePhotoBase64 ? (
                               <div className="flex items-center gap-2 bg-cream-base p-2 rounded-2xl border border-rose-border/50 font-sans shadow-3xs">
-                                <img 
-                                  src={activePhotoBase64} 
-                                  alt="Route Preview" 
+                                <img
+                                  src={activePhotoBase64}
+                                  alt="Route Preview"
                                   className="w-10 h-10 object-cover rounded-lg border border-rose-border shadow-xs"
                                   referrerPolicy="no-referrer"
                                 />
@@ -573,7 +567,7 @@ export default function SessionForm({
 
                         {/* ROW 3: Holds and Route Types */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          
+
                           <div>
                             <label className="block text-[10px] font-display font-semibold text-choco-medium uppercase tracking-wider mb-2">
                               Holds Features (multi-select)
@@ -587,11 +581,10 @@ export default function SessionForm({
                                     key={hold}
                                     type="button"
                                     onClick={() => handleHoldTypeToggle(route.id, hold)}
-                                    className={`text-[10px] lowercase px-3 py-1.5 rounded-full font-display font-bold transition-all border cursor-pointer ${
-                                      selected
+                                    className={`text-[10px] lowercase px-3 py-1.5 rounded-full font-display font-bold transition-all border cursor-pointer ${selected
                                         ? 'bg-accent border-accent text-choco-dark shadow-3xs'
                                         : 'bg-cream-base border-rose-border/40 text-choco-medium hover:bg-rose-border/10'
-                                    }`}
+                                      }`}
                                   >
                                     {hold}
                                   </button>
@@ -613,11 +606,10 @@ export default function SessionForm({
                                     key={rType}
                                     type="button"
                                     onClick={() => handleRouteTypeToggle(route.id, rType)}
-                                    className={`text-[10px] lowercase px-3 py-1.5 rounded-full font-display font-bold transition-all border cursor-pointer ${
-                                      selected
+                                    className={`text-[10px] lowercase px-3 py-1.5 rounded-full font-display font-bold transition-all border cursor-pointer ${selected
                                         ? 'bg-sky-accent border-sky-accent/[0.45] text-choco-dark shadow-3xs'
                                         : 'bg-cream-base border-rose-border/40 text-choco-medium hover:bg-rose-border/10'
-                                    }`}
+                                      }`}
                                   >
                                     {rType}
                                   </button>
@@ -691,18 +683,17 @@ export default function SessionForm({
                                   id={`btn-flash-toggle-${route.id}`}
                                   type="button"
                                   onClick={() => handleUpdateRouteField(route.id, 'flashes', route.flashes === 1 ? 0 : 1)}
-                                  className={`px-3.5 py-1 rounded-full text-[9px] font-display font-bold transition-all border shadow-3xs cursor-pointer ${
-                                    route.flashes === 1
+                                  className={`px-3.5 py-1 rounded-full text-[9px] font-display font-bold transition-all border shadow-3xs cursor-pointer ${route.flashes === 1
                                       ? 'bg-accent border-accent text-choco-dark'
                                       : 'bg-cream-base border-rose-border/50 text-choco-medium'
-                                  }`}
+                                    }`}
                                 >
                                   {route.flashes === 1 ? 'Yes ✨' : 'No 🧸'}
                                 </button>
                               </div>
                             </div>
                           </div>
-                          
+
                           <p className="text-[10px] font-display font-semibold text-choco-medium/80 leading-snug">
                             * note: flashing implies sending a route perfectly cleanly on your very first try! selecting 'Yes' automatically coordinates attempts to 1 and sends to 1.
                           </p>

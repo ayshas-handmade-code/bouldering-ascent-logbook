@@ -9,7 +9,7 @@ import { INITIAL_LOCATIONS, generateSampleSessions } from './data';
 import DashboardTab from './components/dashboard-tab/DashboardTab';
 import LogbookTab from './components/LogbookTab';
 import LocationsTab from './components/locations-tab/LocationsTab';
-import SessionForm from './components/SessionForm';
+import SessionForm from './components/session-form/SessionForm';
 import {
   Trophy, History, MapPin, Compass, Plus,
   Info, Sparkles, LogOut, CheckSquare, Dumbbell
@@ -406,8 +406,8 @@ export default function App() {
               setSelectedSessionId(null);
             }}
             className={`flex flex-col items-center justify-center gap-1 transition-all ${activeTab === 'dashboard'
-                ? 'text-accent scale-105 font-display font-bold'
-                : 'text-choco-light hover:text-choco-medium font-medium'
+              ? 'text-accent scale-105 font-display font-bold'
+              : 'text-choco-light hover:text-choco-medium font-medium'
               }`}
           >
             <Compass className="w-5 h-5" />
@@ -421,8 +421,8 @@ export default function App() {
               setSelectedSessionId(null);
             }}
             className={`flex flex-col items-center justify-center gap-1 transition-all ${activeTab === 'logbook'
-                ? 'text-accent scale-105 font-display font-bold'
-                : 'text-choco-light hover:text-choco-medium font-medium'
+              ? 'text-accent scale-105 font-display font-bold'
+              : 'text-choco-light hover:text-choco-medium font-medium'
               }`}
           >
             <History className="w-5 h-5" />
@@ -436,8 +436,8 @@ export default function App() {
               setSelectedSessionId(null);
             }}
             className={`flex flex-col items-center justify-center gap-1 transition-all ${activeTab === 'locations'
-                ? 'text-accent scale-105 font-display font-bold'
-                : 'text-choco-light hover:text-choco-medium font-medium'
+              ? 'text-accent scale-105 font-display font-bold'
+              : 'text-choco-light hover:text-choco-medium font-medium'
               }`}
           >
             <MapPin className="w-5 h-5" />
