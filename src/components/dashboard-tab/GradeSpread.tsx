@@ -4,8 +4,8 @@
  */
 
 import React from 'react';
-import { ClimbingSession } from '../types';
-import { getGradeBreakdown } from '../utils';
+import { ClimbingSession } from '../../types';
+import { getGradeBreakdown } from '../../utils';
 import { Activity } from 'lucide-react';
 
 interface GradeSpreadProps {
@@ -30,7 +30,7 @@ export default function GradeSpread({ sessions }: GradeSpreadProps) {
         ) : (
           gradeBreakdown.slice(0, 5).map((g) => {
             const totalClimbs = g.attempts;
-            
+
             return (
               <div key={g.grade} className="space-y-1">
                 <div className="flex justify-between text-xs font-medium">
@@ -41,11 +41,11 @@ export default function GradeSpread({ sessions }: GradeSpreadProps) {
                 </div>
                 {/* Custom dual colored progress bar */}
                 <div className="w-full h-3 bg-cream-base rounded-full overflow-hidden flex border border-rose-border/40">
-                  <div 
+                  <div
                     className="bg-accent h-full transition-all"
                     style={{ width: `${(g.sends / Math.max(1, totalClimbs)) * 100}%` }}
                   />
-                  <div 
+                  <div
                     className="bg-sky-accent h-full transition-all"
                     style={{ width: `${(g.flashes / Math.max(1, totalClimbs)) * 100}%` }}
                   />

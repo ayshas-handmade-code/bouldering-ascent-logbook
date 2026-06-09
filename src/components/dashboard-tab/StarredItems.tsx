@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { ClimbingSession, Location } from '../types';
+import { ClimbingSession, Location } from '../../types';
 import { Star } from 'lucide-react';
 
 interface StarredItemsProps {
@@ -20,7 +20,7 @@ export default function StarredItems({
 }: StarredItemsProps) {
   // Favorite locations
   const favoriteLocations = locations.filter(loc => loc.isFavorite);
-  
+
   // Collect favorite routes across all sessions
   const favoriteRoutes: { sessionDate: string; locationName: string; grade: string; color: string; wallLocation: string; id: string; sessionId: string }[] = [];
   sessions.forEach(sess => {
@@ -49,9 +49,9 @@ export default function StarredItems({
 
         <div className="space-y-2 max-h-44 overflow-y-auto">
           {favoriteLocations.map(gym => (
-            <div 
+            <div
               id={`fav-gym-widget-${gym.id}`}
-              key={gym.id} 
+              key={gym.id}
               className="flex items-center justify-between p-3 bg-cream-base/50 rounded-2xl border border-rose-border/50 text-choco-medium shadow-3xs hover:bg-cream-base transition-all"
             >
               <div className="flex items-center gap-2">
@@ -78,7 +78,7 @@ export default function StarredItems({
 
         <div className="space-y-2 max-h-44 overflow-y-auto">
           {favoriteRoutes.map(fav => (
-            <div 
+            <div
               id={`fav-route-widget-${fav.id}`}
               key={fav.id}
               onClick={() => onSelectSession(fav.sessionId)}

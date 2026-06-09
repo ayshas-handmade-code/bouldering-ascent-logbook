@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { ClimbingSession } from '../types';
+import { ClimbingSession } from '../../types';
 import { TrendingUp } from 'lucide-react';
 
 interface LevelProgressionChartProps {
@@ -81,8 +81,8 @@ export default function LevelProgressionChart({ sessions }: LevelProgressionChar
       ) : (
         <div id="svg-trendline-box" className="w-full overflow-x-auto select-none">
           <div className="min-w-[420px] h-44 relative">
-            <svg 
-              viewBox={`0 0 ${svgWidth} ${svgHeight}`} 
+            <svg
+              viewBox={`0 0 ${svgWidth} ${svgHeight}`}
               className="w-full h-full"
             >
               <defs>
@@ -97,19 +97,19 @@ export default function LevelProgressionChart({ sessions }: LevelProgressionChar
                 const yVal = svgHeight - paddingY - (gridVal * (svgHeight - paddingY * 2)) / 16;
                 return (
                   <g key={gridVal}>
-                    <line 
-                      x1={paddingX} 
-                      y1={yVal} 
-                      x2={svgWidth - paddingX} 
-                      y2={yVal} 
-                      stroke="#FFF0F2" 
-                      strokeWidth="1.5" 
+                    <line
+                      x1={paddingX}
+                      y1={yVal}
+                      x2={svgWidth - paddingX}
+                      y2={yVal}
+                      stroke="#FFF0F2"
+                      strokeWidth="1.5"
                     />
-                    <text 
-                      x={paddingX - 10} 
-                      y={yVal + 3} 
-                      fill="#A58B8B" 
-                      fontSize="9" 
+                    <text
+                      x={paddingX - 10}
+                      y={yVal + 3}
+                      fill="#A58B8B"
+                      fontSize="9"
                       fontWeight="bold"
                       textAnchor="end"
                     >
@@ -126,28 +126,28 @@ export default function LevelProgressionChart({ sessions }: LevelProgressionChar
 
               {/* Connection Line */}
               {pathD && (
-                <path 
-                  d={pathD} 
-                  fill="none" 
-                  stroke="#FF9EB5" 
-                  strokeWidth="3.5" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
+                <path
+                  d={pathD}
+                  fill="none"
+                  stroke="#FF9EB5"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               )}
 
               {/* Circles and Data Values */}
               {points.map((pt, pIdx) => (
                 <g key={pIdx}>
-                  <circle 
-                    cx={pt.x} 
-                    cy={pt.y} 
-                    r="5" 
-                    fill="#ffffff" 
-                    stroke="#FF9EB5" 
-                    strokeWidth="3" 
+                  <circle
+                    cx={pt.x}
+                    cy={pt.y}
+                    r="5"
+                    fill="#ffffff"
+                    stroke="#FF9EB5"
+                    strokeWidth="3"
                   />
-                  
+
                   {/* Grade annotation */}
                   <text
                     x={pt.x}

@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { ClimbingStats } from '../types';
+import { ClimbingStats } from '../../types';
 import { Trophy, Sparkles } from 'lucide-react';
 
 interface DashboardHeaderProps {
