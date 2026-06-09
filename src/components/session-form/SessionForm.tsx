@@ -19,6 +19,8 @@ import {
   X, Plus, ChevronDown, Check, Star, Sparkles,
   Camera, Trash2, Calendar, MapPin, AlignLeft, Info
 } from 'lucide-react';
+import RouteGrade from './RouteGrade';
+import RouteColor from './RouteColor';
 
 interface SessionFormProps {
   locations: Location[];
@@ -436,65 +438,17 @@ export default function SessionForm({
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
                           {/* Required: Grade */}
-                          <div>
-                            <label className="block text-[10px] font-display font-semibold text-choco-medium uppercase tracking-wider mb-2">
-                              Difficulty Grade *
-                            </label>
+                          <RouteGrade route={route}
+                            handleUpdateRouteField={handleUpdateRouteField}
+                            activeGradeSystem={activeGradeSystem}
+                            BOULDERING_GRADES_V={BOULDERING_GRADES_V}
+                            BOULDERING_GRADES_FONT={BOULDERING_GRADES_FONT}
+                          />
 
-                            <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto bg-cream-base p-2 rounded-2xl border border-rose-border/60 shadow-3xs">
-                              <input
-                                id={`input-grade-${route.id}`}
-                                type="text"
-                                list={`grade-list-${route.id}`}
-                                placeholder="e.g. V3 or 6a"
-                                value={route.grade}
-                                onChange={(e) => handleUpdateRouteField(route.id, 'grade', e.target.value)}
-                                className="w-full text-xs font-display font-semibold text-choco-dark bg-cream-base border border-rose-border/85 rounded-full px-4 py-2.5 outline-none focus:border-accent"
-                              />
-                              <datalist id={`grade-list-${route.id}`}>
-                                {(activeGradeSystem === 'v' ? BOULDERING_GRADES_V : BOULDERING_GRADES_FONT).map((gradeVal) => (
-                                  <option
-                                    key={gradeVal}
-                                    value={gradeVal}
-                                    selected={gradeVal === "V3"}
-                                  >
-                                    {gradeVal}
-                                  </option>
-                                ))}
-                              </datalist>
-                            </div>
-                          </div>
-
-                          {/* Required: Color picker */}
-                          <div>
-                            <label className="block text-[10px] font-display font-semibold text-choco-medium uppercase tracking-wider mb-2">
-                              Hold Color *
-                            </label>
-                            <div className="grid grid-cols-5 gap-1.5 bg-cream-base p-2 rounded-2xl border border-rose-border/60 shadow-3xs">
-                              {CLIMB_COLORS.map((colObj) => {
-                                const selected = route.color === colObj.name;
-                                return (
-                                  <button
-                                    id={`btn-color-opt-${route.id}-${colObj.name}`}
-                                    key={colObj.name}
-                                    type="button"
-                                    onClick={() => handleUpdateRouteField(route.id, 'color', colObj.name)}
-                                    title={colObj.name}
-                                    className={`relative w-full aspect-square rounded-full border border-rose-border/30 flex items-center justify-center transition-transform transform active:scale-90 cursor-pointer ${selected ? 'ring-2 ring-accent scale-102' : 'hover:scale-102'
-                                      }`}
-                                    style={{ backgroundColor: colObj.hex }}
-                                  >
-                                    {selected && (
-                                      <Check className={`w-4 h-4 font-bold ${colObj.name === 'White' || colObj.name === 'Yellow'
-                                        ? 'text-slate-900'
-                                        : 'text-white'
-                                        }`} />
-                                    )}
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          </div>
+                         <RouteColor route={route}
+                            handleUpdateRouteField={handleUpdateRouteField}
+                            CLIMB_COLORS={CLIMB_COLORS}
+                          />
 
                         </div>
 
