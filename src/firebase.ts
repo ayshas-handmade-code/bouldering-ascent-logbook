@@ -4,13 +4,20 @@
  */
 
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { getFirestore, doc, getDocFromServer } from 'firebase/firestore';
+
+import { getAuth, GoogleAuthProvider, signInWithPopup, connectAuthEmulator } from 'firebase/auth';
+import { getFirestore, doc, getDocFromServer, connectFirestoreEmulator } from 'firebase/firestore';
 import firebaseConfig from '../firebase-applet-config.json';
 
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
+
+// Direct traffic to the local emulator if running locally
+if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+  connectFirestoreEmulator(db, "127.0.0.1", 8080);
+  connectAuthEmulator(auth, "http://127.0.0.1:9099");
+}
 
 // Critical constraint: Validate connection to Firestore on boot
 async function testConnection() {
