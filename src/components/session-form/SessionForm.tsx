@@ -230,7 +230,8 @@ export default function SessionForm({
   };
 
   return (
-    <div id="session-form-modal-overlay" className="fixed inset-0 bg-choco-dark/40 backdrop-blur-xs z-40 flex flex-col justify-end sm:justify-center p-0 sm:p-4 transition-all">
+    <div id="session-form-modal-overlay"
+    className="fixed  items-center inset-0 bg-choco-dark/40 backdrop-blur-xs z-40 flex flex-col justify-end sm:justify-center p-0 sm:p-4 transition-all">
       <div
         id="session-form-container"
         className="bg-cream-card w-full sm:max-w-2xl sm:rounded-[32px] shadow-xl flex flex-col max-h-[92vh] sm:max-h-[85vh] rounded-t-none border border-rose-border overflow-hidden animate-slide-up"
