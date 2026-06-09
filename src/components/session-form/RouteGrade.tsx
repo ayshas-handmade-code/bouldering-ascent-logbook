@@ -1,3 +1,5 @@
+import styles from './RouteGrade.module.css';
+
 export default function RouteGrade({
     route,
     handleUpdateRouteField,
@@ -7,10 +9,10 @@ export default function RouteGrade({
 }) {
     return <div>
         <label className="block text-[10px] font-display font-semibold text-choco-medium uppercase tracking-wider mb-2">
-            Difficulty Grade *
+            Grade *
         </label>
 
-        <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto bg-cream-base p-2 rounded-2xl border border-rose-border/60 shadow-3xs">
+        <div>
             <input
                 id={`input-grade-${route.id}`}
                 type="text"
@@ -18,7 +20,7 @@ export default function RouteGrade({
                 placeholder="e.g. V3 or 6a"
                 value={route.grade}
                 onChange={(e) => handleUpdateRouteField(route.id, 'grade', e.target.value)}
-                className="w-full text-xs font-display font-semibold text-choco-dark bg-cream-base border border-rose-border/85 rounded-full px-4 py-2.5 outline-none focus:border-accent"
+                className={`${styles.route_grade_selector} text-xs font-display font-semibold text-choco-dark bg-cream-base border border-rose-border/85 px-4 py-2.5 outline-none focus:border-accent`}
             />
             <datalist id={`grade-list-${route.id}`}>
                 {(activeGradeSystem === 'v' ? BOULDERING_GRADES_V : BOULDERING_GRADES_FONT).map((gradeVal) => (

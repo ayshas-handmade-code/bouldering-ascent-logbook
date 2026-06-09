@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import RouteGrade from './RouteGrade';
 import RouteColor from './RouteColor';
+import styles from './SessionForm.module.css';
 
 interface SessionFormProps {
   locations: Location[];
@@ -434,10 +435,7 @@ export default function SessionForm({
                     {/* Expandable Ascent Log Content */}
                     {!isCollapsed && (
                       <div className="p-5 space-y-5 font-sans animate-fade-in bg-cookie-bg/40">
-                        {/* ROW 1: Grade Selector & Color Picker */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-                          {/* Required: Grade */}
+                        <div className={`${styles.route_grade_and_color_container} flex flex-row column-gap-10`} >
                           <RouteGrade route={route}
                             handleUpdateRouteField={handleUpdateRouteField}
                             activeGradeSystem={activeGradeSystem}
@@ -445,11 +443,10 @@ export default function SessionForm({
                             BOULDERING_GRADES_FONT={BOULDERING_GRADES_FONT}
                           />
 
-                         <RouteColor route={route}
+                          <RouteColor route={route}
                             handleUpdateRouteField={handleUpdateRouteField}
                             CLIMB_COLORS={CLIMB_COLORS}
                           />
-
                         </div>
 
                         {/* ROW 2: Wall Location & Photo Upload */}
@@ -658,7 +655,8 @@ export default function SessionForm({
                         </div>
 
                       </div>
-                    )}
+                    )
+                    }
                   </div>
                 );
               })}
@@ -695,7 +693,7 @@ export default function SessionForm({
             Save Session 🍰
           </button>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
