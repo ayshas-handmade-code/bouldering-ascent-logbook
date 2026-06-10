@@ -31,20 +31,20 @@ export const ROUTE_TYPES = [
 ];
 
 export const CLIMB_COLORS = [
-  { name: 'Red', hex: '#ef4444' },
-  { name: 'Blue', hex: '#3b82f6' },
-  { name: 'Green', hex: '#22c55e' },
-  { name: 'Yellow', hex: '#eab308' },
-  { name: 'Orange', hex: '#f97316' },
   { name: 'Purple', hex: '#a855f7' },
   { name: 'Pink', hex: '#ec4899' },
+  { name: 'Yellow', hex: '#eab308' },
+  { name: 'Blue', hex: '#3b82f6' },
+  { name: 'Red', hex: '#ef4444' },
+  { name: 'Orange', hex: '#f97316' },
+  { name: 'Green', hex: '#22c55e' },
   { name: 'Black', hex: '#18181b' },
   { name: 'White', hex: '#fafafa' },
   { name: 'Grey', hex: '#71717a' },
 ];
 
 export const WALL_LOCATIONS = [
-  'The Cave', 'Main Overhang', 'Slab Wall', 'Comp Wall', 'Topout Pillar', 'The Wave', 'The Slab', 'The Roof', 'Main Boulder'
+  'Slab Wall', 'The Cave', 'Main Overhang', 'Comp Wall', 'Topout Pillar', 'The Wave', 'The Slab', 'The Roof', 'Main Boulder'
 ];
 
 // Helper to compare bouldering grades for math/scales

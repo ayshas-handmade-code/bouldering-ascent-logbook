@@ -73,8 +73,8 @@ export default function SessionForm({
   const handleAddRoute = () => {
     const newRoute: RouteLog = {
       id: `new-route-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
-      grade: activeGradeSystem === 'v' ? 'V3' : '6A',
-      color: 'Red',
+      grade: activeGradeSystem === 'v' ? 'V1' : '6A',
+      color: 'Purple',
       wallLocation: WALL_LOCATIONS[0] || 'Main Boulder',
       holdsType: [],
       routeType: [],
