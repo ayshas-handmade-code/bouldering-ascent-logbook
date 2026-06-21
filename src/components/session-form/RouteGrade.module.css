@@ -2,7 +2,7 @@
     height: 58px;
     border-radius: 18px;
     justify-items: center;
-    width: 65px;
+    width: 100%;
     padding-left: 30px;
     font-size: var(--text-xl);
 }

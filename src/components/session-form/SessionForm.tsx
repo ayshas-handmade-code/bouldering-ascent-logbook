@@ -436,7 +436,7 @@ export default function SessionForm({
                     {/* Expandable Ascent Log Content */}
                     {!isCollapsed && (
                       <div className="p-5 space-y-5 font-sans animate-fade-in bg-cookie-bg/40">
-                        <div className={`${styles.route_grade_and_color_container} flex flex-row column-gap-10`} >
+                        <div className={styles.route_grade_and_color_container}>
                           <RouteGrade route={route}
                             handleUpdateRouteField={handleUpdateRouteField}
                             activeGradeSystem={activeGradeSystem}

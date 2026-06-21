@@ -1,3 +1,5 @@
 .route_grade_and_color_container {
     column-gap: 10px;
+    display: flex;
+    flex-direction: column;
 }
