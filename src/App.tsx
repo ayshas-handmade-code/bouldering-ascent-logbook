@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ClimbingSession, Location } from './types';
-import { INITIAL_LOCATIONS, generateSampleSessions } from './data';
+import { INITIAL_LOCATIONS, WALL_LOCATIONS, generateSampleSessions } from './data';
 import DashboardTab from './components/dashboard-tab/DashboardTab';
 import LogbookTab from './components/LogbookTab';
 import LocationsTab from './components/locations-tab/LocationsTab';
@@ -198,7 +198,7 @@ export default function App() {
       type,
       isFavorite: false,
       city: city || 'Local Area',
-      ...(type === 'gym' ? { wallLocations: ['Slab', 'Overhang', 'Cave'] } : {}),
+      ...(type === 'gym' ? { wallLocations: WALL_LOCATIONS } : {}),
     };
     const path = `locations/${id}`;
     try {

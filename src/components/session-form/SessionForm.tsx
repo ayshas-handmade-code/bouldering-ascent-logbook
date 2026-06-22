@@ -300,7 +300,7 @@ export default function SessionForm({
                       setLocationId(newLocId);
                       const newLoc = locations.find(loc => loc.id === newLocId);
                       const newWallOptions = newLoc?.type === 'gym'
-                        ? (newLoc.wallLocations !== undefined ? newLoc.wallLocations : ['Slab', 'Overhang', 'Cave'])
+                        ? (newLoc.wallLocations !== undefined ? newLoc.wallLocations : WALL_LOCATIONS)
                         : (newLoc?.wallLocations !== undefined ? newLoc.wallLocations : WALL_LOCATIONS);
 
                       if (newWallOptions.length > 0) {
