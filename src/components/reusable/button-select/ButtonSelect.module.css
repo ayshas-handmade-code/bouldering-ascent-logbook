@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 2;
+}
+
+.route_selector {
+    display: flex;
+    flex-direction: row;
+    row-gap: 10px;
+    column-gap: 5px;
+    flex-wrap: wrap;
+    height: 60px;
+    overflow: auto;
+    justify-content: center;
+}
+
+.options {
+    display: flex;
+    width: 45px;
+    background: inherit;
+    color: #a58b8b;
+    border: 1px dashed pink;
+    font-weight: bold;
+
+}
+
+.grade_selector {
+    height: 58px;
+    border-radius: 18px;
+}
+
+.selected {
+    border: 2px solid pink !important;
+    font-weight: bold;
+    background: #ffdfe2;
+    color: var(--color-choco-dark);
+}

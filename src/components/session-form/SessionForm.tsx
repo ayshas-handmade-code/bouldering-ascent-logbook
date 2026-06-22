@@ -440,8 +440,6 @@ export default function SessionForm({
                           <RouteGrade route={route}
                             handleUpdateRouteField={handleUpdateRouteField}
                             activeGradeSystem={activeGradeSystem}
-                            BOULDERING_GRADES_V={BOULDERING_GRADES_V}
-                            BOULDERING_GRADES_FONT={BOULDERING_GRADES_FONT}
                           />
 
                           <RouteColor route={route}
