@@ -213,7 +213,7 @@ export function processPhotoUpload(file: File): Promise<string> {
 }
 
 export function parseCSV(csvContent: string) {
-  const rows = csvContent.split('\n').map(row => row.split(','));
+  const rows = csvContent?.split('\n').map(row => row.split(','));
   const headers = rows[0];
   const sessions = rows.slice(1).map(row => ({
     date: row[0],
@@ -232,4 +232,5 @@ export function parseCSV(csvContent: string) {
   }));
   return sessions;
 }
+
 

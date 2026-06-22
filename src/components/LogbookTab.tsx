@@ -7,17 +7,21 @@ import React, { useState } from 'react';
 import { ClimbingSession, RouteLog } from '../types';
 import { exportLogToCSV, downloadCSVFile } from '../utils';
 import PhotoViewer from './PhotoViewer';
-import { 
-  Download, Filter, Search, Calendar, MapPin, 
-  Trash2, Edit, ChevronRight, Star, Plus, CheckCircle2, 
-  Award, Zap, Building2, Trees, SlidersHorizontal, Layers, GripHorizontal, ChevronDown 
+import {
+  Download, Filter, Search, Calendar, MapPin,
+  Trash2, Edit, ChevronRight, Star, Plus, CheckCircle2,
+  Award, Zap, Building2, Trees, SlidersHorizontal, Layers, GripHorizontal,
+  ChevronDown
+
 } from 'lucide-react';
+import SessionImporter from './session-import/SessionImport';
 
 interface LogbookTabProps {
   sessions: ClimbingSession[];
   onAddSession: () => void;
   onEditSession: (session: ClimbingSession) => void;
   onDeleteSession: (id: string) => void;
+  onImportSessions: () => void;
   onToggleRouteFavorite: (sessionId: string, routeId: string) => void;
   selectedSessionId?: string | null;
 }
@@ -27,6 +31,7 @@ export default function LogbookTab({
   onAddSession,
   onEditSession,
   onDeleteSession,
+  onImportSessions,
   onToggleRouteFavorite,
   selectedSessionId,
 }: LogbookTabProps) {
@@ -63,18 +68,18 @@ export default function LogbookTab({
 
   const filteredSessions = sortedSessions.filter(session => {
     // 1. Search term (matches location name or session notes)
-    const matchesSearch = 
+    const matchesSearch =
       session.locationName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       session.notes.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     // 2. Location type
-    const matchesType = 
-      locationTypeFilter === 'all' || 
+    const matchesType =
+      locationTypeFilter === 'all' ||
       session.locationType === locationTypeFilter;
-    
+
     // 3. Favorites only (sessions with at least one favorite route)
-    const matchesFavorites = 
-      !showFavoritesOnly || 
+    const matchesFavorites =
+      !showFavoritesOnly ||
       session.routes.some(r => r.isFavorite);
 
     return matchesSearch && matchesType && matchesFavorites;
@@ -88,7 +93,7 @@ export default function LogbookTab({
           <h2 className="text-sm font-display font-bold text-choco-dark">Crag Journal 📖</h2>
           <p className="text-[11px] text-choco-medium font-medium mt-0.5 leading-none">Your sweet climbing chronicles ✨</p>
         </div>
-        
+
         <div className="flex gap-2">
           {/* CSV Download Action */}
           <button
@@ -97,8 +102,11 @@ export default function LogbookTab({
             title="Download CSV Backup"
             className="px-3 py-2.5 bg-sky-accent/20 hover:bg-sky-accent/30 text-choco-dark rounded-full border border-sky-accent/50 transition-all font-display font-bold text-[10px] flex items-center gap-1 active:scale-95 shadow-3xs"
           >
-            <Download className="w-3.5 h-3.5 text-choco-dark" /> Export
+            <Download className="w-3.5 h-3.5 text-choco-dark" />
+            Export
           </button>
+
+          <SessionImporter />
 
           {/* New session button */}
           <button
@@ -106,7 +114,8 @@ export default function LogbookTab({
             onClick={onAddSession}
             className="px-4 py-2.5 bg-gradient-to-r from-accent to-accent-hover active:scale-95 text-choco-dark rounded-full text-[10px] font-display font-bold flex items-center gap-1 transition-all shadow-sm shadow-accent/15"
           >
-            <Plus className="w-4 h-4 stroke-[2.5]" /> Log
+            <Plus className="w-4 h-4 stroke-[2.5]" />
+            Log
           </button>
         </div>
       </div>
@@ -134,33 +143,32 @@ export default function LogbookTab({
             <button
               id="filter-type-all"
               onClick={() => setLocationTypeFilter('all')}
-              className={`px-3.5 py-1.5 rounded-full border transition-all ${
-                locationTypeFilter === 'all'
-                  ? 'bg-accent border-accent text-choco-dark shadow-3xs'
-                  : 'bg-cream-base border-rose-border/55 text-choco-medium hover:bg-rose-border/20'
-              }`}
+              className={`px-3.5 py-1.5 rounded-full border transition-all ${locationTypeFilter === 'all'
+                ? 'bg-accent border-accent text-choco-dark shadow-3xs'
+                : 'bg-cream-base border-rose-border/55 text-choco-medium hover:bg-rose-border/20'
+                }`}
             >
               All Sites
             </button>
             <button
               id="filter-type-gym"
               onClick={() => setLocationTypeFilter('gym')}
-              className={`px-3.5 py-1.5 rounded-full border transition-all flex items-center gap-1 ${
-                locationTypeFilter === 'gym'
+              className={`px-3.5 py-1.5 rounded-full border transition-all flex items-center gap-1 
+                ${locationTypeFilter === 'gym'
                   ? 'bg-accent border-accent text-choco-dark shadow-3xs'
                   : 'bg-cream-base border-rose-border/55 text-choco-medium hover:bg-rose-border/20'
-              }`}
+                }`}
             >
               <Building2 className="w-3 h-3" /> Gyms
             </button>
             <button
               id="filter-type-outdoor"
               onClick={() => setLocationTypeFilter('outdoor')}
-              className={`px-3.5 py-1.5 rounded-full border transition-all flex items-center gap-1 ${
-                locationTypeFilter === 'outdoor'
+              className={`px-3.5 py-1.5 rounded-full border transition-all flex items-center gap-1 
+                ${locationTypeFilter === 'outdoor'
                   ? 'bg-accent border-accent text-choco-dark shadow-3xs'
                   : 'bg-cream-base border-rose-border/55 text-choco-medium hover:bg-rose-border/20'
-              }`}
+                }`}
             >
               <Trees className="w-3 h-3" /> Crags
             </button>
@@ -183,7 +191,7 @@ export default function LogbookTab({
       <div className="space-y-4">
         {filteredSessions.map((session) => {
           const isExpanded = expandedSessions[session.id] || false;
-          
+
           // Compute summary stats for current session log
           const totalAttempts = session.routes.reduce((sum, r) => sum + r.attempts, 0);
           const totalSends = session.routes.reduce((sum, r) => sum + r.sends, 0);
@@ -193,22 +201,22 @@ export default function LogbookTab({
             <div
               id={`session-card-${session.id}`}
               key={session.id}
-              className={`bg-cream-card rounded-[28px] border transition-all shadow-2xs overflow-hidden ${
-                isExpanded 
-                  ? 'border-accent ring-2 ring-accent/20' 
+              className={`bg-cream-card rounded-[28px] border transition-all shadow-2xs overflow-hidden 
+                ${isExpanded
+                  ? 'border-accent ring-2 ring-accent/20'
                   : 'border-rose-border/80 hover:border-accent'
-              }`}
+                }`}
             >
               {/* Card Header section */}
-              <div 
+              <div
                 id={`session-trigger-${session.id}`}
                 onClick={() => toggleSessionExpand(session.id)}
                 className="p-5 flex items-start justify-between cursor-pointer"
               >
                 <div className="flex gap-3">
                   <div className={`p-2.5 rounded-full shrink-0 border border-rose-border bg-cream-base text-accent`}>
-                    {session.locationType === 'gym' 
-                      ? <Building2 className="w-5 h-5 stroke-[2]" /> 
+                    {session.locationType === 'gym'
+                      ? <Building2 className="w-5 h-5 stroke-[2]" />
                       : <Trees className="w-5 h-5 stroke-[2]" />
                     }
                   </div>
@@ -286,7 +294,7 @@ export default function LogbookTab({
                   {/* Route Columns */}
                   <div className="space-y-3">
                     <p className="text-[10px] uppercase font-display font-bold tracking-widest text-choco-light">Climb Route Details</p>
-                    
+
                     {session.routes.map((route) => (
                       <div
                         id={`sess-route-item-${route.id}`}
@@ -296,12 +304,12 @@ export default function LogbookTab({
                         <div className="flex items-start justify-between">
                           <div className="flex items-center gap-2.5">
                             {/* Color badge tag */}
-                            <span 
+                            <span
                               id={`log-route-color-tag-${route.id}`}
                               className="w-4 h-4 rounded-full border border-rose-border/60 flex items-center shrink-0 justify-center shadow-xs animate-fade-in"
                               style={{ backgroundColor: route.color === 'Black' ? '#18181b' : route.color === 'White' ? '#fafafa' : route.color }}
                             />
-                            
+
                             <div>
                               <div className="flex items-center gap-1.5 flex-wrap">
                                 <span className="text-sm font-display font-bold text-choco-dark bg-cream-base px-2 py-0.5 rounded-lg">{route.grade}</span>
@@ -334,11 +342,11 @@ export default function LogbookTab({
                             <button
                               id={`btn-favorite-route-${route.id}`}
                               onClick={() => onToggleRouteFavorite(session.id, route.id)}
-                              className={`p-1.5 rounded-full transition-all border ${
-                                route.isFavorite 
-                                  ? 'bg-accent/20 text-berry-accent border-accent/60' 
+                              className={`p-1.5 rounded-full transition-all border 
+                                ${route.isFavorite
+                                  ? 'bg-accent/20 text-berry-accent border-accent/60'
                                   : 'bg-cream-base text-choco-light border-rose-border/50 hover:bg-rose-border/20'
-                              }`}
+                                }`}
                             >
                               <Star className={`w-3.5 h-3.5 ${route.isFavorite ? 'fill-accent' : ''}`} />
                             </button>
@@ -386,9 +394,9 @@ export default function LogbookTab({
                           {route.photoId && (
                             <div className="flex items-center gap-2">
                               <span className="text-[9px] font-display font-bold uppercase text-choco-light">View Photo:</span>
-                              <PhotoViewer 
-                                photoId={route.photoId} 
-                                className="w-9 h-9 border border-rose-border object-cover cursor-pointer hover:scale-105 active:scale-95 transition-all rounded-lg shadow-3xs" 
+                              <PhotoViewer
+                                photoId={route.photoId}
+                                className="w-9 h-9 border border-rose-border object-cover cursor-pointer hover:scale-105 active:scale-95 transition-all rounded-lg shadow-3xs"
                               />
                             </div>
                           )}
@@ -407,7 +415,7 @@ export default function LogbookTab({
             <Filter className="w-10 h-10 text-rose-border mx-auto mb-3 animate-bounce" />
             <p className="text-sm font-display font-bold text-choco-dark">No sessions found 🎈</p>
             <p className="text-xs text-choco-light font-display font-semibold mt-1">Adjust filters or record a new sweet climb.</p>
-            
+
             <button
               id="btn-add-session-empty"
               onClick={onAddSession}
