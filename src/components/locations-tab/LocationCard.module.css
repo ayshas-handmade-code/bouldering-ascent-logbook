@@ -1,0 +1,8 @@
+.wall_location_form {
+    display: flex;
+    gap: 2px;
+}
+
+.wall_location_input {
+    width: 100%;
+}

@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 import { Location } from '../../types';
 import { MapPin, Star, Trash2, Building2, Trees, X } from 'lucide-react';
+import styles from './LocationCard.module.css';
 
 interface LocationCardProps {
   key?: React.Key | string | number;
@@ -61,11 +62,10 @@ export default function LocationCard({
       <div className="flex items-center justify-between gap-4">
         {/* Left Side: Icon & Titles */}
         <div className="flex items-center gap-3 min-w-0">
-          <div className={`p-3 rounded-full border border-rose-border/80 shrink-0 ${
-            location.type === 'gym' 
-              ? 'bg-cream-base text-accent' 
-              : 'bg-cream-base text-sky-accent'
-          }`}>
+          <div className={`p-3 rounded-full border border-rose-border/80 shrink-0 ${location.type === 'gym'
+            ? 'bg-cream-base text-accent'
+            : 'bg-cream-base text-sky-accent'
+            }`}>
             {location.type === 'gym' ? <Building2 className="w-5 h-5 stroke-[2]" /> : <Trees className="w-5 h-5 stroke-[2]" />}
           </div>
 
@@ -76,7 +76,7 @@ export default function LocationCard({
                 <Star className="w-4 h-4 text-accent fill-accent shrink-0 animate-pulse" />
               )}
             </div>
-            
+
             <div className="flex items-center gap-3 mt-2 text-[10px] font-display font-bold text-choco-medium">
               <span className="flex items-center gap-1">
                 <MapPin className="w-3 h-3 text-choco-medium" />
@@ -95,11 +95,10 @@ export default function LocationCard({
             id={`btn-fav-loc-${location.id}`}
             onClick={() => onToggleFavorite(location.id)}
             title={location.isFavorite ? "Remove from Favorites" : "Mark as Favorite"}
-            className={`p-2 rounded-full transition-all border ${
-              location.isFavorite 
-                ? 'bg-accent/20 border-accent/65 text-berry-accent shadow-3xs' 
-                : 'bg-cream-base border-rose-border/40 text-choco-light hover:bg-rose-border/20 shadow-3xs'
-            }`}
+            className={`p-2 rounded-full transition-all border ${location.isFavorite
+              ? 'bg-accent/20 border-accent/65 text-berry-accent shadow-3xs'
+              : 'bg-cream-base border-rose-border/40 text-choco-light hover:bg-rose-border/20 shadow-3xs'
+              }`}
           >
             <Star className={`w-4 h-4 ${location.isFavorite ? 'fill-accent' : ''}`} />
           </button>
@@ -126,7 +125,7 @@ export default function LocationCard({
               <span className="text-[8px] text-accent/80 normal-case">showing defaults</span>
             )}
           </div>
-          
+
           <div className="flex flex-wrap gap-1.5">
             {walls.map((wall) => (
               <span
@@ -149,13 +148,13 @@ export default function LocationCard({
             )}
           </div>
 
-          <form onSubmit={handleAddWall} className="flex gap-2">
+          <form onSubmit={handleAddWall} className={styles.wall_location_form}>
             <input
               type="text"
               placeholder="e.g. Roof, Comp Wall, slab..."
               value={newWall}
               onChange={(e) => setNewWall(e.target.value)}
-              className="flex-1 text-[11px] px-3.5 py-2 rounded-full border border-rose-border outline-none focus:border-accent bg-cream-base text-choco-dark font-display font-bold placeholder-choco-light/40"
+              className={`${styles.wall_location_input} flex text-[11px] px-3.5 py-2 rounded-full border border-rose-border outline-none focus:border-accent bg-cream-base text-choco-dark font-display font-bold placeholder-choco-light/40`}
             />
             <button
               type="submit"
