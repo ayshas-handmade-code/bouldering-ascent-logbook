@@ -49,7 +49,7 @@ export function computeStats(sessions: ClimbingSession[], gradeSystem: string[] 
 // Generates lists for grade distribution visualizers
 export function getGradeBreakdown(sessions: ClimbingSession[], gradeSystem: string[] = BOULDERING_GRADES_V) {
   const counts: Record<string, { attempts: number; sends: number; flashes: number }> = {};
-  
+
   gradeSystem.forEach(g => {
     counts[g] = { attempts: 0, sends: 0, flashes: 0 };
   });
@@ -211,3 +211,25 @@ export function processPhotoUpload(file: File): Promise<string> {
     reader.readAsDataURL(file);
   });
 }
+
+export function parseCSV(csvContent: string) {
+  const rows = csvContent.split('\n').map(row => row.split(','));
+  const headers = rows[0];
+  const sessions = rows.slice(1).map(row => ({
+    date: row[0],
+    locationName: row[1],
+    locationType: row[2],
+    grade: row[3],
+    color: row[4],
+    wallLocation: row[5],
+    holdsType: row[6].split(', '),
+    routeType: row[7].split(', '),
+    attempts: Number(row[8]),
+    sends: Number(row[9]),
+    flashes: Number(row[10]),
+    isFavorite: row[11] === 'Yes',
+    notes: row[12],
+  }));
+  return sessions;
+}
+
