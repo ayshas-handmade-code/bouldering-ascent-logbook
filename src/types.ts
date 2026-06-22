@@ -11,6 +11,7 @@ export interface Location {
   type: LocationType;
   isFavorite: boolean;
   city?: string;
+  wallLocations?: string[];
 }
 
 export interface RouteLog {

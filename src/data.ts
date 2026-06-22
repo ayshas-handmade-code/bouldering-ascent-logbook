@@ -6,9 +6,9 @@
 import { Location, ClimbingSession } from './types';
 
 export const INITIAL_LOCATIONS: Location[] = [
-  { id: 'loc-1', name: 'Peak Performance Climbing Gym', type: 'gym', isFavorite: true, city: 'Seattle' },
-  { id: 'loc-2', name: 'The Stone Summit', type: 'gym', isFavorite: true, city: 'Atlanta' },
-  { id: 'loc-3', name: 'Ironworks Bouldering Co.', type: 'gym', isFavorite: false, city: 'Berkeley' },
+  { id: 'loc-1', name: 'Peak Performance Climbing Gym', type: 'gym', isFavorite: true, city: 'Seattle', wallLocations: ['Slab', 'Overhang', 'Cave', 'Main Overhang', 'The Cave', 'Comp Wall'] },
+  { id: 'loc-2', name: 'The Stone Summit', type: 'gym', isFavorite: true, city: 'Atlanta', wallLocations: ['Slab', 'Overhang', 'Cave', 'The Slab', 'The Wave'] },
+  { id: 'loc-3', name: 'Ironworks Bouldering Co.', type: 'gym', isFavorite: false, city: 'Berkeley', wallLocations: ['Slab', 'Overhang', 'Cave'] },
   { id: 'loc-4', name: 'Yosemite Camp 4 Boulders', type: 'outdoor', isFavorite: true, city: 'Yosemite' },
   { id: 'loc-5', name: 'The Sinks Crag (The Meadow)', type: 'outdoor', isFavorite: false, city: 'Lander' },
   { id: 'loc-6', name: 'Bishop - Buttermilks', type: 'outdoor', isFavorite: true, city: 'Bishop' },

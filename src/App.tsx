@@ -198,11 +198,26 @@ export default function App() {
       type,
       isFavorite: false,
       city: city || 'Local Area',
+      ...(type === 'gym' ? { wallLocations: ['Slab', 'Overhang', 'Cave'] } : {}),
     };
     const path = `locations/${id}`;
     try {
       await setDoc(doc(db, 'locations', id), {
         ...newLoc,
+        userId: currentUser.uid,
+      });
+    } catch (error) {
+      handleFirestoreError(error, OperationType.WRITE, path);
+    }
+  };
+
+  // Callback handler: Update location details (e.g. wall locations)
+  const handleUpdateLocation = async (updatedLoc: Location) => {
+    if (!currentUser) return;
+    const path = `locations/${updatedLoc.id}`;
+    try {
+      await setDoc(doc(db, 'locations', updatedLoc.id), {
+        ...updatedLoc,
         userId: currentUser.uid,
       });
     } catch (error) {
@@ -392,6 +407,7 @@ export default function App() {
               onToggleFavorite={handleToggleLocationFavorite}
               onAddLocation={handleAddLocation}
               onDeleteLocation={handleDeleteLocation}
+              onUpdateLocation={handleUpdateLocation}
             />
           )}
         </main>

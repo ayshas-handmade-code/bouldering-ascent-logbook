@@ -15,6 +15,7 @@ interface LocationsTabProps {
   onToggleFavorite: (id: string) => void;
   onAddLocation: (name: string, type: 'gym' | 'outdoor', city?: string) => void;
   onDeleteLocation: (id: string) => void;
+  onUpdateLocation: (location: Location) => void;
 }
 
 export default function LocationsTab({
@@ -23,6 +24,7 @@ export default function LocationsTab({
   onToggleFavorite,
   onAddLocation,
   onDeleteLocation,
+  onUpdateLocation,
 }: LocationsTabProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [isAdding, setIsAdding] = useState(false);
@@ -94,6 +96,7 @@ export default function LocationsTab({
             visits={getSessionCountForLocation(loc.id)}
             onToggleFavorite={onToggleFavorite}
             onDeleteLocation={onDeleteLocation}
+            onUpdateLocation={onUpdateLocation}
           />
         ))}
 

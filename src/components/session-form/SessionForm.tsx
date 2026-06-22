@@ -71,11 +71,16 @@ export default function SessionForm({
   }, [sessionToEdit]);
 
   const handleAddRoute = () => {
+    const selectedLoc = locations.find(loc => loc.id === locationId);
+    const wallOptions = selectedLoc?.type === 'gym'
+      ? (selectedLoc.wallLocations !== undefined ? selectedLoc.wallLocations : WALL_LOCATIONS)
+      : (selectedLoc?.wallLocations !== undefined ? selectedLoc.wallLocations : WALL_LOCATIONS);
+
     const newRoute: RouteLog = {
       id: `new-route-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
       grade: activeGradeSystem === 'v' ? 'V1' : '6A',
       color: 'Purple',
-      wallLocation: WALL_LOCATIONS[0] || 'Main Boulder',
+      wallLocation: wallOptions[0] || 'Slab',
       holdsType: [],
       routeType: [],
       attempts: 1,
@@ -290,7 +295,25 @@ export default function SessionForm({
                   <select
                     id="session-location-selector"
                     value={locationId}
-                    onChange={(e) => setLocationId(e.target.value)}
+                    onChange={(e) => {
+                      const newLocId = e.target.value;
+                      setLocationId(newLocId);
+                      const newLoc = locations.find(loc => loc.id === newLocId);
+                      const newWallOptions = newLoc?.type === 'gym'
+                        ? (newLoc.wallLocations !== undefined ? newLoc.wallLocations : ['Slab', 'Overhang', 'Cave'])
+                        : (newLoc?.wallLocations !== undefined ? newLoc.wallLocations : WALL_LOCATIONS);
+
+                      if (newWallOptions.length > 0) {
+                        setRoutes(prevRoutes =>
+                          prevRoutes.map(r => {
+                            if (!newWallOptions.includes(r.wallLocation)) {
+                              return { ...r, wallLocation: newWallOptions[0] };
+                            }
+                            return r;
+                          })
+                        );
+                      }
+                    }}
                     className="w-full text-xs font-display font-semibold appearance-none text-choco-dark bg-cream-base border border-rose-border/85 rounded-full px-3.5 py-2.5 pr-10 outline-none focus:border-accent"
                   >
                     <option value="" disabled>Choose Spot...</option>
@@ -462,20 +485,32 @@ export default function SessionForm({
                               Wall Location / zone *
                             </label>
                             <div className="relative">
-                              <input
-                                id={`input-wall-loc-${route.id}`}
-                                type="text"
-                                list={`wall-locs-list-${route.id}`}
-                                placeholder="e.g. Cave Area, Slab, Arête..."
+                              <select
+                                id={`select-wall-loc-${route.id}`}
                                 value={route.wallLocation}
                                 onChange={(e) => handleUpdateRouteField(route.id, 'wallLocation', e.target.value)}
-                                className="w-full text-xs font-display font-semibold text-choco-dark bg-cream-base border border-rose-border/85 rounded-full px-4 py-2.5 outline-none focus:border-accent"
-                              />
-                              <datalist id={`wall-locs-list-${route.id}`}>
-                                {WALL_LOCATIONS.map((wall) => (
-                                  <option key={wall} value={wall}>{wall}</option>
-                                ))}
-                              </datalist>
+                                className="w-full text-xs font-display font-semibold appearance-none text-choco-dark bg-cream-base border border-rose-border/85 rounded-full px-4 py-2.5 pr-10 outline-none focus:border-accent"
+                              >
+                                {(() => {
+                                  const selectedLoc = locations.find(loc => loc.id === locationId);
+                                  const wallOptions = selectedLoc?.type === 'gym'
+                                    ? (selectedLoc.wallLocations !== undefined ? selectedLoc.wallLocations : WALL_LOCATIONS)
+                                    : (selectedLoc?.wallLocations !== undefined ? selectedLoc.wallLocations : WALL_LOCATIONS);
+
+                                  // Ensure current route's wallLocation is included so it's not hidden/lost if it was custom
+                                  const optionsToRender = [...wallOptions];
+                                  if (route.wallLocation && !optionsToRender.includes(route.wallLocation)) {
+                                    optionsToRender.push(route.wallLocation);
+                                  }
+
+                                  return optionsToRender.map((wall) => (
+                                    <option key={wall} value={wall}>
+                                      {wall}
+                                    </option>
+                                  ));
+                                })()}
+                              </select>
+                              <ChevronDown className="absolute right-3.5 top-3 w-4 h-4 text-choco-medium pointer-events-none" />
                             </div>
                           </div>
 
