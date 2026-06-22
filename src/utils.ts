@@ -215,7 +215,7 @@ export function processPhotoUpload(file: File): Promise<string> {
 export function parseCSV(csvContent: string) {
   const rows = csvContent?.split('\n').map(row => row.split(','));
   const headers = rows[0];
-  const sessions = rows.slice(1).map(row => ({
+  const routes = rows.slice(1).map(row => ({
     date: row[0],
     locationName: row[1],
     locationType: row[2],
@@ -230,7 +230,41 @@ export function parseCSV(csvContent: string) {
     isFavorite: row[11] === 'Yes',
     notes: row[12],
   }));
+
+  debugger
+
+  const sessions = extractSession(Object.groupBy(routes, (route) => route.date));
   return sessions;
 }
 
+function extractSession(data) {
+  const sessions = Object.values(data);
 
+  return sessions.map((routeData: any) => {
+    const sessionData = routeData[0];
+
+    return {
+      id: crypto.randomUUID(),
+      date: sessionData.date,
+      locationId: sessionData.locationId,
+      locationName: sessionData.locationName,
+      locationType: sessionData.locationType,
+      notes: sessionData.notes,
+      routes: routeData.map(route => {
+        return {
+          id: crypto.randomUUID(),
+          grade: route.grade,
+          color: route.color,
+          wallLocation: route.wallLocation,
+          holdsType: route.holdsType,
+          routeType: route.routeType,
+          attempts: route.attempts,
+          sends: route.sends,
+          flashes: route.flashes,
+          isFavorite: route.isFavorite,
+        } as RouteLog
+      })
+    } as ClimbingSession
+  });
+
+}
