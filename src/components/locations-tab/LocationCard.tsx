@@ -56,10 +56,10 @@ export default function LocationCard({
   return (
     <div
       id={`loc-card-${location.id}`}
-      className="bg-cream-card p-5 rounded-[24px] border border-rose-border hover:border-accent transition-all animate-fade-in shadow-xs hover:scale-[1.01]"
+      className={`${styles.container} bg-cream-card p-5 rounded-[24px] border border-rose-border hover:border-accent transition-all animate-fade-in shadow-xs hover:scale-[1.01]`}
     >
       {/* Top Row: Info & Main Actions */}
-      <div className="flex items-center justify-between gap-4">
+      <div className={`${styles.icon_title_container} flex items-center justify-between gap-4`}>
         {/* Left Side: Icon & Titles */}
         <div className="flex items-center gap-3 min-w-0">
           <div className={`p-3 rounded-full border border-rose-border/80 shrink-0 ${location.type === 'gym'
@@ -71,7 +71,9 @@ export default function LocationCard({
 
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <h4 className="font-display font-bold text-choco-dark text-sm sm:text-base leading-tight truncate">{location.name}</h4>
+              <h4 className={`${styles.icon_title} font-display font-bold text-choco-dark text-sm sm:text-base leading-tight truncate`}>
+                {location.name}
+              </h4>
               {location.isFavorite && (
                 <Star className="w-4 h-4 text-accent fill-accent shrink-0 animate-pulse" />
               )}

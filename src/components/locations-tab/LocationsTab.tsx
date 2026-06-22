@@ -8,6 +8,7 @@ import { Location, ClimbingSession } from '../../types';
 import { Plus, Search, MapPin } from 'lucide-react';
 import LocationCard from './LocationCard';
 import AddLocationForm from './AddLocationForm';
+import styles from './LocationsTab.module.css';
 
 interface LocationsTabProps {
   locations: Location[];
@@ -40,9 +41,9 @@ export default function LocationsTab({
   );
 
   return (
-    <div id="locations-tab-container" className="space-y-6 pb-24 animate-fade-in">
+    <div id="locations-tab-container" className={`${styles.locations_tab_container} space-y-6 pb-24 animate-fade-in`}>
       {/* Header section */}
-      <div className="flex justify-between items-center bg-cream-card p-5 rounded-[24px] border border-rose-border shadow-xs">
+      < div className="flex justify-between items-center bg-cream-card p-5 rounded-[24px] border border-rose-border shadow-xs">
         <div>
           <h2 className="text-sm font-display font-bold text-choco-dark">Sweet Climbing Spots 🍓</h2>
           <p className="text-[11px] text-choco-medium font-medium mt-0.5 leading-none">Manage your gyms & outdoor spots</p>
@@ -50,11 +51,10 @@ export default function LocationsTab({
         <button
           id="btn-add-location-toggle"
           onClick={() => setIsAdding(!isAdding)}
-          className={`flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r select-none rounded-full text-[10px] font-display font-bold transition-all border ${
-            isAdding 
-              ? 'bg-red-50 text-red-500 border-red-200' 
-              : 'from-accent to-accent-hover text-choco-dark border-accent/40 shadow-xs'
-          }`}
+          className={`flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r select-none rounded-full text-[10px] font-display font-bold transition-all border ${isAdding
+            ? 'bg-red-50 text-red-500 border-red-200'
+            : 'from-accent to-accent-hover text-choco-dark border-accent/40 shadow-xs'
+            }`}
         >
           {isAdding ? 'Cancel' : (
             <>
@@ -65,12 +65,14 @@ export default function LocationsTab({
       </div>
 
       {/* Add New Location Form */}
-      {isAdding && (
-        <AddLocationForm 
-          onAddLocation={onAddLocation}
-          onClose={() => setIsAdding(false)}
-        />
-      )}
+      {
+        isAdding && (
+          <AddLocationForm
+            onAddLocation={onAddLocation}
+            onClose={() => setIsAdding(false)}
+          />
+        )
+      }
 
       {/* SEARCH BAR */}
       <div className="relative">
@@ -107,6 +109,6 @@ export default function LocationsTab({
           </div>
         )}
       </div>
-    </div>
+    </div >
   );
 }

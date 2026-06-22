@@ -1,3 +1,27 @@
+.container {
+    width: 100%;
+}
+
+.icon_title_container {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+}
+
+.icon_title_center_content {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    flex-wrap: wrap;
+}
+
+.icon_title {
+    text-overflow: ellipsis;
+    width: 40vw;
+    max-width: 90vw;
+}
+
 .wall_location_form {
     display: flex;
     gap: 2px;
