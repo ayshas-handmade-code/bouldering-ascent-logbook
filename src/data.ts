@@ -44,7 +44,7 @@ export const CLIMB_COLORS = [
 ];
 
 export const WALL_LOCATIONS = [
-  'Slab Wall', 'The Cave', 'Main Overhang', 'Comp Wall', 'Topout Pillar', 'The Wave', 'The Slab', 'The Roof', 'Main Boulder'
+  'Slab Wall', 'Cave', 'Overhang', 'Topout Pillar', 'Wave', 'Roof'
 ];
 
 // Helper to compare bouldering grades for math/scales
