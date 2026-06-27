@@ -33,12 +33,19 @@ export default function SessionImporter({
         fileInputRef.current?.click();
     }
 
+    const resetFileInput = () => {
+        fileInputRef.current.value = '';
+    }
+
     const importSessions = async () => {
         const file = fileInputRef.current?.files[0];
         const fileContent = await file.text();
         const sessions = parseCSV(fileContent);
+
         console.log('Selected file:', sessions);
         sessions.forEach((session) => handleSaveSession(currentUser, session));
+
+        resetFileInput()
     }
 
     return (
