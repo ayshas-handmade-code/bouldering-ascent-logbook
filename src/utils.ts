@@ -5,6 +5,9 @@
 
 import { ClimbingSession, ClimbingStats, RouteLog } from './types';
 import { BOULDERING_GRADES_V, getGradeIndex } from './data';
+import { collection, query, where } from 'firebase/firestore';
+import { auth, db } from './firebase';
+import { getLocations } from './firebase-utils';
 
 // Computes aggregations over all climbing sessions
 export function computeStats(sessions: ClimbingSession[], gradeSystem: string[] = BOULDERING_GRADES_V): ClimbingStats {
@@ -228,7 +231,7 @@ export function parseCSV(csvContent: string) {
     sends: Number(row[9]),
     flashes: Number(row[10]),
     isFavorite: row[11] === 'Yes',
-    notes: row[12],
+    notes: row[12].trim(),
   }));
 
   debugger
@@ -246,7 +249,6 @@ function extractSession(data) {
     return {
       id: crypto.randomUUID(),
       date: sessionData.date,
-      locationId: sessionData.locationId,
       locationName: sessionData.locationName,
       locationType: sessionData.locationType,
       notes: sessionData.notes,

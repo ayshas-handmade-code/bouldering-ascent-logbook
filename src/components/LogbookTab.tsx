@@ -21,7 +21,6 @@ interface LogbookTabProps {
   onAddSession: () => void;
   onEditSession: (session: ClimbingSession) => void;
   onDeleteSession: (id: string) => void;
-  onImportSessions: () => void;
   onToggleRouteFavorite: (sessionId: string, routeId: string) => void;
   selectedSessionId?: string | null;
 }
@@ -31,7 +30,6 @@ export default function LogbookTab({
   onAddSession,
   onEditSession,
   onDeleteSession,
-  onImportSessions,
   onToggleRouteFavorite,
   selectedSessionId,
 }: LogbookTabProps) {

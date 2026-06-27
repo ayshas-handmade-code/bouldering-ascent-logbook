@@ -1,12 +1,32 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Upload } from "lucide-react";
 import { parseCSV } from "@/src/utils";
+import { handleSaveSession } from '@/src/firebase-utils'
+
+// Firebase imports
+import { onAuthStateChanged, User } from 'firebase/auth';
+import { auth } from "@/src/firebase";
 
 interface SessionImporterProps {
 }
 
 export default function SessionImporter({
-}: SessionImporterProps) {
+}: SessionImporterProps
+) {
+
+    // firebase settings
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
+    const [authLoading, setAuthLoading] = useState(true);
+
+    useEffect(() => {
+        const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+            setCurrentUser(user);
+            setAuthLoading(false);
+        });
+        return () => unsubscribeAuth();
+    }, []);
+
+    // file upload functions
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const triggerFileInput = () => {
@@ -18,6 +38,7 @@ export default function SessionImporter({
         const fileContent = await file.text();
         const sessions = parseCSV(fileContent);
         console.log('Selected file:', sessions);
+        sessions.forEach((session) => handleSaveSession(currentUser, session));
     }
 
     return (
