@@ -58,7 +58,8 @@ export default function SessionForm({
   // Pre-load photo previews for current routes if editing
   const [photoPreviews, setPhotoPreviews] = useState<Record<string, string>>({});
 
-  const { saveSession } = useSaveSession();
+  const { saveSessionToDb } = useSaveSession();
+  const [sessionId, setSessionId] = useState<ClimbingSession | null>(sessionToEdit?.id || `sess-${Date.now()}`);
 
   useEffect(() => {
     if (sessionToEdit?.routes) {
@@ -227,17 +228,14 @@ export default function SessionForm({
     return true;
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrors(null);
-
+  const saveSession = async () => {
     if (!await validateForm()) {
       return;
     }
 
     const selectedLoc = locations.find(loc => loc.id === locationId);
     const completedSession: ClimbingSession = {
-      id: sessionToEdit?.id || `sess-${Date.now()}`,
+      id: sessionId,
       date,
       locationId,
       locationName: selectedLoc.name,
@@ -247,9 +245,22 @@ export default function SessionForm({
       routes,
     };
 
-    saveSession(completedSession);
-    onSave(completedSession);
-  };
+    saveSessionToDb(completedSession);
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrors(null);
+    saveSession();
+  }
+
+  useEffect(() => {
+    (async () => {
+      console.log("Saving.....")
+      await saveSession();
+      console.log("Save Successful!", new Date().toLocaleTimeString());
+    })();
+  }, [routes]);
 
   return (
     <div id="session-form-modal-overlay"

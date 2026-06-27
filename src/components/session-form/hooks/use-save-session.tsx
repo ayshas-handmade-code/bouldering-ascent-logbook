@@ -20,10 +20,10 @@ export default function useSaveSession() {
         return () => unsubscribeAuth();
     }, []);
 
-    const saveSession = async (session: ClimbingSession) => {
+    const saveSessionToDb = async (session: ClimbingSession) => {
         if (!currentUser) return;
         const path = `sessions/${session.id}`;
-
+        console.log(path)
         try {
             const docData = {
                 ...session,
@@ -36,5 +36,5 @@ export default function useSaveSession() {
         }
     }
 
-    return { saveSession };
+    return { saveSessionToDb };
 };
