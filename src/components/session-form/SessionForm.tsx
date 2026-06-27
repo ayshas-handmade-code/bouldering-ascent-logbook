@@ -186,19 +186,16 @@ export default function SessionForm({
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrors(null);
-
+  const validateForm = async () => {
     // Form validation
     if (!locationId) {
       setErrors('Please select a climbing location.');
-      return;
+      return false;
     }
 
     if (routes.length === 0) {
       setErrors('Please add at least one climb/route to this session.');
-      return;
+      return false;
     }
 
     // Checking required route fields (grade, color, wallLocation are mandatory)
@@ -206,24 +203,36 @@ export default function SessionForm({
       const route = routes[i];
       if (!route.grade) {
         setErrors(`Class log #${i + 1} is missing a required Difficulty Grade.`);
-        return;
+        return false;
       }
       if (!route.color) {
         setErrors(`Class log #${i + 1} is missing a required Hold Color.`);
-        return;
+        return false;
       }
       if (!route.wallLocation || !route.wallLocation.trim()) {
         setErrors(`Climb #${i + 1} needs a Wall Location (e.g., "The Cave", "East Wall").`);
-        return;
+        return false;
       }
     }
 
     const selectedLoc = locations.find(loc => loc.id === locationId);
     if (!selectedLoc) {
       setErrors('Invalid climbing location selected.');
+      return false;
+    }
+
+    return true;
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrors(null);
+
+    if (!validateForm()) {
       return;
     }
 
+    const selectedLoc = locations.find(loc => loc.id === locationId);
     const completedSession: ClimbingSession = {
       id: sessionToEdit?.id || `sess-${Date.now()}`,
       date,
