@@ -136,6 +136,11 @@ export default function App() {
     }
   };
 
+  const closeModal = () => {
+    setIsFormOpen(false);
+    setSessionToEdit(null);
+  }
+
   // Callback handler: Toggle favorite route (inside session container)
   const handleToggleRouteFavorite = async (sessionId: string, routeId: string) => {
     if (!currentUser) return;
@@ -464,10 +469,8 @@ export default function App() {
           <SessionForm
             locations={locations}
             sessionToEdit={sessionToEdit}
-            onClose={() => {
-              setIsFormOpen(false);
-              setSessionToEdit(null);
-            }}
+            onClose={closeModal}
+            onDelete={closeModal}
           />
         )}
 

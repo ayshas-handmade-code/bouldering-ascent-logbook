@@ -29,12 +29,14 @@ interface SessionFormProps {
   locations: Location[];
   sessionToEdit?: ClimbingSession | null;
   onClose: () => void;
+  onDelete: () => void;
 }
 
 export default function SessionForm({
   locations,
   sessionToEdit,
   onClose,
+  onDelete,
 }: SessionFormProps) {
   // Session levels state
   const [date, setDate] = useState<string>(
@@ -661,7 +663,7 @@ export default function SessionForm({
           <button
             id="btn-cancel-session"
             type="button"
-            onClick={onClose}
+            onClick={onDelete}
             className="flex-1 py-2.5 text-xs font-display font-bold bg-cream-base hover:bg-rose-border/20 text-choco-medium rounded-full border border-rose-border transition-all uppercase cursor-pointer"
           >
             Delete
