@@ -124,20 +124,10 @@ export default function App() {
   };
 
   // Callback handler: Create or Edit climbing session in Firestore
-  const handleSaveSession = async (savedSession: ClimbingSession) => {
+  const handleSaveSession = () => {
     if (!currentUser) return;
-    const path = `sessions/${savedSession.id}`;
-    try {
-      const docData = {
-        ...savedSession,
-        userId: currentUser.uid,
-      };
-      await setDoc(doc(db, 'sessions', savedSession.id), docData);
-      setIsFormOpen(false);
-      setSessionToEdit(null);
-    } catch (error) {
-      handleFirestoreError(error, OperationType.WRITE, path);
-    }
+    setIsFormOpen(false);
+    setSessionToEdit(null);
   };
 
   // Callback handler: Delete session

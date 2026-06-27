@@ -23,6 +23,7 @@ import RouteGrade from './RouteGrade';
 import RouteColor from './RouteColor';
 import styles from './SessionForm.module.css';
 import AttemptTracker from './AttemptTracker';
+import useSaveSession from './hooks/use-save-session';
 
 interface SessionFormProps {
   locations: Location[];
@@ -56,6 +57,8 @@ export default function SessionForm({
 
   // Pre-load photo previews for current routes if editing
   const [photoPreviews, setPhotoPreviews] = useState<Record<string, string>>({});
+
+  const { saveSession } = useSaveSession();
 
   useEffect(() => {
     if (sessionToEdit?.routes) {
@@ -224,11 +227,11 @@ export default function SessionForm({
     return true;
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors(null);
 
-    if (!validateForm()) {
+    if (!await validateForm()) {
       return;
     }
 
@@ -244,6 +247,7 @@ export default function SessionForm({
       routes,
     };
 
+    saveSession(completedSession);
     onSave(completedSession);
   };
 
