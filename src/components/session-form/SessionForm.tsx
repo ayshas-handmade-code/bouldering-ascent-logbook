@@ -664,7 +664,7 @@ export default function SessionForm({
             onClick={onClose}
             className="flex-1 py-2.5 text-xs font-display font-bold bg-cream-base hover:bg-rose-border/20 text-choco-medium rounded-full border border-rose-border transition-all uppercase cursor-pointer"
           >
-            Cancel
+            Delete
           </button>
           <button
             id="btn-save-session"
@@ -672,7 +672,7 @@ export default function SessionForm({
             onClick={handleSubmit}
             className="flex-1 py-2.5 text-xs font-display font-bold bg-gradient-to-r from-accent to-accent-hover text-choco-dark rounded-full active:scale-[0.98] transition-all flex items-center justify-center gap-1 uppercase shadow-md shadow-accent/20 cursor-pointer"
           >
-            Save Session 🍰
+            Complete Session 🍰
           </button>
         </div>
       </div >
