@@ -28,14 +28,12 @@ import useSaveSession from './hooks/use-save-session';
 interface SessionFormProps {
   locations: Location[];
   sessionToEdit?: ClimbingSession | null;
-  onSave: (session: ClimbingSession) => void;
   onClose: () => void;
 }
 
 export default function SessionForm({
   locations,
   sessionToEdit,
-  onSave,
   onClose,
 }: SessionFormProps) {
   // Session levels state
@@ -252,6 +250,7 @@ export default function SessionForm({
     e.preventDefault();
     setErrors(null);
     saveSession();
+    onClose();
   }
 
   useEffect(() => {

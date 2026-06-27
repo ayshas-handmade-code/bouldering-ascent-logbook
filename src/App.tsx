@@ -123,13 +123,6 @@ export default function App() {
     }
   };
 
-  // Callback handler: Create or Edit climbing session in Firestore
-  const handleSaveSession = () => {
-    if (!currentUser) return;
-    setIsFormOpen(false);
-    setSessionToEdit(null);
-  };
-
   // Callback handler: Delete session
   const handleDeleteSession = async (id: string) => {
     if (!currentUser) return;
@@ -471,7 +464,6 @@ export default function App() {
           <SessionForm
             locations={locations}
             sessionToEdit={sessionToEdit}
-            onSave={handleSaveSession}
             onClose={() => {
               setIsFormOpen(false);
               setSessionToEdit(null);
