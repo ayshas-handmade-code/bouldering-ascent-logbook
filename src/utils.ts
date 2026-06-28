@@ -218,37 +218,62 @@ export function processPhotoUpload(file: File): Promise<string> {
 export function parseCSV(csvContent: string) {
   const rows = csvContent?.split('\n').map(row => row.split(','));
   const headers = rows[0];
-  const routes = rows.slice(1).map(row => ({
-    date: row[0],
-    locationName: row[1],
-    locationType: row[2],
-    grade: row[3],
-    color: row[4],
-    wallLocation: row[5],
-    holdsType: row[6].split(', '),
-    routeType: row[7].split(', '),
-    attempts: Number(row[8]),
-    sends: Number(row[9]),
-    flashes: Number(row[10]),
-    isFavorite: row[11] === 'Yes',
-    notes: row[12].trim(),
-  }));
 
-  debugger
+  const locations = extractLocation(rows);
+  const routes = rows.slice(1).map(row => {
+    const location = locations[row[1]];
 
-  const sessions = extractSession(Object.groupBy(routes, (route) => route.date));
+    return {
+      date: row[0],
+      locationId: location.id,
+      locationName: location.name,
+      locationType: location.type,
+      grade: row[3],
+      color: row[4],
+      wallLocation: row[5],
+      holdsType: row[6].split(', '),
+      routeType: row[7].split(', '),
+      attempts: Number(row[8]),
+      sends: Number(row[9]),
+      flashes: Number(row[10]),
+      isFavorite: row[11] === 'Yes',
+      notes: row[12].trim() || "",
+    }
+  });
+
+  const routesByDate = Object.groupBy(routes, (route) => route.date);
+  const sessions = extractSession(routesByDate);
   return sessions;
 }
 
-function extractSession(data) {
-  const sessions = Object.values(data);
+
+function extractLocation(rows) {
+  let locations = {};
+  rows.slice(1).forEach(row => {
+    const locationName = row[1];
+
+    if (!locations[locationName]) {
+      locations[locationName] = {
+        id: "loc-" + crypto.randomUUID(),
+        name: locationName,
+        type: row[2],
+      }
+    }
+  });
+  return locations;
+}
+
+function extractSession(routes) {
+  const sessions = Object.values(routes);
 
   return sessions.map((routeData: any) => {
     const sessionData = routeData[0];
 
     return {
-      id: crypto.randomUUID(),
+      id: "sess-" + crypto.randomUUID(),
       date: sessionData.date,
+      climbsCount: routeData.length,
+      locationId: sessionData.locationId,
       locationName: sessionData.locationName,
       locationType: sessionData.locationType,
       notes: sessionData.notes,

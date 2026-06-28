@@ -73,14 +73,7 @@ service cloud.firestore {
     // --- Sessions Rules ---
     match /sessions/{sessionId} {
       allow read: if isSignedIn() && existing().userId == request.auth.uid;
-
-      allow create: if isSignedIn()
-                    && isValidId(sessionId)
-                    && incoming().id == sessionId
-                    && isValidSession(incoming())
-                    && incoming().keys().hasAll(['id', 'date', 'locationId', 'locationName', 'locationType', 'climbsCount', 'notes', 'routes', 'userId'])
-                    && incoming().keys().size() <= 11;
-
+      allow write: if isSignedIn() && incoming().userId == request.auth.uid;
       allow update: if isSignedIn()
                     && existing().userId == request.auth.uid
                     && isValidSession(incoming())

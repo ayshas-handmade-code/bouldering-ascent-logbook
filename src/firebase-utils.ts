@@ -19,7 +19,9 @@ export const handleSaveSession = async (currentUser: User, savedSession: Climbin
             ...savedSession,
             userId: currentUser.uid,
         };
+        console.log("Saving session: ", docData);
         await setDoc(doc(db, 'sessions', savedSession.id), docData);
+        console.log("Session saved successfully to db!")
     } catch (error) {
         handleFirestoreError(error, OperationType.WRITE, path);
     }

@@ -7,12 +7,15 @@ import { handleSaveSession } from '@/src/firebase-utils'
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from "@/src/firebase";
 
+import useSaveSession from '@/src/components/session-form/hooks/use-save-session';
+
 interface SessionImporterProps {
 }
 
 export default function SessionImporter({
 }: SessionImporterProps
 ) {
+    const { saveSessionToDb } = useSaveSession();
 
     // firebase settings
     const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -43,9 +46,13 @@ export default function SessionImporter({
         const sessions = parseCSV(fileContent);
 
         console.log('Selected file:', sessions);
-        sessions.forEach((session) => handleSaveSession(currentUser, session));
 
-        resetFileInput()
+        sessions.forEach(async (session) => {
+            console.log('Importing Session', session);
+            saveSessionToDb(session);
+        });
+
+        resetFileInput();
     }
 
     return (
