@@ -239,7 +239,7 @@ export function parseCSV(csvContent: string) {
       sends: Number(row[9]) || 0,
       flashes: Number(row[10]) || 0,
       isFavorite: row[11] === 'Yes',
-      notes: row[12],
+      notes: row[12] || "",
     }
   });
 
