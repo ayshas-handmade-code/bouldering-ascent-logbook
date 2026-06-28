@@ -226,31 +226,24 @@ export function parseCSV(csvContent: string) {
     const location = locations[row[1]];
 
     return {
-      date: row[0],
-      locationId: location.id,
-      locationName: location.name,
-      locationType: location.type,
-      grade: row[3],
-      color: row[4],
-      wallLocation: row[5],
-      holdsType: row[6].split(','),
-      routeType: row[7].split(','),
+      date: stripQuotes(row[0]),
+      locationId: stripQuotes(location.id),
+      locationName: stripQuotes(location.name),
+      locationType: stripQuotes(location.type),
+      grade: stripQuotes(row[3]),
+      color: stripQuotes(row[4]),
+      wallLocation: stripQuotes(row[5]),
+      holdsType: stripQuotes(row[6]).split(','),
+      routeType: stripQuotes(row[7]).split(','),
       attempts: parseInt(stripQuotes(row[8])) || 0,
       sends: parseInt(stripQuotes(row[9])) || 0,
       flashes: parseInt(stripQuotes(row[10])) || 0,
       isFavorite: stripQuotes(row[11]) === 'Yes',
-      notes: row[12] || "",
+      notes: stripQuotes(row[12] || ""),
     }
   });
 
-
-
-  const cleanedRoutes = routes.map((route) => (Object.fromEntries(
-    Object.entries(route).map(([key, value]) => [key, stripQuotes(value)])
-  )));
-
-
-  const routesByDate = Object.groupBy(cleanedRoutes, (route) => route.date);
+  const routesByDate = Object.groupBy(routes, (route) => route.date);
   const sessions = extractSession(routesByDate);
   return sessions;
 }
