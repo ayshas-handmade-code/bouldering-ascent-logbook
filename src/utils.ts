@@ -235,9 +235,9 @@ export function parseCSV(csvContent: string) {
       wallLocation: row[5],
       holdsType: row[6].split(','),
       routeType: row[7].split(','),
-      attempts: Number(row[8]) || 0,
-      sends: Number(row[9]) || 0,
-      flashes: Number(row[10]) || 0,
+      attempts: parseInt(stripQuotes(row[8])) || 0,
+      sends: parseInt(stripQuotes(row[9])) || 0,
+      flashes: parseInt(stripQuotes(row[10])) || 0,
       isFavorite: stripQuotes(row[11]) === 'Yes',
       notes: row[12] || "",
     }
