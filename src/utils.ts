@@ -215,10 +215,12 @@ export function processPhotoUpload(file: File): Promise<string> {
   });
 }
 
-export function parseCSV(csvContent: string) {
-  const rows = csvContent?.split('\n').map(row => row.split(','));
-  const headers = rows[0];
+function stripQuotes(input: any) {
+  return typeof input === 'string' ? input.replace(/^"|"$/g, '') : input;
+}
 
+export function parseCSV(csvContent: string) {
+  const rows = csvContent?.split('\n').map(row => row.split('|'));
   const locations = extractLocation(rows);
   const routes = rows.slice(1).map(row => {
     const location = locations[row[1]];
@@ -231,17 +233,24 @@ export function parseCSV(csvContent: string) {
       grade: row[3],
       color: row[4],
       wallLocation: row[5],
-      holdsType: row[6].split(', '),
-      routeType: row[7].split(', '),
-      attempts: Number(row[8]),
-      sends: Number(row[9]),
-      flashes: Number(row[10]),
+      holdsType: row[6].split(','),
+      routeType: row[7].split(','),
+      attempts: Number(row[8]) || 0,
+      sends: Number(row[9]) || 0,
+      flashes: Number(row[10]) || 0,
       isFavorite: row[11] === 'Yes',
-      notes: row[12].trim() || "",
+      notes: row[12],
     }
   });
 
-  const routesByDate = Object.groupBy(routes, (route) => route.date);
+
+
+  const cleanedRoutes = routes.map((route) => (Object.fromEntries(
+    Object.entries(route).map(([key, value]) => [key, stripQuotes(value)])
+  )));
+
+
+  const routesByDate = Object.groupBy(cleanedRoutes, (route) => route.date);
   const sessions = extractSession(routesByDate);
   return sessions;
 }
