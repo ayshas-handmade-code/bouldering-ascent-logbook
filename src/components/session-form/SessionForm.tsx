@@ -24,6 +24,7 @@ import RouteColor from './RouteColor';
 import styles from './SessionForm.module.css';
 import AttemptTracker from './AttemptTracker';
 import useSaveSession from './hooks/use-save-session';
+import useDeleteSession from './hooks/use-delete-session';
 
 interface SessionFormProps {
   locations: Location[];
@@ -59,6 +60,7 @@ export default function SessionForm({
   const [photoPreviews, setPhotoPreviews] = useState<Record<string, string>>({});
 
   const { saveSessionToDb } = useSaveSession();
+  const { deleteSessionFromDb } = useDeleteSession();
   const [sessionId, setSessionId] = useState<ClimbingSession | null>(sessionToEdit?.id || `sess-${Date.now()}`);
 
   useEffect(() => {
@@ -253,6 +255,19 @@ export default function SessionForm({
     setErrors(null);
     saveSession();
     onClose();
+  }
+
+  const handleDelete = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrors(null);
+    const warningMessage = "⚠️ Are you sure you want to delete this bouldering session? This action is irreversible.";
+
+    if (await window.confirm(warningMessage)) {
+      // TODO: figure out why awaiting deleteSessionFromDb doesn't return from the callstack.
+      deleteSessionFromDb(sessionId);
+      onDelete();
+    }
+
   }
 
   useEffect(() => {
@@ -663,7 +678,7 @@ export default function SessionForm({
           <button
             id="btn-cancel-session"
             type="button"
-            onClick={onDelete}
+            onClick={handleDelete}
             className="flex-1 py-2.5 text-xs font-display font-bold bg-cream-base hover:bg-rose-border/20 text-choco-medium rounded-full border border-rose-border transition-all uppercase cursor-pointer"
           >
             Delete
