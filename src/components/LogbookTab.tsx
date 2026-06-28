@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import SessionImporter from './session-import/SessionImport';
 
+import styles from './LogbookTab.module.css';
+
 interface LogbookTabProps {
   sessions: ClimbingSession[];
   onAddSession: () => void;
@@ -86,7 +88,10 @@ export default function LogbookTab({
   return (
     <div id="logbook-tab-container" className="space-y-6 pb-24 animate-fade-in font-sans">
       {/* Logbook Header */}
-      <div className="flex justify-between items-center bg-cream-card p-5 rounded-[24px] border border-rose-border shadow-xs">
+      <div className={`flex justify-between items-center bg-cream-card p-5 
+        rounded-[24px] border border-rose-border shadow-xs 
+        ${styles.import_export_container}`}
+      >
         <div>
           <h2 className="text-sm font-display font-bold text-choco-dark">Crag Journal 📖</h2>
           <p className="text-[11px] text-choco-medium font-medium mt-0.5 leading-none">Your sweet climbing chronicles ✨</p>
@@ -170,7 +175,7 @@ export default function LogbookTab({
             >
               <Trees className="w-3 h-3" /> Crags
             </button>
-          </div>
+          </div >
 
           <label className="flex items-center gap-1.5 text-[11px] font-display font-bold text-choco-medium cursor-pointer select-none">
             <input
@@ -182,248 +187,252 @@ export default function LogbookTab({
             />
             <span>Starred Climbs ⭐️</span>
           </label>
-        </div>
-      </div>
+        </div >
+      </div >
 
       {/* SESSIONS CHRONOLOGICAL CARDS */}
-      <div className="space-y-4">
-        {filteredSessions.map((session) => {
-          const isExpanded = expandedSessions[session.id] || false;
+      < div className="space-y-4" >
+        {
+          filteredSessions.map((session) => {
+            const isExpanded = expandedSessions[session.id] || false;
 
-          // Compute summary stats for current session log
-          const totalAttempts = session.routes.reduce((sum, r) => sum + r.attempts, 0);
-          const totalSends = session.routes.reduce((sum, r) => sum + r.sends, 0);
-          const totalFlashes = session.routes.reduce((sum, r) => sum + r.flashes, 0);
+            // Compute summary stats for current session log
+            const totalAttempts = session.routes.reduce((sum, r) => sum + r.attempts, 0);
+            const totalSends = session.routes.reduce((sum, r) => sum + r.sends, 0);
+            const totalFlashes = session.routes.reduce((sum, r) => sum + r.flashes, 0);
 
-          return (
-            <div
-              id={`session-card-${session.id}`}
-              key={session.id}
-              className={`bg-cream-card rounded-[28px] border transition-all shadow-2xs overflow-hidden 
-                ${isExpanded
-                  ? 'border-accent ring-2 ring-accent/20'
-                  : 'border-rose-border/80 hover:border-accent'
-                }`}
-            >
-              {/* Card Header section */}
+            return (
               <div
-                id={`session-trigger-${session.id}`}
-                onClick={() => toggleSessionExpand(session.id)}
-                className="p-5 flex items-start justify-between cursor-pointer"
+                id={`session-card-${session.id}`}
+                key={session.id}
+                className={`bg-cream-card rounded-[28px] border transition-all shadow-2xs overflow-hidden 
+                ${isExpanded
+                    ? 'border-accent ring-2 ring-accent/20'
+                    : 'border-rose-border/80 hover:border-accent'
+                  }`}
               >
-                <div className="flex gap-3">
-                  <div className={`p-2.5 rounded-full shrink-0 border border-rose-border bg-cream-base text-accent`}>
-                    {session.locationType === 'gym'
-                      ? <Building2 className="w-5 h-5 stroke-[2]" />
-                      : <Trees className="w-5 h-5 stroke-[2]" />
-                    }
-                  </div>
-
-                  <div>
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      <h3 className="font-display font-bold text-choco-dark text-sm sm:text-base leading-tight">
-                        {session.locationName}
-                      </h3>
-                      {session.routes.some(r => r.isFavorite) && (
-                        <Star className="w-3.5 h-3.5 text-accent fill-accent animate-pulse" />
-                      )}
+                {/* Card Header section */}
+                <div
+                  id={`session-trigger-${session.id}`}
+                  onClick={() => toggleSessionExpand(session.id)}
+                  className="p-5 flex items-start justify-between cursor-pointer"
+                >
+                  <div className="flex gap-3">
+                    <div className={`p-2.5 rounded-full shrink-0 border border-rose-border bg-cream-base text-accent`}>
+                      {session.locationType === 'gym'
+                        ? <Building2 className="w-5 h-5 stroke-[2]" />
+                        : <Trees className="w-5 h-5 stroke-[2]" />
+                      }
                     </div>
 
-                    <div className="flex items-center gap-2 mt-2 text-[10px] font-display font-bold text-choco-medium">
-                      <span className="flex items-center gap-1 text-choco-medium bg-cream-base px-2.5 py-1 rounded-full border border-rose-border/40">
-                        <Calendar className="w-3 h-3 text-accent" /> {session.date}
-                      </span>
-                      <span>•</span>
-                      <span className="bg-sky-accent/25 border border-sky-accent/50 px-2.5 py-1 rounded-full text-[9px] text-choco-dark font-display font-bold">
-                        {session.routes.length} Climbs
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Quick aggregates and control triggers */}
-                <div className="flex items-center gap-2" onClick={e => e.stopPropagation()}>
-                  <div className="hidden sm:flex items-center gap-3 text-right">
-                    <div className="text-[10px] font-display font-bold uppercase text-choco-medium leading-tight">
-                      <p>Sends: <b className="text-berry-accent">{totalSends}</b></p>
-                      <p>Flash: <b className="text-sky-accent">{totalFlashes}</b></p>
-                    </div>
-                  </div>
-
-                  <button
-                    id={`btn-edit-session-trigger-${session.id}`}
-                    onClick={() => onEditSession(session)}
-                    className="p-2 bg-cream-base hover:bg-slate-100 border border-rose-border rounded-full text-choco-medium transition-all hover:text-choco-dark shadow-3xs"
-                    title="Edit Log"
-                  >
-                    <Edit className="w-3.5 h-3.5" />
-                  </button>
-                  <button
-                    id={`btn-delete-session-trigger-${session.id}`}
-                    onClick={() => onDeleteSession(session.id)}
-                    className="p-2 bg-red-50 hover:bg-red-100 border border-red-200 text-red-500 rounded-full transition-all"
-                    title="Delete Log"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
-
-                  <button
-                    id={`btn-expand-session-trigger-${session.id}`}
-                    onClick={() => toggleSessionExpand(session.id)}
-                    className="p-1 text-choco-light hover:text-choco-medium"
-                  >
-                    <ChevronDown className={`w-4 h-4 transform transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
-                  </button>
-                </div>
-              </div>
-
-              {/* Expandable Route Listings */}
-              {isExpanded && (
-                <div className="px-5 pb-5 border-t border-rose-border/40 pt-4 bg-cookie-bg/60 space-y-4">
-                  {session.notes && (
-                    <div className="bg-cream-card/90 p-4 rounded-[20px] border border-rose-border shadow-3xs">
-                      <p className="text-[10px] font-display font-bold text-choco-light uppercase tracking-wider mb-1">Session Summary Notes 🧸</p>
-                      <p className="text-xs font-medium text-choco-medium whitespace-pre-line leading-relaxed italic">
-                        "{session.notes}"
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Route Columns */}
-                  <div className="space-y-3">
-                    <p className="text-[10px] uppercase font-display font-bold tracking-widest text-choco-light">Climb Route Details</p>
-
-                    {session.routes.map((route) => (
-                      <div
-                        id={`sess-route-item-${route.id}`}
-                        key={route.id}
-                        className="bg-cream-card p-4 rounded-2xl border border-rose-border shadow-2xs flex flex-col gap-3 hover:border-accent transition-all hover:scale-[1.01]"
-                      >
-                        <div className="flex items-start justify-between">
-                          <div className="flex items-center gap-2.5">
-                            {/* Color badge tag */}
-                            <span
-                              id={`log-route-color-tag-${route.id}`}
-                              className="w-4 h-4 rounded-full border border-rose-border/60 flex items-center shrink-0 justify-center shadow-xs animate-fade-in"
-                              style={{ backgroundColor: route.color === 'Black' ? '#18181b' : route.color === 'White' ? '#fafafa' : route.color }}
-                            />
-
-                            <div>
-                              <div className="flex items-center gap-1.5 flex-wrap">
-                                <span className="text-sm font-display font-bold text-choco-dark bg-cream-base px-2 py-0.5 rounded-lg">{route.grade}</span>
-                                <span className="text-[10px] bg-accent/15 border border-rose-border/40 px-2 py-0.5 rounded-full text-choco-medium font-display font-semibold lowercase">
-                                  {route.color}
-                                </span>
-                                <span className="text-[10px] bg-sky-accent/20 border border-sky-accent/40 px-2 py-0.5 rounded-full text-choco-medium font-display font-semibold lowercase">
-                                  {route.wallLocation}
-                                </span>
-                              </div>
-
-                              {/* Holst & Styles details column */}
-                              <div className="flex items-center gap-1 flex-wrap mt-2.5">
-                                {route.holdsType.map(hold => (
-                                  <span key={hold} className="text-[10px] bg-cream-base border border-rose-border/30 text-choco-medium font-display font-medium px-2 py-0.5 rounded-full lowercase">
-                                    {hold} 🍬
-                                  </span>
-                                ))}
-                                {route.routeType.map(type => (
-                                  <span key={type} className="text-[10px] bg-mint-accent/20 border border-mint-accent/40 text-choco-medium font-display font-medium px-2 py-0.5 rounded-full lowercase">
-                                    {type} 🌿
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center gap-1.5">
-                            {/* Star triggers */}
-                            <button
-                              id={`btn-favorite-route-${route.id}`}
-                              onClick={() => onToggleRouteFavorite(session.id, route.id)}
-                              className={`p-1.5 rounded-full transition-all border 
-                                ${route.isFavorite
-                                  ? 'bg-accent/20 text-berry-accent border-accent/60'
-                                  : 'bg-cream-base text-choco-light border-rose-border/50 hover:bg-rose-border/20'
-                                }`}
-                            >
-                              <Star className={`w-3.5 h-3.5 ${route.isFavorite ? 'fill-accent' : ''}`} />
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* Climb Route specific stats metrics & Image */}
-                        <div className="flex items-center justify-between mt-1 pt-2.5 border-t border-dashed border-rose-border/40 font-sans">
-                          <div className="flex gap-4">
-                            <div className="text-center bg-cream-base border border-rose-border/50 px-3 py-1.5 rounded-xl block shadow-3xs">
-                              <span className="block text-[8px] font-display font-bold text-choco-light uppercase">Attempts</span>
-                              <span className="text-[11px] font-display font-semibold text-choco-dark">{route.attempts}</span>
-                            </div>
-
-                            {route.sends > 0 ? (
-                              <div className="text-center bg-mint-accent/15 border border-mint-accent/50 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-3xs">
-                                <CheckCircle2 className="w-3.5 h-3.5 text-mint-accent" />
-                                <div className="text-left">
-                                  <span className="block text-[8px] font-display font-bold text-choco-medium uppercase">Sends</span>
-                                  <span className="text-[11px] font-display font-semibold text-choco-dark">{route.sends}</span>
-                                </div>
-                              </div>
-                            ) : (
-                              <div className="text-center bg-cream-base border border-rose-border/50 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-3xs">
-                                <span className="w-1.5 h-1.5 rounded-full bg-choco-light" />
-                                <div className="text-left">
-                                  <span className="block text-[8px] font-display font-bold text-choco-light uppercase">Sends</span>
-                                  <span className="text-[11px] font-display font-semibold text-choco-light">None</span>
-                                </div>
-                              </div>
-                            )}
-
-                            {route.flashes > 0 && (
-                              <div className="text-center bg-sky-accent/20 border border-sky-accent/50 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-3xs animate-pulse">
-                                <Zap className="w-3.5 h-3.5 text-sky-accent fill-sky-accent" />
-                                <div className="text-left">
-                                  <span className="block text-[8px] font-display font-bold text-choco-medium uppercase">Flash</span>
-                                  <span className="text-[11px] font-display font-bold text-choco-dark uppercase">1st Try 🌟</span>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-
-                          {/* Render Climb Image from IndexedDB Storage if photoId exists */}
-                          {route.photoId && (
-                            <div className="flex items-center gap-2">
-                              <span className="text-[9px] font-display font-bold uppercase text-choco-light">View Photo:</span>
-                              <PhotoViewer
-                                photoId={route.photoId}
-                                className="w-9 h-9 border border-rose-border object-cover cursor-pointer hover:scale-105 active:scale-95 transition-all rounded-lg shadow-3xs"
-                              />
-                            </div>
-                          )}
-                        </div>
+                    <div>
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <h3 className="font-display font-bold text-choco-dark text-sm sm:text-base leading-tight">
+                          {session.locationName}
+                        </h3>
+                        {session.routes.some(r => r.isFavorite) && (
+                          <Star className="w-3.5 h-3.5 text-accent fill-accent animate-pulse" />
+                        )}
                       </div>
-                    ))}
+
+                      <div className="flex items-center gap-2 mt-2 text-[10px] font-display font-bold text-choco-medium">
+                        <span className="flex items-center gap-1 text-choco-medium bg-cream-base px-2.5 py-1 rounded-full border border-rose-border/40">
+                          <Calendar className="w-3 h-3 text-accent" /> {session.date}
+                        </span>
+                        <span>•</span>
+                        <span className="bg-sky-accent/25 border border-sky-accent/50 px-2.5 py-1 rounded-full text-[9px] text-choco-dark font-display font-bold">
+                          {session.routes.length} Climbs
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Quick aggregates and control triggers */}
+                  <div className="flex items-center gap-2" onClick={e => e.stopPropagation()}>
+                    <div className="hidden sm:flex items-center gap-3 text-right">
+                      <div className="text-[10px] font-display font-bold uppercase text-choco-medium leading-tight">
+                        <p>Sends: <b className="text-berry-accent">{totalSends}</b></p>
+                        <p>Flash: <b className="text-sky-accent">{totalFlashes}</b></p>
+                      </div>
+                    </div>
+
+                    <button
+                      id={`btn-edit-session-trigger-${session.id}`}
+                      onClick={() => onEditSession(session)}
+                      className="p-2 bg-cream-base hover:bg-slate-100 border border-rose-border rounded-full text-choco-medium transition-all hover:text-choco-dark shadow-3xs"
+                      title="Edit Log"
+                    >
+                      <Edit className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      id={`btn-delete-session-trigger-${session.id}`}
+                      onClick={() => onDeleteSession(session.id)}
+                      className="p-2 bg-red-50 hover:bg-red-100 border border-red-200 text-red-500 rounded-full transition-all"
+                      title="Delete Log"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+
+                    <button
+                      id={`btn-expand-session-trigger-${session.id}`}
+                      onClick={() => toggleSessionExpand(session.id)}
+                      className="p-1 text-choco-light hover:text-choco-medium"
+                    >
+                      <ChevronDown className={`w-4 h-4 transform transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                    </button>
                   </div>
                 </div>
-              )}
+
+                {/* Expandable Route Listings */}
+                {isExpanded && (
+                  <div className="px-5 pb-5 border-t border-rose-border/40 pt-4 bg-cookie-bg/60 space-y-4">
+                    {session.notes && (
+                      <div className="bg-cream-card/90 p-4 rounded-[20px] border border-rose-border shadow-3xs">
+                        <p className="text-[10px] font-display font-bold text-choco-light uppercase tracking-wider mb-1">Session Summary Notes 🧸</p>
+                        <p className="text-xs font-medium text-choco-medium whitespace-pre-line leading-relaxed italic">
+                          "{session.notes}"
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Route Columns */}
+                    <div className="space-y-3">
+                      <p className="text-[10px] uppercase font-display font-bold tracking-widest text-choco-light">Climb Route Details</p>
+
+                      {session.routes.map((route) => (
+                        <div
+                          id={`sess-route-item-${route.id}`}
+                          key={route.id}
+                          className="bg-cream-card p-4 rounded-2xl border border-rose-border shadow-2xs flex flex-col gap-3 hover:border-accent transition-all hover:scale-[1.01]"
+                        >
+                          <div className="flex items-start justify-between">
+                            <div className="flex items-center gap-2.5">
+                              {/* Color badge tag */}
+                              <span
+                                id={`log-route-color-tag-${route.id}`}
+                                className="w-4 h-4 rounded-full border border-rose-border/60 flex items-center shrink-0 justify-center shadow-xs animate-fade-in"
+                                style={{ backgroundColor: route.color === 'Black' ? '#18181b' : route.color === 'White' ? '#fafafa' : route.color }}
+                              />
+
+                              <div>
+                                <div className="flex items-center gap-1.5 flex-wrap">
+                                  <span className="text-sm font-display font-bold text-choco-dark bg-cream-base px-2 py-0.5 rounded-lg">{route.grade}</span>
+                                  <span className="text-[10px] bg-accent/15 border border-rose-border/40 px-2 py-0.5 rounded-full text-choco-medium font-display font-semibold lowercase">
+                                    {route.color}
+                                  </span>
+                                  <span className="text-[10px] bg-sky-accent/20 border border-sky-accent/40 px-2 py-0.5 rounded-full text-choco-medium font-display font-semibold lowercase">
+                                    {route.wallLocation}
+                                  </span>
+                                </div>
+
+                                {/* Holst & Styles details column */}
+                                <div className="flex items-center gap-1 flex-wrap mt-2.5">
+                                  {route.holdsType.map(hold => (
+                                    <span key={hold} className="text-[10px] bg-cream-base border border-rose-border/30 text-choco-medium font-display font-medium px-2 py-0.5 rounded-full lowercase">
+                                      {hold} 🍬
+                                    </span>
+                                  ))}
+                                  {route.routeType.map(type => (
+                                    <span key={type} className="text-[10px] bg-mint-accent/20 border border-mint-accent/40 text-choco-medium font-display font-medium px-2 py-0.5 rounded-full lowercase">
+                                      {type} 🌿
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="flex items-center gap-1.5">
+                              {/* Star triggers */}
+                              <button
+                                id={`btn-favorite-route-${route.id}`}
+                                onClick={() => onToggleRouteFavorite(session.id, route.id)}
+                                className={`p-1.5 rounded-full transition-all border 
+                                ${route.isFavorite
+                                    ? 'bg-accent/20 text-berry-accent border-accent/60'
+                                    : 'bg-cream-base text-choco-light border-rose-border/50 hover:bg-rose-border/20'
+                                  }`}
+                              >
+                                <Star className={`w-3.5 h-3.5 ${route.isFavorite ? 'fill-accent' : ''}`} />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Climb Route specific stats metrics & Image */}
+                          <div className="flex items-center justify-between mt-1 pt-2.5 border-t border-dashed border-rose-border/40 font-sans">
+                            <div className="flex gap-4">
+                              <div className="text-center bg-cream-base border border-rose-border/50 px-3 py-1.5 rounded-xl block shadow-3xs">
+                                <span className="block text-[8px] font-display font-bold text-choco-light uppercase">Attempts</span>
+                                <span className="text-[11px] font-display font-semibold text-choco-dark">{route.attempts}</span>
+                              </div>
+
+                              {route.sends > 0 ? (
+                                <div className="text-center bg-mint-accent/15 border border-mint-accent/50 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-3xs">
+                                  <CheckCircle2 className="w-3.5 h-3.5 text-mint-accent" />
+                                  <div className="text-left">
+                                    <span className="block text-[8px] font-display font-bold text-choco-medium uppercase">Sends</span>
+                                    <span className="text-[11px] font-display font-semibold text-choco-dark">{route.sends}</span>
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="text-center bg-cream-base border border-rose-border/50 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-3xs">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-choco-light" />
+                                  <div className="text-left">
+                                    <span className="block text-[8px] font-display font-bold text-choco-light uppercase">Sends</span>
+                                    <span className="text-[11px] font-display font-semibold text-choco-light">None</span>
+                                  </div>
+                                </div>
+                              )}
+
+                              {route.flashes > 0 && (
+                                <div className="text-center bg-sky-accent/20 border border-sky-accent/50 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-3xs animate-pulse">
+                                  <Zap className="w-3.5 h-3.5 text-sky-accent fill-sky-accent" />
+                                  <div className="text-left">
+                                    <span className="block text-[8px] font-display font-bold text-choco-medium uppercase">Flash</span>
+                                    <span className="text-[11px] font-display font-bold text-choco-dark uppercase">1st Try 🌟</span>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Render Climb Image from IndexedDB Storage if photoId exists */}
+                            {route.photoId && (
+                              <div className="flex items-center gap-2">
+                                <span className="text-[9px] font-display font-bold uppercase text-choco-light">View Photo:</span>
+                                <PhotoViewer
+                                  photoId={route.photoId}
+                                  className="w-9 h-9 border border-rose-border object-cover cursor-pointer hover:scale-105 active:scale-95 transition-all rounded-lg shadow-3xs"
+                                />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })
+        }
+
+        {
+          filteredSessions.length === 0 && (
+            <div className="text-center py-16 bg-cream-card rounded-[28px] border-2 border-dashed border-rose-border shadow-sm">
+              <Filter className="w-10 h-10 text-rose-border mx-auto mb-3 animate-bounce" />
+              <p className="text-sm font-display font-bold text-choco-dark">No sessions found 🎈</p>
+              <p className="text-xs text-choco-light font-display font-semibold mt-1">Adjust filters or record a new sweet climb.</p>
+
+              <button
+                id="btn-add-session-empty"
+                onClick={onAddSession}
+                className="mt-4 px-5 py-2.5 bg-gradient-to-r from-accent to-accent-hover text-choco-dark text-xs font-display font-bold rounded-full transition-all flex items-center gap-1.5 mx-auto active:scale-95 shadow-md shadow-accent/25"
+              >
+                <Plus className="w-4 h-4 stroke-[2.5]" /> Log First Sessions
+              </button>
             </div>
-          );
-        })}
-
-        {filteredSessions.length === 0 && (
-          <div className="text-center py-16 bg-cream-card rounded-[28px] border-2 border-dashed border-rose-border shadow-sm">
-            <Filter className="w-10 h-10 text-rose-border mx-auto mb-3 animate-bounce" />
-            <p className="text-sm font-display font-bold text-choco-dark">No sessions found 🎈</p>
-            <p className="text-xs text-choco-light font-display font-semibold mt-1">Adjust filters or record a new sweet climb.</p>
-
-            <button
-              id="btn-add-session-empty"
-              onClick={onAddSession}
-              className="mt-4 px-5 py-2.5 bg-gradient-to-r from-accent to-accent-hover text-choco-dark text-xs font-display font-bold rounded-full transition-all flex items-center gap-1.5 mx-auto active:scale-95 shadow-md shadow-accent/25"
-            >
-              <Plus className="w-4 h-4 stroke-[2.5]" /> Log First Sessions
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
+          )
+        }
+      </div >
+    </div >
   );
 }
