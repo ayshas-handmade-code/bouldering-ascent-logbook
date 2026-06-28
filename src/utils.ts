@@ -238,7 +238,7 @@ export function parseCSV(csvContent: string) {
       attempts: Number(row[8]) || 0,
       sends: Number(row[9]) || 0,
       flashes: Number(row[10]) || 0,
-      isFavorite: row[11] === 'Yes',
+      isFavorite: stripQuotes(row[11]) === 'Yes',
       notes: row[12] || "",
     }
   });
