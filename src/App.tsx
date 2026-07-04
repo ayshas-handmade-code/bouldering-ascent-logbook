@@ -5,14 +5,15 @@
 
 import React, { useState, useEffect } from 'react';
 import { ClimbingSession, Location } from './types';
-import { INITIAL_LOCATIONS, WALL_LOCATIONS, generateSampleSessions } from './data';
+import { INITIAL_LOCATIONS, WALL_LOCATIONS, generateSampleSessions, HOLD_TYPES, ROUTE_TYPES } from './data';
 import DashboardTab from './components/dashboard-tab/DashboardTab';
 import LogbookTab from './components/LogbookTab';
 import LocationsTab from './components/locations-tab/LocationsTab';
 import SessionForm from './components/session-form/SessionForm';
+import SettingsModal from './components/SettingsModal';
 import {
   Trophy, History, MapPin, Compass, Plus,
-  Info, Sparkles, LogOut, CheckSquare, Dumbbell
+  Info, Sparkles, LogOut, CheckSquare, Dumbbell, Sliders
 } from 'lucide-react';
 
 // Firebase imports
@@ -42,6 +43,10 @@ export default function App() {
   // Highlight/Expand requested session from Dashboard click
   const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
 
+  // User log preferences (hold types & route styles)
+  const [userSettings, setUserSettings] = useState<{ holdTypes: string[]; routeTypes: string[] } | null>(null);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
   // 1. Subscribe to Firebase Auth
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
@@ -56,6 +61,7 @@ export default function App() {
     if (!currentUser) {
       setSessions([]);
       setLocations([]);
+      setUserSettings(null);
       return;
     }
 
@@ -94,9 +100,25 @@ export default function App() {
       handleFirestoreError(error, OperationType.LIST, 'sessions');
     });
 
+    // C. Subscribe to user settings
+    const settingsRef = doc(db, 'userSettings', uid);
+    const unsubscribeSettings = onSnapshot(settingsRef, (docSnap) => {
+      if (docSnap.exists()) {
+        setUserSettings(docSnap.data() as { holdTypes: string[]; routeTypes: string[] });
+      } else {
+        setUserSettings({
+          holdTypes: HOLD_TYPES,
+          routeTypes: ROUTE_TYPES
+        });
+      }
+    }, (error) => {
+      console.error('Error fetching settings:', error);
+    });
+
     return () => {
       unsubscribeLocations();
       unsubscribeSessions();
+      unsubscribeSettings();
     };
   }, [currentUser]);
 
@@ -230,6 +252,17 @@ export default function App() {
     }
   };
 
+  // Callback handler: Save user settings
+  const handleSaveSettings = async (settings: { holdTypes: string[]; routeTypes: string[] }) => {
+    if (!currentUser) return;
+    const path = `userSettings/${currentUser.uid}`;
+    try {
+      await setDoc(doc(db, 'userSettings', currentUser.uid), settings);
+    } catch (error) {
+      handleFirestoreError(error, OperationType.WRITE, path);
+    }
+  };
+
   // Direct trigger to edit form
   const handleEditSessionTrigger = (session: ClimbingSession) => {
     setSessionToEdit(session);
@@ -344,7 +377,7 @@ export default function App() {
               {sessions.reduce((sum, s) => sum + s.routes.length, 0)} SENDS
             </span>
 
-            {/* User Profile avatar + logout */}
+            {/* User Profile avatar + settings + logout */}
             <div className="flex items-center gap-1.5 border-l border-rose-border/50 pl-2.5">
               <img
                 src={currentUser.photoURL || `https://api.dicebear.com/7.x/adventurer/svg?seed=${currentUser.uid}`}
@@ -353,6 +386,14 @@ export default function App() {
                 referrerPolicy="no-referrer"
                 title={currentUser.displayName || currentUser.email || 'Climber'}
               />
+              <button
+                id="btn-open-settings"
+                onClick={() => setIsSettingsOpen(true)}
+                className="p-1 text-choco-light hover:text-accent hover:bg-cream-base rounded-full transition-colors cursor-pointer"
+                title="Settings"
+              >
+                <Sliders className="w-4 h-4" />
+              </button>
               <button
                 onClick={logout}
                 className="p-1 text-choco-light hover:text-accent hover:bg-cream-base rounded-full transition-colors cursor-pointer"
@@ -471,6 +512,18 @@ export default function App() {
             sessionToEdit={sessionToEdit}
             onClose={closeModal}
             onDelete={closeModal}
+            holdTypes={userSettings?.holdTypes || HOLD_TYPES}
+            routeTypes={userSettings?.routeTypes || ROUTE_TYPES}
+          />
+        )}
+
+        {/* MODAL SHEET FOR SETTINGS */}
+        {isSettingsOpen && (
+          <SettingsModal
+            holdTypes={userSettings?.holdTypes || HOLD_TYPES}
+            routeTypes={userSettings?.routeTypes || ROUTE_TYPES}
+            onClose={() => setIsSettingsOpen(false)}
+            onSaveSettings={handleSaveSettings}
           />
         )}
 

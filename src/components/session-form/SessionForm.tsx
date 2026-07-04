@@ -8,8 +8,6 @@ import { ClimbingSession, RouteLog, Location } from '../../types';
 import {
   BOULDERING_GRADES_V,
   BOULDERING_GRADES_FONT,
-  HOLD_TYPES,
-  ROUTE_TYPES,
   CLIMB_COLORS,
   WALL_LOCATIONS
 } from '../../data';
@@ -24,13 +22,14 @@ import styles from './SessionForm.module.css';
 import AttemptTracker from './AttemptTracker';
 import useSaveSession from './hooks/use-save-session';
 import useDeleteSession from './hooks/use-delete-session';
-import PhotoUpload from './photo-upload';
 
 interface SessionFormProps {
   locations: Location[];
   sessionToEdit?: ClimbingSession | null;
   onClose: () => void;
   onDelete: () => void;
+  holdTypes: string[];
+  routeTypes: string[];
 }
 
 export default function SessionForm({
@@ -38,6 +37,8 @@ export default function SessionForm({
   sessionToEdit,
   onClose,
   onDelete,
+  holdTypes,
+  routeTypes,
 }: SessionFormProps) {
   // Session levels state
   const [date, setDate] = useState<string>(
@@ -524,7 +525,7 @@ export default function SessionForm({
                               Holds Features (multi-select)
                             </label>
                             <div className="flex flex-wrap gap-1 leading-none">
-                              {HOLD_TYPES.map((hold) => {
+                              {holdTypes.map((hold) => {
                                 const selected = route.holdsType.includes(hold);
                                 return (
                                   <button
@@ -549,7 +550,7 @@ export default function SessionForm({
                               Styles / features (multi-select)
                             </label>
                             <div className="flex flex-wrap gap-1 leading-none">
-                              {ROUTE_TYPES.map((rType) => {
+                              {routeTypes.map((rType) => {
                                 const selected = route.routeType.includes(rType);
                                 return (
                                   <button

@@ -83,5 +83,10 @@ service cloud.firestore {
 
       allow delete: if isSignedIn() && existing().userId == request.auth.uid;
     }
+
+    // --- User Settings Rules ---
+    match /userSettings/{userId} {
+      allow read, write: if isSignedIn() && userId == request.auth.uid;
+    }
   }
 }
