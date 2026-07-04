@@ -24,6 +24,7 @@ import styles from './SessionForm.module.css';
 import AttemptTracker from './AttemptTracker';
 import useSaveSession from './hooks/use-save-session';
 import useDeleteSession from './hooks/use-delete-session';
+import PhotoUpload from './photo-upload';
 
 interface SessionFormProps {
   locations: Location[];
