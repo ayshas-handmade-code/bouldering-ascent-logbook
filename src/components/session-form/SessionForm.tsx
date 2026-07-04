@@ -13,12 +13,11 @@ import {
   CLIMB_COLORS,
   WALL_LOCATIONS
 } from '../../data';
-import { processPhotoUpload } from '../../utils';
-import { savePhoto, getPhoto } from '../../photoStore';
 import {
   X, Plus, ChevronDown, Check, Star, Sparkles,
-  Camera, Trash2, Calendar, MapPin, AlignLeft, Info
+  Trash2, Calendar, MapPin, AlignLeft, Info
 } from 'lucide-react';
+import PhotoUploader from './PhotoUploader';
 import RouteGrade from './RouteGrade';
 import RouteColor from './RouteColor';
 import styles from './SessionForm.module.css';
@@ -56,25 +55,9 @@ export default function SessionForm({
   // Error validations
   const [errors, setErrors] = useState<string | null>(null);
 
-  // Pre-load photo previews for current routes if editing
-  const [photoPreviews, setPhotoPreviews] = useState<Record<string, string>>({});
-
   const { saveSessionToDb } = useSaveSession();
   const { deleteSessionFromDb } = useDeleteSession();
   const [sessionId, setSessionId] = useState<ClimbingSession | null>(sessionToEdit?.id || `sess-${Date.now()}`);
-
-  useEffect(() => {
-    if (sessionToEdit?.routes) {
-      sessionToEdit.routes.forEach(async (route) => {
-        if (route.photoId) {
-          const base64 = await getPhoto(route.photoId);
-          if (base64) {
-            setPhotoPreviews(prev => ({ ...prev, [route.id]: base64 }));
-          }
-        }
-      });
-    }
-  }, [sessionToEdit]);
 
   const handleAddRoute = () => {
     const selectedLoc = locations.find(loc => loc.id === locationId);
@@ -99,10 +82,6 @@ export default function SessionForm({
 
   const handleDeleteRoute = (id: string) => {
     setRoutes(routes.filter(r => r.id !== id));
-    // Clean preview state
-    const updatedPreviews = { ...photoPreviews };
-    delete updatedPreviews[id];
-    setPhotoPreviews(updatedPreviews);
   };
 
   const handleUpdateRouteField = <K extends keyof RouteLog>(
@@ -134,32 +113,7 @@ export default function SessionForm({
     );
   };
 
-  const handlePhotoUpload = async (routeId: string, event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
 
-    try {
-      const resizedBase64 = await processPhotoUpload(file);
-      const photoId = `photo-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-
-      // Save directly to raw IndexedDB
-      await savePhoto(photoId, resizedBase64);
-
-      // Update routes state
-      handleUpdateRouteField(routeId, 'photoId', photoId);
-      setPhotoPreviews(prev => ({ ...prev, [routeId]: resizedBase64 }));
-    } catch (err) {
-      console.error('Failed to upload/compress photo:', err);
-      alert('Error compressing climbing photo. Please try a different photo.');
-    }
-  };
-
-  const handleRemovePhoto = (routeId: string) => {
-    handleUpdateRouteField(routeId, 'photoId', undefined);
-    const updated = { ...photoPreviews };
-    delete updated[routeId];
-    setPhotoPreviews(updated);
-  };
 
   const handleHoldTypeToggle = (routeId: string, hold: string) => {
     const route = routes.find(r => r.id === routeId);
@@ -429,7 +383,6 @@ export default function SessionForm({
             <div className="space-y-4">
               {routes.map((route, idx) => {
                 const isCollapsed = collapsedRoutes[route.id] || false;
-                const activePhotoBase64 = photoPreviews[route.id];
 
                 return (
                   <div
@@ -555,47 +508,10 @@ export default function SessionForm({
                           </div>
 
                           {/* Route Photo Feature */}
-                          <div>
-                            <label className="block text-[10px] font-display font-semibold text-choco-medium uppercase tracking-wider mb-1.5">
-                              Attach Climb Photo 🌸
-                            </label>
-
-                            {activePhotoBase64 ? (
-                              <div className="flex items-center gap-2 bg-cream-base p-2 rounded-2xl border border-rose-border/50 font-sans shadow-3xs">
-                                <img
-                                  src={activePhotoBase64}
-                                  alt="Route Preview"
-                                  className="w-10 h-10 object-cover rounded-lg border border-rose-border shadow-xs"
-                                  referrerPolicy="no-referrer"
-                                />
-                                <div className="flex-1 text-[10px] font-display font-bold uppercase text-accent truncate">
-                                  photo saved ✓
-                                </div>
-                                <button
-                                  id={`btn-remove-photo-${route.id}`}
-                                  type="button"
-                                  onClick={() => handleRemovePhoto(route.id)}
-                                  className="text-[10px] uppercase bg-red-50 hover:bg-red-100 text-red-500 border border-red-200 px-3 py-1.5 rounded-full transition-all font-display font-bold cursor-pointer"
-                                >
-                                  remove
-                                </button>
-                              </div>
-                            ) : (
-                              <div className="relative group">
-                                <label className="flex items-center justify-center gap-1.5 px-3 py-2.5 bg-cream-base border border-dashed border-rose-border hover:border-accent rounded-full text-xs font-display font-semibold text-choco-medium cursor-pointer text-center transition-all shadow-3xs">
-                                  <Camera className="w-3.5 h-3.5 text-choco-light group-hover:text-accent" />
-                                  <span className="text-[10px] tracking-wide uppercase">Upload Photo 🌸</span>
-                                  <input
-                                    id={`file-upload-input-${route.id}`}
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={(event) => handlePhotoUpload(route.id, event)}
-                                    className="hidden"
-                                  />
-                                </label>
-                              </div>
-                            )}
-                          </div>
+                          <PhotoUploader
+                            route={route}
+                            handleUpdateRouteField={handleUpdateRouteField}
+                          />
 
                         </div>
 
