@@ -520,6 +520,7 @@ export default function SessionForm({
                         {/* ROW 3: Holds and Route Types */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <FeatureTypes
+                            title="Holds Features (multi-select)"
                             allOptions={holdTypes}
                             selectedOptions={route.holdsType}
                             onSelect={(option) => { handleHoldTypeToggle(route.id, option) }}

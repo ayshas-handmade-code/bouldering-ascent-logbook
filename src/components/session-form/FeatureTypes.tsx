@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 
 interface FeatureTypesProps {
+  title: string;
   allOptions: string[];
   selectedOptions: string[];
   onSelect: Function;
 }
 
 export default function FeatureTypes({
+  title,
   allOptions,
   selectedOptions,
   onSelect,
@@ -22,7 +24,7 @@ export default function FeatureTypes({
   return (
     <div>
       <label className="block text-[10px] font-display font-semibold text-choco-medium uppercase tracking-wider mb-2">
-        Holds Features (multi-select)
+        {title}
       </label>
       <div className="flex flex-wrap gap-1 leading-none">
         {allOptions.map((option) => {
