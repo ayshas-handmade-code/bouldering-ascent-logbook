@@ -22,6 +22,7 @@ import styles from './SessionForm.module.css';
 import AttemptTracker from './AttemptTracker';
 import useSaveSession from './hooks/use-save-session';
 import useDeleteSession from './hooks/use-delete-session';
+import FeatureTypes from './FeatureTypes';
 
 interface SessionFormProps {
   locations: Location[];
@@ -44,6 +45,7 @@ export default function SessionForm({
   const [date, setDate] = useState<string>(
     sessionToEdit?.date || new Date().toISOString().split('T')[0]
   );
+
   const [locationId, setLocationId] = useState<string>(
     sessionToEdit?.locationId || (locations[0]?.id || '')
   );
@@ -114,8 +116,6 @@ export default function SessionForm({
       })
     );
   };
-
-
 
   const handleHoldTypeToggle = (routeId: string, hold: string) => {
     const route = routes.find(r => r.id === routeId);
@@ -519,8 +519,13 @@ export default function SessionForm({
 
                         {/* ROW 3: Holds and Route Types */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <FeatureTypes
+                            holdTypes={holdTypes}
+                            route={route}
+                            handleHoldTypeToggle={handleHoldTypeToggle}
+                          />
 
-                          <div>
+                          {/* <div>
                             <label className="block text-[10px] font-display font-semibold text-choco-medium uppercase tracking-wider mb-2">
                               Holds Features (multi-select)
                             </label>
@@ -543,7 +548,7 @@ export default function SessionForm({
                                 );
                               })}
                             </div>
-                          </div>
+                          </div> */}
 
                           <div>
                             <label className="block text-[10px] font-display font-semibold text-choco-medium uppercase tracking-wider mb-2">
