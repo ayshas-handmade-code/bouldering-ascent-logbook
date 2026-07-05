@@ -526,31 +526,12 @@ export default function SessionForm({
                             onSelect={(option) => { handleHoldTypeToggle(route.id, option) }}
                           />
 
-                          <div>
-                            <label className="block text-[10px] font-display font-semibold text-choco-medium uppercase tracking-wider mb-2">
-                              Styles / features (multi-select)
-                            </label>
-                            <div className="flex flex-wrap gap-1 leading-none">
-                              {routeTypes.map((rType) => {
-                                const selected = route.routeType.includes(rType);
-                                return (
-                                  <button
-                                    id={`btn-type-toggle-${route.id}-${rType}`}
-                                    key={rType}
-                                    type="button"
-                                    onClick={() => handleRouteTypeToggle(route.id, rType)}
-                                    className={`text-[10px] lowercase px-3 py-1.5 rounded-full font-display font-bold transition-all border cursor-pointer ${selected
-                                      ? 'bg-sky-accent border-sky-accent/[0.45] text-choco-dark shadow-3xs'
-                                      : 'bg-cream-base border-rose-border/40 text-choco-medium hover:bg-rose-border/10'
-                                      }`}
-                                  >
-                                    {rType}
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          </div>
-
+                          <FeatureTypes
+                            title="Styles / features (multi-select)"
+                            allOptions={routeTypes}
+                            selectedOptions={route.routeType}
+                            onSelect={(option) => { handleRouteTypeToggle(route.id, option) }}
+                          />
                         </div>
                       </div>
                     )
