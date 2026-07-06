@@ -121,30 +121,6 @@ export default function SessionForm({
     );
   };
 
-  const handleHoldTypeToggle = (routeId: string, hold: string) => {
-    const route = routes.find(r => r.id === routeId);
-    if (!route) return;
-
-    const currentHolds = route.holdsType;
-    const nextHolds = currentHolds.includes(hold)
-      ? currentHolds.filter(h => h !== hold)
-      : [...currentHolds, hold];
-
-    handleUpdateRouteField(routeId, 'holdsType', nextHolds);
-  };
-
-  const handleRouteTypeToggle = (routeId: string, type: string) => {
-    const route = routes.find(r => r.id === routeId);
-    if (!route) return;
-
-    const currentstyles = route.routeType;
-    const nextstyles = currentstyles.includes(type)
-      ? currentstyles.filter(t => t !== type)
-      : [...currentstyles, type];
-
-    handleUpdateRouteField(routeId, 'routeType', nextstyles);
-  };
-
   const handleFeatureTypesToggle = (routeId: string, currentFeatures: string[], newAddition: string, fieldToUpdate: keyof RouteLog) => {
     const route = routes.find(r => r.id === routeId);
     if (!route) return;
