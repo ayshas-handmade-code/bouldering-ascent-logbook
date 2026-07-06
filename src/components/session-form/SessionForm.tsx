@@ -78,6 +78,8 @@ export default function SessionForm({
       wallLocation: wallOptions[0] || 'Slab',
       holdsType: [],
       routeType: [],
+      handPlacements: [],
+      footPlacements: [],
       attempts: 1,
       sends: 1,
       flashes: 1, // Flashed is default if 1 attempt and sent
@@ -141,6 +143,19 @@ export default function SessionForm({
       : [...currentstyles, type];
 
     handleUpdateRouteField(routeId, 'routeType', nextstyles);
+  };
+
+  const handleFeatureTypesToggle = (routeId: string, currentFeatures: string[], newAddition: string, fieldToUpdate: keyof RouteLog) => {
+    const route = routes.find(r => r.id === routeId);
+    if (!route) return;
+
+    const _currentFeatures = currentFeatures ?? [];
+
+    const updatedList = _currentFeatures.includes(newAddition)
+      ? _currentFeatures.filter(f => f !== newAddition)
+      : [..._currentFeatures, newAddition];
+
+    handleUpdateRouteField(routeId, fieldToUpdate, updatedList);
   };
 
   const toggleRouteCollapse = (routeId: string) => {
@@ -537,11 +552,19 @@ export default function SessionForm({
                           />
 
                           <FeatureTypes
-                            title="Feet"
+                            title="Foot Placements"
                             allOptions={footPlacements}
                             selectedOptions={route.footPlacements}
                             cssClassnamesForSelected={'bg-sky-accent border-sky-accent/[0.45] text-choco-dark shadow-3xs'}
-                            onSelect={(option) => { handleRouteTypeToggle(route.id, option) }}
+                            onSelect={(option) => { handleFeatureTypesToggle(route.id, route.footPlacements, option, 'footPlacements') }}
+                          />
+
+                          <FeatureTypes
+                            title="Hand Placements"
+                            allOptions={handPlacements}
+                            selectedOptions={route.handPlacements}
+                            cssClassnamesForSelected={'bg-sky-accent border-sky-accent/[0.45] text-choco-dark shadow-3xs'}
+                            onSelect={(option) => { handleFeatureTypesToggle(route.id, route.handPlacements, option, 'handPlacements') }}
                           />
                         </div>
                       </div>
