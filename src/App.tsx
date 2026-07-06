@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ClimbingSession, Location } from './types';
-import { INITIAL_LOCATIONS, WALL_LOCATIONS, generateSampleSessions, HOLD_TYPES, ROUTE_TYPES } from './data';
+import { INITIAL_LOCATIONS, WALL_LOCATIONS, generateSampleSessions, HOLD_TYPES, ROUTE_TYPES, HAND_PLACEMENT, FOOT_PLACEMENT } from './data';
 import DashboardTab from './components/dashboard-tab/DashboardTab';
 import LogbookTab from './components/LogbookTab';
 import LocationsTab from './components/locations-tab/LocationsTab';
@@ -44,7 +44,7 @@ export default function App() {
   const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
 
   // User log preferences (hold types & route styles)
-  const [userSettings, setUserSettings] = useState<{ holdTypes: string[]; routeTypes: string[] } | null>(null);
+  const [userSettings, setUserSettings] = useState<{ holdTypes: string[]; routeTypes: string[]; footPlacements: string[]; handPlacements: string[] } | null>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   // 1. Subscribe to Firebase Auth
@@ -253,7 +253,7 @@ export default function App() {
   };
 
   // Callback handler: Save user settings
-  const handleSaveSettings = async (settings: { holdTypes: string[]; routeTypes: string[] }) => {
+  const handleSaveSettings = async (settings: { holdTypes: string[]; routeTypes: string[]; footPlacements: string[]; handPlacements: string[] }) => {
     if (!currentUser) return;
     const path = `userSettings/${currentUser.uid}`;
     try {
@@ -514,6 +514,8 @@ export default function App() {
             onDelete={closeModal}
             holdTypes={userSettings?.holdTypes || HOLD_TYPES}
             routeTypes={userSettings?.routeTypes || ROUTE_TYPES}
+            footPlacements={userSettings?.footPlacements || FOOT_PLACEMENT}
+            handPlacements={userSettings?.handPlacements || HAND_PLACEMENT}
           />
         )}
 
@@ -522,6 +524,8 @@ export default function App() {
           <SettingsModal
             holdTypes={userSettings?.holdTypes || HOLD_TYPES}
             routeTypes={userSettings?.routeTypes || ROUTE_TYPES}
+            footPlacements={userSettings?.footPlacements || FOOT_PLACEMENT}
+            handPlacements={userSettings?.handPlacements || HAND_PLACEMENT}
             onClose={() => setIsSettingsOpen(false)}
             onSaveSettings={handleSaveSettings}
           />

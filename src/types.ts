@@ -48,3 +48,7 @@ export interface ClimbingStats {
   flashRate: number;     // flashes / total routes logged
   successRate: number;   // sends / total attempts
 }
+
+export interface UserSettings {
+
+}
