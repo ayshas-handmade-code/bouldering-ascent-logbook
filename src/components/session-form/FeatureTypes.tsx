@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface FeatureTypesProps {
   title: string;
@@ -15,10 +15,11 @@ export default function FeatureTypes({
   cssClassnamesForSelected = 'bg-accent border-accent text-choco-dark shadow-3xs',
   onSelect,
 }: FeatureTypesProps) {
-  const [selected, setSelected] = useState(selectedOptions);
+  const [_selected, setSelected] = useState(selectedOptions);
 
   const _onSelect = (option: string) => {
-    const newSelection = selectedOptions.includes(option) ? selectedOptions.filter(h => h !== option) : [...selectedOptions, option];
+    debugger
+    const newSelection = _selected.includes(option) ? _selected.filter(h => h !== option) : [..._selected, option];
     setSelected(newSelection);
     onSelect(option, newSelection);
   };
@@ -30,7 +31,7 @@ export default function FeatureTypes({
       </label>
       <div className="flex flex-wrap gap-1 leading-none">
         {allOptions.map((option) => {
-          const selected = selectedOptions.includes(option);
+          const isSelected = _selected.includes(option);
           return (
             <button
               id={`btn-feature-toggle-${option}`}
@@ -38,7 +39,7 @@ export default function FeatureTypes({
               type="button"
               onClick={() => _onSelect(option)}
               className={`text-[10px] lowercase px-3 py-1.5 rounded-full font-display font-bold transition-all border cursor-pointer
-                  ${selected ? cssClassnamesForSelected : 'bg-cream-base border-rose-border/40 text-choco-medium hover:bg-rose-border/10'
+                  ${isSelected ? cssClassnamesForSelected : 'bg-cream-base border-rose-border/40 text-choco-medium hover:bg-rose-border/10'
                 }`}
             >
               {option}
