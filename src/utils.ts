@@ -237,13 +237,15 @@ export function parseCSV(csvContent: string) {
       grade: stripQuotes(row[3]),
       color: stripQuotes(row[4]),
       wallLocation: stripQuotes(row[5]),
-      holdsType: stripQuotes(row[6]).split(','),
-      routeType: stripQuotes(row[7]).split(','),
+      holdsType: stripQuotes(row[6]).split(',').map(hold => hold.trim()),
+      routeType: stripQuotes(row[7]).split(',').map(type => type.trim()),
       attempts: parseInt(stripQuotes(row[8])) || 0,
       sends: parseInt(stripQuotes(row[9])) || 0,
       flashes: parseInt(stripQuotes(row[10])) || 0,
       isFavorite: stripQuotes(row[11]) === 'Yes',
       notes: stripQuotes(row[12] || ""),
+      handPlacements: stripQuotes(row[13] || "").split(',').map(hand => hand.trim()),
+      footPlacements: stripQuotes(row[14] || "").split(',').map(foot => foot.trim()),
     }
   });
 
@@ -295,6 +297,8 @@ function extractSession(routes) {
           sends: route.sends,
           flashes: route.flashes,
           isFavorite: route.isFavorite,
+          handPlacements: route.handPlacements,
+          footPlacements: route.footPlacements,
         } as RouteLog
       })
     } as ClimbingSession
