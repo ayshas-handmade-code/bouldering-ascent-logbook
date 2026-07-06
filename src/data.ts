@@ -78,7 +78,6 @@ export function generateSampleSessions(): ClimbingSession[] {
       locationId: 'loc-1',
       locationName: 'Peak Performance Climbing Gym',
       locationType: 'gym',
-      climbsCount: 4,
       notes: 'Had an awesome session today! Projecting V4s. Finally sent the Blue Overhang route on my third attempt! Crimpy slopers felt sticky.',
       routes: [
         {
@@ -137,7 +136,6 @@ export function generateSampleSessions(): ClimbingSession[] {
       locationId: 'loc-4',
       locationName: 'Yosemite Camp 4 Boulders',
       locationType: 'outdoor',
-      climbsCount: 3,
       notes: 'Outdoor bouldering is tough! Bishop style crimps. Very high friction but sharp rock. Sent Midnight Lightning classic slab project V2!',
       routes: [
         {
@@ -184,7 +182,6 @@ export function generateSampleSessions(): ClimbingSession[] {
       locationId: 'loc-2',
       locationName: 'The Stone Summit',
       locationType: 'gym',
-      climbsCount: 3,
       notes: 'Quick bouldering sessions to test out our endurance. Flashed two V2 routes on the slab arena! Felt fantastic.',
       routes: [
         {

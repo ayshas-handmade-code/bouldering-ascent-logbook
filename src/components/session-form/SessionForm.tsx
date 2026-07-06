@@ -181,7 +181,6 @@ export default function SessionForm({
       locationId,
       locationName: selectedLoc.name,
       locationType: selectedLoc.type,
-      climbsCount: routes.length,
       notes,
       routes,
     };

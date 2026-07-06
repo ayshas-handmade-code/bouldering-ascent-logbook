@@ -36,8 +36,7 @@ export interface ClimbingSession {
   locationId: string;
   locationName: string;
   locationType: LocationType;
-  climbsCount: number;   // Auto-computed or stored count of climbs
-  notes: string;
+  notes?: string;
   routes: RouteLog[];
 }
 

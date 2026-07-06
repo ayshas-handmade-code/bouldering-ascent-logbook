@@ -15,7 +15,10 @@
         },
         "type": {
           "type": "string",
-          "enum": ["gym", "outdoor"],
+          "enum": [
+            "gym",
+            "outdoor"
+          ],
           "description": "Location classification"
         },
         "isFavorite": {
@@ -35,7 +38,13 @@
           "format": "date-time"
         }
       },
-      "required": ["id", "name", "type", "isFavorite", "userId"]
+      "required": [
+        "id",
+        "name",
+        "type",
+        "isFavorite",
+        "userId"
+      ]
     },
     "ClimbingSession": {
       "title": "ClimbingSession",
@@ -60,11 +69,10 @@
         },
         "locationType": {
           "type": "string",
-          "enum": ["gym", "outdoor"]
-        },
-        "climbsCount": {
-          "type": "number",
-          "description": "Number of items in routes"
+          "enum": [
+            "gym",
+            "outdoor"
+          ]
         },
         "notes": {
           "type": "string",
@@ -83,7 +91,16 @@
           "format": "date-time"
         }
       },
-      "required": ["id", "date", "locationId", "locationName", "locationType", "climbsCount", "notes", "routes", "userId"]
+      "required": [
+        "id",
+        "date",
+        "locationId",
+        "locationName",
+        "locationType",
+        "notes",
+        "routes",
+        "userId"
+      ]
     }
   },
   "firestore": {
