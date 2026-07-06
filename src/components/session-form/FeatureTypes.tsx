@@ -10,8 +10,8 @@ interface FeatureTypesProps {
 
 export default function FeatureTypes({
   title,
-  allOptions,
-  selectedOptions,
+  allOptions = [],
+  selectedOptions = [],
   cssClassnamesForSelected = 'bg-accent border-accent text-choco-dark shadow-3xs',
   onSelect,
 }: FeatureTypesProps) {
