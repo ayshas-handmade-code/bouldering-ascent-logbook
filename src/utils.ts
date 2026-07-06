@@ -224,7 +224,6 @@ function stripQuotes(input: any) {
 }
 
 export async function parseCSV(csvContent: string, currentUser) {
-  debugger
   const rows = csvContent?.split('\n').map(row => row.split('|'));
   const locations = await extractLocation(rows, currentUser);
 
@@ -275,7 +274,6 @@ async function extractLocation(rows, currentUser) {
     }
   });
 
-  debugger
   return locations;
 }
 
