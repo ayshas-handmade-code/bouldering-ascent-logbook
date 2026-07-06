@@ -254,7 +254,6 @@ export async function parseCSV(csvContent: string, currentUser) {
 
   const routesByDate = Object.groupBy(routes, (route) => route.date);
   const sessions = extractSession(routesByDate);
-  debugger
   return sessions;
 }
 
