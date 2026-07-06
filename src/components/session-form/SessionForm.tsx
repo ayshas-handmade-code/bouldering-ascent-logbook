@@ -259,7 +259,7 @@ export default function SessionForm({
                   id="session-date-picker"
                   type="date"
                   value={date}
-                  max={new Date().toISOString().split('T')[0]} // limit to today/past
+                  max={new Date().toLocaleDateString().split('T')[0]} // limit to today/past
                   onChange={(e) => setDate(e.target.value)}
                   className="w-full text-xs font-display font-semibold text-choco-dark bg-cream-base border border-rose-border/85 rounded-full px-3.5 py-2.5 outline-none focus:border-accent"
                 />
