@@ -6,8 +6,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ClimbingSession, RouteLog, Location } from '../../types';
 import {
-  BOULDERING_GRADES_V,
-  BOULDERING_GRADES_FONT,
   CLIMB_COLORS,
   WALL_LOCATIONS,
 } from '../../data';
