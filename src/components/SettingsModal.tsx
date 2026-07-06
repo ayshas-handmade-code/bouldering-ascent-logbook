@@ -149,7 +149,7 @@ export default function SettingsModal({
                 holdTypes.map((hold) => (
                   <span
                     key={hold}
-                    className="inline-flex items-center gap-1 text-[10px] bg-accent/20 border border-accent/40 text-choco-dark font-display font-bold px-2.5 py-1 rounded-full"
+                    className="inline-flex items-center gap-1 text-[10px] bg-sky-accent/20 border border-sky-accent/40 text-choco-dark font-display font-bold px-2.5 py-1 rounded-full"
                   >
                     {hold}
                     <button
