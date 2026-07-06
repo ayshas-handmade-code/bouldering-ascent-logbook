@@ -291,7 +291,7 @@ export default function LogbookTab({
                 {isExpanded && (
                   <div className="px-5 pb-5 border-t border-rose-border/40 pt-4 bg-cookie-bg/60 space-y-4">
                     {session.notes && (
-                      <div className="bg-cream-card/90 p-4 rounded-[20px] border border-rose-border shadow-3xs">
+                      <div className={`${styles.dot_grid_background} bg-cream-card/90 p-4 rounded-[20px] border border-rose-border shadow-3xs`}>
                         <p className="text-[10px] font-display font-bold text-choco-light uppercase tracking-wider mb-1">Session Summary Notes 🧸</p>
                         <p className="text-xs font-medium text-choco-medium whitespace-pre-line leading-relaxed italic">
                           "{session.notes}"

@@ -2,3 +2,14 @@
     flex-flow: wrap;
     gap: 12px;
 }
+
+.dot_grid_background {
+    /* Set the overall background color */
+    background-color: #ffffff;
+
+    /* Create the dot shape with a sharp color stop */
+    background-image: radial-gradient(var(--color-rose-border) 1.2px, transparent 1px);
+
+    /* Control the spacing/size of the grid squares */
+    background-size: 20px 20px;
+}
