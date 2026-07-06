@@ -156,8 +156,8 @@ export function exportLogToCSV(sessions: ClimbingSession[]): string {
   });
 
   const csvContent = [
-    headers.join(','),
-    ...rows.map(row => row.join(','))
+    headers.join('|'),
+    ...rows.map(row => row.join('|'))
   ].join('\n');
 
   return csvContent;
