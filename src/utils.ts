@@ -126,7 +126,9 @@ export function exportLogToCSV(sessions: ClimbingSession[]): string {
     'Sends',
     'Flashes',
     'Route Favorite',
-    'Session Notes'
+    'Session Notes',
+    'Hand Placements',
+    'Foot Placements',
   ];
 
   const rows: string[][] = [];
@@ -134,19 +136,21 @@ export function exportLogToCSV(sessions: ClimbingSession[]): string {
   sessions.forEach(session => {
     session.routes.forEach(route => {
       rows.push([
-        session.date,
+        `"${session.date}"`,
         `"${session.locationName.replace(/"/g, '""')}"`,
-        session.locationType,
-        route.grade,
-        route.color,
+        `"${session.locationType}"`,
+        `"${route.grade}"`,
+        `"${route.color}"`,
         `"${route.wallLocation.replace(/"/g, '""')}"`,
         `"${route.holdsType.join(', ')}"`,
         `"${route.routeType.join(', ')}"`,
-        route.attempts.toString(),
-        route.sends.toString(),
-        route.flashes.toString(),
-        route.isFavorite ? 'Yes' : 'No',
-        `"${session.notes ? session.notes.replace(/\n/g, ' ').replace(/"/g, '""') : ''}"`
+        `"${route.attempts.toString()}"`,
+        `"${route.sends.toString()}"`,
+        `"${route.flashes.toString()}"`,
+        `"${route.isFavorite ? 'Yes' : 'No'}"`,
+        `"${session.notes ? session.notes.replace(/\n/g, ' ').replace(/"/g, '""') : ''}"`,
+        `"${route.handPlacements.join(', ')}"`,
+        `"${route.footPlacements.join(', ')}"`
       ]);
     });
   });
