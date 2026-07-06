@@ -142,15 +142,15 @@ export function exportLogToCSV(sessions: ClimbingSession[]): string {
         `"${route.grade}"`,
         `"${route.color}"`,
         `"${route.wallLocation?.replace(/"/g, '""')}"`,
-        `"${route?.holdsType.join(', ') || ""}"`,
-        `"${route?.routeType.join(', ') || ""}"`,
+        `"${route?.holdsType?.join(', ') || ""}"`,
+        `"${route?.routeType?.join(', ') || ""}"`,
         `"${route.attempts.toString()}"`,
         `"${route.sends.toString()}"`,
         `"${route.flashes.toString()}"`,
         `"${route.isFavorite ? 'Yes' : 'No'}"`,
         `"${session.notes ? session.notes.replace(/\n/g, ' ').replace(/"/g, '""') : ''}"`,
-        `"${route?.handPlacements.join(', ') || ""}"`,
-        `"${route?.footPlacements.join(', ') || ""}"`
+        `"${route?.handPlacements?.join(', ') || ""}"`,
+        `"${route?.footPlacements?.join(', ') || ""}"`
       ]);
     });
   });
@@ -291,7 +291,6 @@ function extractSession(routes) {
     return {
       id: "sess-" + crypto.randomUUID(),
       date: sessionData.date,
-      climbsCount: routeData.length,
       locationId: sessionData.locationId,
       locationName: sessionData.locationName,
       locationType: sessionData.locationType,
