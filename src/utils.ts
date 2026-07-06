@@ -223,17 +223,20 @@ function stripQuotes(input: any) {
   return typeof input === 'string' ? input.replace(/^"|"$/g, '') : input;
 }
 
-export function parseCSV(csvContent: string) {
+export async function parseCSV(csvContent: string, currentUser) {
+  debugger
   const rows = csvContent?.split('\n').map(row => row.split('|'));
-  const locations = extractLocation(rows);
+  const locations = await extractLocation(rows, currentUser);
+
   const routes = rows.slice(1).map(row => {
-    const location = locations[row[1]];
+    const locationName = stripQuotes(row[1]).trim();
+    const location = locations[locationName];
 
     return {
       date: stripQuotes(row[0]),
-      locationId: stripQuotes(location.id),
-      locationName: stripQuotes(location.name),
-      locationType: stripQuotes(location.type),
+      locationId: location.id,
+      locationName: location.name,
+      locationType: location.type,
       grade: stripQuotes(row[3]),
       color: stripQuotes(row[4]),
       wallLocation: stripQuotes(row[5]),
@@ -251,25 +254,32 @@ export function parseCSV(csvContent: string) {
 
   const routesByDate = Object.groupBy(routes, (route) => route.date);
   const sessions = extractSession(routesByDate);
+  debugger
   return sessions;
 }
 
+async function extractLocation(rows, currentUser) {
+  const existingLocations = await getLocations(currentUser);
 
-function extractLocation(rows) {
   let locations = {};
   rows.slice(1).forEach(row => {
-    const locationName = row[1];
+    const locationName = stripQuotes(row[1].trim());
+    const locationType = stripQuotes(row[2].trim());
+    const locationId = existingLocations.find(loc => loc.name.toLowerCase() === locationName.toLowerCase() && loc.type.toLowerCase() === locationType.toLowerCase())?.id;
 
     if (!locations[locationName]) {
       locations[locationName] = {
-        id: "loc-" + crypto.randomUUID(),
+        id: locationId || "loc-" + crypto.randomUUID(),
         name: locationName,
-        type: row[2],
+        type: locationType,
       }
     }
   });
+
+  debugger
   return locations;
 }
+
 
 function extractSession(routes) {
   const sessions = Object.values(routes);

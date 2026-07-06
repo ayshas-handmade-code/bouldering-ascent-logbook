@@ -43,9 +43,7 @@ export default function SessionImporter({
     const importSessions = async () => {
         const file = fileInputRef.current?.files[0];
         const fileContent = await file.text();
-        const sessions = parseCSV(fileContent);
-
-        console.log('Selected file:', sessions);
+        const sessions = await parseCSV(fileContent, currentUser);
 
         sessions.forEach(async (session) => {
             console.log('Importing Session', session);

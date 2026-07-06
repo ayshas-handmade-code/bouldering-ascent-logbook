@@ -1,13 +1,15 @@
-import { ClimbingSession } from "./types";
+import { ClimbingSession, Location } from "./types";
 
 // Firebase imports
 import { User } from 'firebase/auth';
 import { auth, db, handleFirestoreError, OperationType } from './firebase';
-import { collection, doc, query, setDoc, where } from 'firebase/firestore';
+import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 
-export function getLocations(currentUser) {
+export async function getLocations(currentUser) {
     const locRef = collection(db, 'locations');
-    return query(locRef, where('userId', '==', currentUser?.uid));
+    const q = query(locRef, where('userId', '==', currentUser?.uid));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(d => ({ id: d.id, ...d.data() } as Location));
 }
 
 // Callback handler: Create or Edit climbing session in Firestore

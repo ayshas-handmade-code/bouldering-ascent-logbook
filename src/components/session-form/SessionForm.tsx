@@ -22,6 +22,7 @@ import useSaveSession from './hooks/use-save-session';
 import useDeleteSession from './hooks/use-delete-session';
 import FeatureTypes from './FeatureTypes';
 import FeatureTypesSection from './FeatureTypesSection';
+import { debug } from 'console';
 
 interface SessionFormProps {
   locations: Location[];
@@ -159,6 +160,7 @@ export default function SessionForm({
     }
 
     const selectedLoc = locations.find(loc => loc.id === locationId);
+    debugger
     if (!selectedLoc) {
       setErrors('Invalid climbing location selected.');
       return false;
