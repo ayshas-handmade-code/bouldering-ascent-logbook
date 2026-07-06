@@ -5,12 +5,14 @@ interface FeatureTypesProps {
   allOptions: string[];
   selectedOptions: string[];
   onSelect: Function;
+  cssClassnamesForSelected?: string;
 }
 
 export default function FeatureTypes({
   title,
   allOptions,
   selectedOptions,
+  cssClassnamesForSelected = 'bg-accent border-accent text-choco-dark shadow-3xs',
   onSelect,
 }: FeatureTypesProps) {
   const [selected, setSelected] = useState(selectedOptions);
@@ -36,9 +38,7 @@ export default function FeatureTypes({
               type="button"
               onClick={() => _onSelect(option)}
               className={`text-[10px] lowercase px-3 py-1.5 rounded-full font-display font-bold transition-all border cursor-pointer
-                             ${selected
-                  ? 'bg-accent border-accent text-choco-dark shadow-3xs'
-                  : 'bg-cream-base border-rose-border/40 text-choco-medium hover:bg-rose-border/10'
+                  ${selected ? cssClassnamesForSelected : 'bg-cream-base border-rose-border/40 text-choco-medium hover:bg-rose-border/10'
                 }`}
             >
               {option}

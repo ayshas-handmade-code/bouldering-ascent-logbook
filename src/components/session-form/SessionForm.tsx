@@ -530,12 +530,12 @@ export default function SessionForm({
                             title="Styles / features (multi-select)"
                             allOptions={routeTypes}
                             selectedOptions={route.routeType}
+                            cssClassnamesForSelected={'bg-sky-accent border-sky-accent/[0.45] text-choco-dark shadow-3xs'}
                             onSelect={(option) => { handleRouteTypeToggle(route.id, option) }}
                           />
                         </div>
                       </div>
-                    )
-                    }
+                    )}
                   </div>
                 );
               })}
