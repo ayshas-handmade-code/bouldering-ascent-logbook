@@ -241,7 +241,11 @@ export default function LogbookTab({
                         </span>
                         <span>•</span>
                         <span className="bg-sky-accent/25 border border-sky-accent/50 px-2.5 py-1 rounded-full text-[9px] text-choco-dark font-display font-bold">
-                          {session.routes.length} Climbs
+                          {session.routes.length} Routes
+                        </span>
+                        <span>•</span>
+                        <span className="bg-sky-accent/25 border border-sky-accent/50 px-2.5 py-1 rounded-full text-[9px] text-choco-dark font-display font-bold">
+                          {session.routes.reduce((sum, r) => sum + r.attempts, 0)} Climbs
                         </span>
                       </div>
                     </div>
