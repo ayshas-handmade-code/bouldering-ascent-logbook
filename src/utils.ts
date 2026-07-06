@@ -263,7 +263,7 @@ async function extractLocation(rows, currentUser) {
   rows.slice(1).forEach(row => {
     const locationName = stripQuotes(row[1].trim());
     const locationType = stripQuotes(row[2].trim());
-    const locationId = existingLocations.find(loc => loc.name.toLowerCase() === locationName.toLowerCase() && loc.type.toLowerCase() === locationType.toLowerCase())?.id;
+    const locationId = existingLocations.find(loc => standardizeText(loc.name) === standardizeText(locationName) && standardizeText(loc.type) === standardizeText(locationType))?.id;
 
     if (!locations[locationName]) {
       locations[locationName] = {
@@ -275,6 +275,10 @@ async function extractLocation(rows, currentUser) {
   });
 
   return locations;
+}
+
+function standardizeText(text: string) {
+  return text.trim().toLowerCase();
 }
 
 
