@@ -53,7 +53,7 @@ export default function LogbookTab({
       return;
     }
     const csvContent = exportLogToCSV(sessions);
-    downloadCSVFile(csvContent, 'climbing_sessions_logbook.csv');
+    downloadCSVFile(csvContent, `${new Date().toISOString()}-climbing_sessions_logbook.csv`);
   };
 
   const toggleSessionExpand = (id: string) => {
