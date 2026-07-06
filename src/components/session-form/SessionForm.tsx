@@ -9,7 +9,7 @@ import {
   BOULDERING_GRADES_V,
   BOULDERING_GRADES_FONT,
   CLIMB_COLORS,
-  WALL_LOCATIONS
+  WALL_LOCATIONS,
 } from '../../data';
 import {
   X, Plus, ChevronDown, Check, Star, Sparkles,
@@ -31,6 +31,8 @@ interface SessionFormProps {
   onDelete: () => void;
   holdTypes: string[];
   routeTypes: string[];
+  footPlacements: string[];
+  handPlacements: string[];
 }
 
 export default function SessionForm({
@@ -40,6 +42,8 @@ export default function SessionForm({
   onDelete,
   holdTypes,
   routeTypes,
+  footPlacements,
+  handPlacements,
 }: SessionFormProps) {
   // Session levels state
   const [date, setDate] = useState<string>(
@@ -530,6 +534,14 @@ export default function SessionForm({
                             title="Styles / features (multi-select)"
                             allOptions={routeTypes}
                             selectedOptions={route.routeType}
+                            cssClassnamesForSelected={'bg-sky-accent border-sky-accent/[0.45] text-choco-dark shadow-3xs'}
+                            onSelect={(option) => { handleRouteTypeToggle(route.id, option) }}
+                          />
+
+                          <FeatureTypes
+                            title="Feet"
+                            allOptions={footPlacements}
+                            selectedOptions={route.footPlacements}
                             cssClassnamesForSelected={'bg-sky-accent border-sky-accent/[0.45] text-choco-dark shadow-3xs'}
                             onSelect={(option) => { handleRouteTypeToggle(route.id, option) }}
                           />
