@@ -1,5 +1,6 @@
 import { RouteLog } from "@/src/types";
 import FeatureTypes from "./FeatureTypes";
+import CollapsibleBlock from "../CollapsibleBlock";
 
 export default function FeatureTypesSection({
   holdTypes,
@@ -29,10 +30,7 @@ export default function FeatureTypesSection({
 
   return (
     < div className="grid grid-cols-1 sm:grid-cols-2 gap-4" >
-      <div className="bg-cream-base p-4 rounded-[20px] border border-rose-border/60 space-y-3 font-sans shadow-3xs">
-        <p className="text-[10px] font-display font-bold text-choco-medium tracking-normal uppercase flex items-center gap-1.5">
-          Holds & Climbing Styles
-        </p>
+      <CollapsibleBlock title={"Holds & Climbing Styles"}>
         <div className="bg-cream-card p-3 rounded-2xl border border-rose-border shadow-3xs flex flex-col justify-between">
           <FeatureTypes
             title="Holds Features (multi-select)"
@@ -42,7 +40,6 @@ export default function FeatureTypesSection({
           />
         </div>
         <div className="bg-cream-card p-3 rounded-2xl border border-rose-border shadow-3xs flex flex-col justify-between">
-
           <FeatureTypes
             title="Styles / features (multi-select)"
             allOptions={routeTypes}
@@ -51,13 +48,12 @@ export default function FeatureTypesSection({
             onSelect={(option) => { handleFeatureTypesToggle(route.id, route.routeType, option, 'routeType') }}
           />
         </div>
-      </div>
+      </CollapsibleBlock>
 
       {/* Hand & Foot Techniques */}
-      <div className="bg-cream-base p-4 rounded-[20px] border border-rose-border/60 space-y-3 font-sans shadow-3xs">
-        <p className="text-[10px] font-display font-bold text-choco-medium tracking-normal uppercase flex items-center gap-1.5">
-          Climbing Techniques
-        </p>
+      <CollapsibleBlock
+        title="Climbing Techniques"
+      >
         <div className="bg-cream-card p-3 rounded-2xl border border-rose-border shadow-3xs flex flex-col justify-between">
           <FeatureTypes
             title="Foot Placements"
@@ -77,8 +73,8 @@ export default function FeatureTypesSection({
             onSelect={(option) => { handleFeatureTypesToggle(route.id, route.handPlacements, option, 'handPlacements') }}
           />
         </div>
-      </div>
-    </div >
+      </CollapsibleBlock>
 
+    </div >
   );
 }
