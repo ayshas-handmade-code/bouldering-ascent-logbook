@@ -10,7 +10,7 @@ import DashboardTab from './components/dashboard-tab/DashboardTab';
 import LogbookTab from './components/LogbookTab';
 import LocationsTab from './components/locations-tab/LocationsTab';
 import SessionForm from './components/session-form/SessionForm';
-import SettingsModal from './components/SettingsModal';
+import SettingsModal from './components/user-preferences/SettingsModal';
 import {
   Trophy, History, MapPin, Compass, Plus,
   Info, Sparkles, LogOut, CheckSquare, Dumbbell, Sliders
