@@ -26,8 +26,8 @@ export interface RouteLog {
   flashes: number;       // Completed on very first try
   photoId?: string;      // Key for photo stored in IndexedDB (optional)
   isFavorite: boolean;   // Route favorite option
-  handPlacements: string[];
-  footPlacements: string[];
+  handPlacements?: string[];
+  footPlacements?: string[];
 }
 
 export interface ClimbingSession {
