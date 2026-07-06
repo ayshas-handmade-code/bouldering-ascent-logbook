@@ -35,65 +35,43 @@ export default function SettingsModal({
 
   const [saving, setSaving] = useState(false);
 
-  const handleAddHold = () => {
-    const trimmed = newHold.trim();
-    if (!trimmed) return;
-    if (holdTypes.some(h => h.toLowerCase() === trimmed.toLowerCase())) {
-      alert('Hold feature already exists.');
-      return;
-    }
-    setHoldTypes([...holdTypes, trimmed]);
-    setNewHold('');
-  };
+  /** Returns a pair of (handleAdd, handleRemove) for a list state. */
+  function makeListHandlers(
+    items: string[],
+    setItems: React.Dispatch<React.SetStateAction<string[]>>,
+    newValue: string,
+    setNewValue: React.Dispatch<React.SetStateAction<string>>,
+    duplicateMessage: string,
+  ) {
+    const handleAdd = () => {
+      const trimmed = newValue.trim();
+      if (!trimmed) return;
+      if (items.some(i => i.toLowerCase() === trimmed.toLowerCase())) {
+        alert(duplicateMessage);
+        return;
+      }
+      setItems([...items, trimmed]);
+      setNewValue('');
+    };
 
-  const handleRemoveHold = (hold: string) => {
-    setHoldTypes(holdTypes.filter(h => h !== hold));
-  };
+    const handleRemove = (item: string) => {
+      setItems(items.filter(i => i !== item));
+    };
 
-  const handleAddRouteType = () => {
-    const trimmed = newRouteType.trim();
-    if (!trimmed) return;
-    if (routeTypes.some(r => r.toLowerCase() === trimmed.toLowerCase())) {
-      alert('Style/route type already exists.');
-      return;
-    }
-    setRouteTypes([...routeTypes, trimmed]);
-    setNewRouteType('');
-  };
+    return { handleAdd, handleRemove };
+  }
 
-  const handleRemoveRouteType = (rType: string) => {
-    setRouteTypes(routeTypes.filter(r => r !== rType));
-  };
+  const { handleAdd: handleAddHold, handleRemove: handleRemoveHold } =
+    makeListHandlers(holdTypes, setHoldTypes, newHold, setNewHold, 'Hold feature already exists.');
 
-  const handleAddHandPlacement = () => {
-    const trimmed = newHandPlacement.trim();
-    if (!trimmed) return;
-    if (handPlacements.some(r => r.toLowerCase() === trimmed.toLowerCase())) {
-      alert('Hand placement already exists.');
-      return;
-    }
-    setHandPlacements([...handPlacements, trimmed]);
-    setNewHandPlacement('');
-  };
+  const { handleAdd: handleAddRouteType, handleRemove: handleRemoveRouteType } =
+    makeListHandlers(routeTypes, setRouteTypes, newRouteType, setNewRouteType, 'Style/route type already exists.');
 
-  const handleRemoveHandPlacement = (rType: string) => {
-    setHandPlacements(handPlacements.filter(r => r !== rType));
-  };
+  const { handleAdd: handleAddHandPlacement, handleRemove: handleRemoveHandPlacement } =
+    makeListHandlers(handPlacements, setHandPlacements, newHandPlacement, setNewHandPlacement, 'Hand placement already exists.');
 
-  const handleAddFootPlacement = () => {
-    const trimmed = newFootPlacement.trim();
-    if (!trimmed) return;
-    if (footPlacements.some(r => r.toLowerCase() === trimmed.toLowerCase())) {
-      alert('Foot placement already exists.');
-      return;
-    }
-    setFootPlacements([...footPlacements, trimmed]);
-    setNewFootPlacement('');
-  };
-
-  const handleRemoveFootPlacement = (rType: string) => {
-    setFootPlacements(footPlacements.filter(r => r !== rType));
-  };
+  const { handleAdd: handleAddFootPlacement, handleRemove: handleRemoveFootPlacement } =
+    makeListHandlers(footPlacements, setFootPlacements, newFootPlacement, setNewFootPlacement, 'Foot placement already exists.');
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -108,6 +86,81 @@ export default function SettingsModal({
       setSaving(false);
     }
   };
+
+  /** Reusable tag-list editor section. */
+  function TagListEditor({
+    title,
+    description,
+    items,
+    emptyMessage,
+    inputPlaceholder,
+    inputValue,
+    onInputChange,
+    onAdd,
+    onRemove,
+  }: {
+    title: string;
+    description: string;
+    items: string[];
+    emptyMessage: string;
+    inputPlaceholder: string;
+    inputValue: string;
+    onInputChange: (v: string) => void;
+    onAdd: () => void;
+    onRemove: (item: string) => void;
+  }) {
+    return (
+      <div className="space-y-3">
+        <h3 className="text-xs font-display font-bold text-choco-dark uppercase">
+          {title}
+        </h3>
+        <p className="text-[10px] text-choco-medium leading-relaxed">
+          {description}
+        </p>
+
+        <div className="flex flex-wrap gap-1.5 p-3 bg-cream-base rounded-2xl border border-rose-border/50 min-h-[60px]">
+          {items.length === 0 ? (
+            <span className="text-[10px] text-choco-light/60 font-semibold italic">{emptyMessage}</span>
+          ) : (
+            items.map((item) => (
+              <span
+                key={item}
+                className="inline-flex items-center gap-1 text-[10px] bg-sky-accent/20 border border-sky-accent/40 text-choco-dark font-display font-bold px-2.5 py-1 rounded-full"
+              >
+                {item}
+                <button
+                  type="button"
+                  onClick={() => onRemove(item)}
+                  className="text-choco-medium hover:text-red-500 font-bold ml-0.5 cursor-pointer text-xs"
+                  title={`Remove ${item}`}
+                >
+                  &times;
+                </button>
+              </span>
+            ))
+          )}
+        </div>
+
+        <div className="flex gap-2">
+          <input
+            type="text"
+            placeholder={inputPlaceholder}
+            value={inputValue}
+            onInput={(e) => onInputChange(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); onAdd(); } }}
+            className="flex-1 text-xs font-display font-semibold text-choco-dark bg-cream-base border border-rose-border/85 rounded-full px-3.5 py-2 outline-none focus:border-accent"
+          />
+          <button
+            type="button"
+            onClick={onAdd}
+            className="px-4 py-2 bg-accent hover:bg-accent-hover text-choco-dark font-display font-bold rounded-full text-xs shadow-3xs cursor-pointer flex items-center justify-center gap-1 uppercase"
+          >
+            <Plus className="w-3.5 h-3.5" /> Add
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div id="settings-modal-overlay" className="fixed items-center inset-0 bg-choco-dark/40 backdrop-blur-xs z-40 flex flex-col justify-end sm:justify-center p-0 sm:p-4 transition-all">
@@ -133,211 +186,55 @@ export default function SettingsModal({
 
         {/* Body */}
         <div className="flex-1 overflow-y-auto px-5 py-5 space-y-6">
-          {/* Hold Features */}
-          <div className="space-y-3">
-            <h3 className="text-xs font-display font-bold text-choco-dark uppercase">
-              Hold Features
-            </h3>
-            <p className="text-[10px] text-choco-medium leading-relaxed">
-              Define the types of holds you want to track on climbs (e.g. Crimps, Slopers).
-            </p>
-
-            <div className="flex flex-wrap gap-1.5 p-3 bg-cream-base rounded-2xl border border-rose-border/50 min-h-[60px]">
-              {holdTypes.length === 0 ? (
-                <span className="text-[10px] text-choco-light/60 font-semibold italic">No holds defined. Add some below.</span>
-              ) : (
-                holdTypes.map((hold) => (
-                  <span
-                    key={hold}
-                    className="inline-flex items-center gap-1 text-[10px] bg-sky-accent/20 border border-sky-accent/40 text-choco-dark font-display font-bold px-2.5 py-1 rounded-full"
-                  >
-                    {hold}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveHold(hold)}
-                      className="text-choco-medium hover:text-red-500 font-bold ml-0.5 cursor-pointer text-xs"
-                      title={`Remove ${hold}`}
-                    >
-                      &times;
-                    </button>
-                  </span>
-                ))
-              )}
-            </div>
-
-            <div className="flex gap-2">
-              <input
-                type="text"
-                placeholder="New hold feature (e.g. Pockets)"
-                value={newHold}
-                onChange={(e) => setNewHold(e.target.value)}
-                onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddHold(); } }}
-                className="flex-1 text-xs font-display font-semibold text-choco-dark bg-cream-base border border-rose-border/85 rounded-full px-3.5 py-2 outline-none focus:border-accent"
-              />
-              <button
-                type="button"
-                onClick={handleAddHold}
-                className="px-4 py-2 bg-accent hover:bg-accent-hover text-choco-dark font-display font-bold rounded-full text-xs shadow-3xs cursor-pointer flex items-center justify-center gap-1 uppercase"
-              >
-                <Plus className="w-3.5 h-3.5" /> Add
-              </button>
-            </div>
-          </div>
+          <TagListEditor
+            title="Hold Features"
+            description="Define the types of holds you want to track on climbs (e.g. Crimps, Slopers)."
+            items={holdTypes}
+            emptyMessage="No holds defined. Add some below."
+            inputPlaceholder="New hold feature (e.g. Pockets)"
+            inputValue={newHold}
+            onInputChange={setNewHold}
+            onAdd={handleAddHold}
+            onRemove={handleRemoveHold}
+          />
 
           <div className="border-t border-rose-border/30 my-4" />
 
-          {/* Styles / Route Types */}
-          <div className="space-y-3">
-            <h3 className="text-xs font-display font-bold text-choco-dark uppercase">
-              Styles / Features
-            </h3>
-            <p className="text-[10px] text-choco-medium leading-relaxed">
-              Define the route angles or movement features you track (e.g. Overhang, Dyno).
-            </p>
+          <TagListEditor
+            title="Styles / Features"
+            description="Define the route angles or movement features you track (e.g. Overhang, Dyno)."
+            items={routeTypes}
+            emptyMessage="No styles defined. Add some below."
+            inputPlaceholder="New style / route type (e.g. Dyno)"
+            inputValue={newRouteType}
+            onInputChange={setNewRouteType}
+            onAdd={handleAddRouteType}
+            onRemove={handleRemoveRouteType}
+          />
 
-            <div className="flex flex-wrap gap-1.5 p-3 bg-cream-base rounded-2xl border border-rose-border/50 min-h-[60px]">
-              {routeTypes.length === 0 ? (
-                <span className="text-[10px] text-choco-light/60 font-semibold italic">No styles defined. Add some below.</span>
-              ) : (
-                routeTypes.map((rType) => (
-                  <span
-                    key={rType}
-                    className="inline-flex items-center gap-1 text-[10px] bg-sky-accent/20 border border-sky-accent/40 text-choco-dark font-display font-bold px-2.5 py-1 rounded-full"
-                  >
-                    {rType}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveRouteType(rType)}
-                      className="text-choco-medium hover:text-red-500 font-bold ml-0.5 cursor-pointer text-xs"
-                      title={`Remove ${rType}`}
-                    >
-                      &times;
-                    </button>
-                  </span>
-                ))
-              )}
-            </div>
+          <TagListEditor
+            title="Hand Placements"
+            description="Define the hand placement techniques that you want to track (e.g. Bump, Cross-Over, etc.)."
+            items={handPlacements}
+            emptyMessage="No hand placements defined. Add some below."
+            inputPlaceholder="New hand placement technique (e.g. bump)"
+            inputValue={newHandPlacement}
+            onInputChange={setNewHandPlacement}
+            onAdd={handleAddHandPlacement}
+            onRemove={handleRemoveHandPlacement}
+          />
 
-            <div className="flex gap-2">
-              <input
-                type="text"
-                placeholder="New style / route type (e.g. Dyno)"
-                value={newRouteType}
-                onChange={(e) => setNewRouteType(e.target.value)}
-                onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddRouteType(); } }}
-                className="flex-1 text-xs font-display font-semibold text-choco-dark bg-cream-base border border-rose-border/85 rounded-full px-3.5 py-2 outline-none focus:border-accent"
-              />
-              <button
-                type="button"
-                onClick={handleAddRouteType}
-                className="px-4 py-2 bg-accent hover:bg-accent-hover text-choco-dark font-display font-bold rounded-full text-xs shadow-3xs cursor-pointer flex items-center justify-center gap-1 uppercase"
-              >
-                <Plus className="w-3.5 h-3.5" /> Add
-              </button>
-            </div>
-          </div>
-
-          {/* Hand Placements */}
-          <div className="space-y-3">
-            <h3 className="text-xs font-display font-bold text-choco-dark uppercase">
-              Hand Placements
-            </h3>
-            <p className="text-[10px] text-choco-medium leading-relaxed">
-              Define the hand placement techniques that you want to track (e.g. Bump, Cross-Over, etc.).
-            </p>
-
-            <div className="flex flex-wrap gap-1.5 p-3 bg-cream-base rounded-2xl border border-rose-border/50 min-h-[60px]">
-              {handPlacements.length === 0 ? (
-                <span className="text-[10px] text-choco-light/60 font-semibold italic">No styles defined. Add some below.</span>
-              ) : (
-                handPlacements.map((rType) => (
-                  <span
-                    key={rType}
-                    className="inline-flex items-center gap-1 text-[10px] bg-sky-accent/20 border border-sky-accent/40 text-choco-dark font-display font-bold px-2.5 py-1 rounded-full"
-                  >
-                    {rType}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveHandPlacement(rType)}
-                      className="text-choco-medium hover:text-red-500 font-bold ml-0.5 cursor-pointer text-xs"
-                      title={`Remove ${rType}`}
-                    >
-                      &times;
-                    </button>
-                  </span>
-                ))
-              )}
-            </div>
-
-            <div className="flex gap-2">
-              <input
-                type="text"
-                placeholder="New hand placement technique (e.g. bump)"
-                value={newHandPlacement}
-                onChange={(e) => setNewHandPlacement(e.target.value)}
-                onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddHandPlacement(); } }}
-                className="flex-1 text-xs font-display font-semibold text-choco-dark bg-cream-base border border-rose-border/85 rounded-full px-3.5 py-2 outline-none focus:border-accent"
-              />
-              <button
-                type="button"
-                onClick={handleAddHandPlacement}
-                className="px-4 py-2 bg-accent hover:bg-accent-hover text-choco-dark font-display font-bold rounded-full text-xs shadow-3xs cursor-pointer flex items-center justify-center gap-1 uppercase"
-              >
-                <Plus className="w-3.5 h-3.5" /> Add
-              </button>
-            </div>
-          </div>
-
-          {/* Foot Placements */}
-          <div className="space-y-3">
-            <h3 className="text-xs font-display font-bold text-choco-dark uppercase">
-              Foot Placements
-            </h3>
-            <p className="text-[10px] text-choco-medium leading-relaxed">
-              Define the foot placement techniques that you want to track (e.g. Smear, Flag, etc.).
-            </p>
-
-            <div className="flex flex-wrap gap-1.5 p-3 bg-cream-base rounded-2xl border border-rose-border/50 min-h-[60px]">
-              {footPlacements.length === 0 ? (
-                <span className="text-[10px] text-choco-light/60 font-semibold italic">No styles defined. Add some below.</span>
-              ) : (
-                footPlacements.map((rType) => (
-                  <span
-                    key={rType}
-                    className="inline-flex items-center gap-1 text-[10px] bg-sky-accent/20 border border-sky-accent/40 text-choco-dark font-display font-bold px-2.5 py-1 rounded-full"
-                  >
-                    {rType}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveFootPlacement(rType)}
-                      className="text-choco-medium hover:text-red-500 font-bold ml-0.5 cursor-pointer text-xs"
-                      title={`Remove ${rType}`}
-                    >
-                      &times;
-                    </button>
-                  </span>
-                ))
-              )}
-            </div>
-
-            <div className="flex gap-2">
-              <input
-                type="text"
-                placeholder="New foot placement technique (e.g. smear)"
-                value={newFootPlacement}
-                onChange={(e) => setNewFootPlacement(e.target.value)}
-                onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddFootPlacement(); } }}
-                className="flex-1 text-xs font-display font-semibold text-choco-dark bg-cream-base border border-rose-border/85 rounded-full px-3.5 py-2 outline-none focus:border-accent"
-              />
-              <button
-                type="button"
-                onClick={handleAddFootPlacement}
-                className="px-4 py-2 bg-accent hover:bg-accent-hover text-choco-dark font-display font-bold rounded-full text-xs shadow-3xs cursor-pointer flex items-center justify-center gap-1 uppercase"
-              >
-                <Plus className="w-3.5 h-3.5" /> Add
-              </button>
-            </div>
-          </div>
+          <TagListEditor
+            title="Foot Placements"
+            description="Define the foot placement techniques that you want to track (e.g. Smear, Flag, etc.)."
+            items={footPlacements}
+            emptyMessage="No foot placements defined. Add some below."
+            inputPlaceholder="New foot placement technique (e.g. smear)"
+            inputValue={newFootPlacement}
+            onInputChange={setNewFootPlacement}
+            onAdd={handleAddFootPlacement}
+            onRemove={handleRemoveFootPlacement}
+          />
         </div>
 
         {/* Footer */}
