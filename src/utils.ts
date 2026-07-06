@@ -141,16 +141,16 @@ export function exportLogToCSV(sessions: ClimbingSession[]): string {
         `"${session.locationType}"`,
         `"${route.grade}"`,
         `"${route.color}"`,
-        `"${route.wallLocation.replace(/"/g, '""')}"`,
-        `"${route.holdsType.join(', ')}"`,
-        `"${route.routeType.join(', ')}"`,
+        `"${route.wallLocation?.replace(/"/g, '""')}"`,
+        `"${route?.holdsType.join(', ') || ""}"`,
+        `"${route?.routeType.join(', ') || ""}"`,
         `"${route.attempts.toString()}"`,
         `"${route.sends.toString()}"`,
         `"${route.flashes.toString()}"`,
         `"${route.isFavorite ? 'Yes' : 'No'}"`,
         `"${session.notes ? session.notes.replace(/\n/g, ' ').replace(/"/g, '""') : ''}"`,
-        `"${route.handPlacements.join(', ')}"`,
-        `"${route.footPlacements.join(', ')}"`
+        `"${route?.handPlacements.join(', ') || ""}"`,
+        `"${route?.footPlacements.join(', ') || ""}"`
       ]);
     });
   });

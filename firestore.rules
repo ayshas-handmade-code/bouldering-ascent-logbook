@@ -52,12 +52,10 @@ service cloud.firestore {
     // --- Locations Rules ---
     match /locations/{locationId} {
       allow read: if isSignedIn() && existing().userId == request.auth.uid;
-      
-      allow create: if isSignedIn() 
+      allow write: if isSignedIn() 
                     && isValidId(locationId) 
                     && incoming().id == locationId
                     && isValidLocation(incoming())
-                    && incoming().keys().hasAll(['id', 'name', 'type', 'isFavorite', 'userId'])
                     && incoming().keys().size() <= 8;
 
       allow update: if isSignedIn()
