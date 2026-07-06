@@ -1,39 +1,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 @import "tailwindcss";
 
-/* prettier-ignore */
+/* ------------------------------------------- */
+/*          CUSTOM COLOR SYSTEM                  */
+/* ------------------------------------------- */
 @theme {
   --font-sans: "Quicksand", "Fredoka", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Fredoka", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
-  --color-accent: #FF9EB5;
-  /* Sweet pastel strawberry pink */
-  --color-accent-hover: #FFB5C5;
-  /* Warm bubblegum pink */
-  --color-choco-dark: #503C3C;
-  /* Soft warm chocolate cocoa text */
-  --color-choco-medium: #7F6363;
-  /* Medium cocoa milk brown text */
-  --color-choco-light: #A58B8B;
-  /* Soft rose-cappuccino neutral */
-  --color-cream-base: #FFF5F6;
-  /* Extremely soft candy baby pink/milk background */
-  --color-cream-card: #FFFFFF;
-  /* Fluffy marshmallow white cards */
-  --color-mint-accent: #9EE09E;
-  /* Sweet marshmallow mint green */
-  --color-sky-accent: #A2D2FF;
-  /* Soft pastel sky blue */
-  --color-rose-border: #FFD3DC;
-  /* Sweet rose outline */
-  --color-cookie-bg: #FFFBFB;
-  /* Warm cozy cookie dough card overlay */
+  --color-accent: #FF9EB5;/* Sweet pastel strawberry pink */
+  --color-accent-hover: #FFB5C5; /* Warm bubblegum pink */
+  --color-bubblegum-pink: #FFB5C5; /* Warm bubblegum pink */
+  --color-choco-dark: #503C3C; /* Soft warm chocolate cocoa text */
+  --color-choco-medium: #7F6363;/* Medium cocoa milk brown text */
+  --color-choco-light: #A58B8B; /* Soft rose-cappuccino neutral */
+  --color-cream-base: #FFF5F6; /* Extremely soft candy baby pink/milk background */
+  --color-cream-card: #FFFFFF; /* Fluffy marshmallow white cards */
+  --color-mint-accent: #9EE09E; /* Sweet marshmallow mint green */
+  --color-sky-accent: #A2D2FF; /* Soft pastel sky blue */
+  --color-rose-border: #FFD3DC; /* Sweet rose outline */
+  --color-cookie-bg: #FFFBFB; /* Warm cozy cookie dough card overlay */
   --color-purple: #BC00D6;
   --color-green-light: #C6F0B9;
   --color-green-neon: #54F029;
 }
-
 
 @layer utilities {
   .climb-grade {
