@@ -540,7 +540,7 @@ export default function SessionForm({
                             title="Holds Features (multi-select)"
                             allOptions={holdTypes}
                             selectedOptions={route.holdsType}
-                            onSelect={(option) => { handleHoldTypeToggle(route.id, option) }}
+                            onSelect={(option) => { handleFeatureTypesToggle(route.id, route.holdsType, option, 'holdsType') }}
                           />
 
                           <FeatureTypes
@@ -548,7 +548,7 @@ export default function SessionForm({
                             allOptions={routeTypes}
                             selectedOptions={route.routeType}
                             cssClassnamesForSelected={'bg-sky-accent border-sky-accent/[0.45] text-choco-dark shadow-3xs'}
-                            onSelect={(option) => { handleRouteTypeToggle(route.id, option) }}
+                            onSelect={(option) => { handleFeatureTypesToggle(route.id, route.routeType, option, 'routeType') }}
                           />
 
                           <FeatureTypes
