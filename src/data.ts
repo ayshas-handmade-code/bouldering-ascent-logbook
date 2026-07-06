@@ -23,12 +23,21 @@ export const BOULDERING_GRADES_FONT = [
 ];
 
 export const HOLD_TYPES = [
-  'Jugs', 'Crimps', 'Slopers', 'Pinches', 'Pockets', 'Volumes', 'Underclings'
+  'Jugs', 'Crimps', 'Slopers', 'Pinches', 'Pockets', 'Volumes', 'Underclings', 'Mantle'
 ];
 
 export const ROUTE_TYPES = [
   'Overhang', 'Vertical', 'Slab', 'Roof', 'Arete', 'Chimney', 'Compression', 'Traverse', 'Dyno'
 ];
+
+export const HAND_PLACEMENT = [
+  'match', 'cross-through', 'palming', 'bump', ' gaston'
+]
+
+export const FOOT_PLACEMENT = [
+  'smear', 'heel hook', 'toe hook', 'flag', 'edging', 'drop-knee', 'match',
+  'back-stepping', 'back-flag', 'step-through'
+]
 
 export const CLIMB_COLORS = [
   { name: 'Purple', hex: '#a855f7' },
