@@ -1,8 +1,8 @@
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
-export default function CollapsibleBlock({ title, children, initialCollapsed = false }) {
-  const [isOpen, setIsOpen] = useState(!initialCollapsed);
+export default function CollapsibleBlock({ title, children, initiallyCollapsed = false }) {
+  const [isOpen, setIsOpen] = useState(!initiallyCollapsed);
 
   return (
     <div className="bg-cream-base p-4 rounded-[20px] border border-rose-border/60 space-y-3 font-sans shadow-3xs">

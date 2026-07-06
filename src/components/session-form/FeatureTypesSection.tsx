@@ -30,7 +30,10 @@ export default function FeatureTypesSection({
 
   return (
     < div className="grid grid-cols-1 sm:grid-cols-2 gap-4" >
-      <CollapsibleBlock title={"Holds & Climbing Styles"}>
+      <CollapsibleBlock
+        initiallyCollapsed={true}
+        title={"Holds & Climbing Styles"}
+      >
         <div className="bg-cream-card p-3 rounded-2xl border border-rose-border shadow-3xs flex flex-col justify-between">
           <FeatureTypes
             title="Holds Features (multi-select)"
@@ -51,6 +54,7 @@ export default function FeatureTypesSection({
 
       {/* Hand & Foot Techniques */}
       <CollapsibleBlock
+        initiallyCollapsed={true}
         title="Climbing Techniques"
       >
         <div className="bg-cream-card p-3 rounded-2xl border border-rose-border shadow-3xs flex flex-col justify-between">
