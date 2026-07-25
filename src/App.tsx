@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { ClimbingSession, Location } from './types';
 import { INITIAL_LOCATIONS, WALL_LOCATIONS, generateSampleSessions, HOLD_TYPES, ROUTE_TYPES, HAND_PLACEMENT, FOOT_PLACEMENT } from './data';
 import DashboardTab from './components/dashboard-tab/DashboardTab';
-import LogbookTab from './components/LogbookTab';
+import LogbookTab from './components/logbook-tab/LogbookTab';
 import LocationsTab from './components/locations-tab/LocationsTab';
 import SessionForm from './components/session-form/SessionForm';
 import SettingsModal from './components/user-preferences/SettingsModal';

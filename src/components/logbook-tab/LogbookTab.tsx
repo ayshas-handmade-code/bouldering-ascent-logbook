@@ -4,9 +4,9 @@
  */
 
 import React, { useState } from 'react';
-import { ClimbingSession, RouteLog } from '../types';
-import { exportLogToCSV, downloadCSVFile } from '../utils';
-import PhotoViewer from './PhotoViewer';
+import { ClimbingSession, RouteLog } from '../../types';
+import { exportLogToCSV, downloadCSVFile } from '../../utils';
+import PhotoViewer from '../PhotoViewer';
 import {
   Download, Filter, Search, Calendar, MapPin,
   Trash2, Edit, ChevronRight, Star, Plus, CheckCircle2,
@@ -14,7 +14,7 @@ import {
   ChevronDown
 
 } from 'lucide-react';
-import SessionImporter from './session-import/SessionImport';
+import SessionImporter from '../session-import/SessionImport';
 
 import styles from './LogbookTab.module.css';
 
