@@ -338,11 +338,14 @@ export default function LogbookTab({
 
                             {/* Render Climb Image from IndexedDB Storage if photoId exists */}
                             {route.photoId && (
-                              <div className="flex items-center gap-2">
-                                <span className="text-[9px] font-display font-bold uppercase text-choco-light">View Photo:</span>
+                              <div className="flex flex-col text-center items-center gap-2">
+                                <span className="text-[9px] font-display font-bold uppercase text-choco-light">
+                                  View Photo:
+                                </span>
                                 <PhotoViewer
+                                  thumbnail={false}
                                   photoId={route.photoId}
-                                  className="w-9 h-9 border border-rose-border object-cover cursor-pointer hover:scale-105 active:scale-95 transition-all rounded-lg shadow-3xs"
+                                  className="w-30 h-30 border border-rose-border object-cover cursor-pointer hover:scale-105 active:scale-95 transition-all rounded-lg shadow-3xs"
                                 />
                               </div>
                             )}
