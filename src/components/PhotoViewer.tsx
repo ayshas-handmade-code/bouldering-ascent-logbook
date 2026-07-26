@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { getPhoto } from '../photoStore';
 import { Camera, Image as ImageIcon, ZoomIn, X } from 'lucide-react';
 
@@ -89,11 +90,11 @@ export default function PhotoViewer({ photoId, className = 'w-12 h-12 rounded-lg
         />
       )}
 
-      {/* Modal Lightbox */}
-      {isOpen && (
+      {/* Modal Lightbox via React Portal */}
+      {isOpen && createPortal(
         <div
           id={`lightbox-${photoId}`}
-          className="fixed inset-0 bg-choco-dark/85 z-50 flex items-center justify-center p-4 backdrop-blur-xs transition-opacity duration-200"
+          className="fixed inset-0 bg-choco-dark/85 z-[9999] flex items-center justify-center p-4 backdrop-blur-xs transition-opacity duration-200"
           onClick={() => setIsOpen(false)}
         >
           <button
@@ -120,7 +121,8 @@ export default function PhotoViewer({ photoId, className = 'w-12 h-12 rounded-lg
               Logged Ascent Attachment 🌸
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
