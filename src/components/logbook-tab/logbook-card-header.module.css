@@ -43,7 +43,7 @@
   gap: 5px;
   margin-top: 2px;
   font-size: 10px;
-  font-weight: bold;
+ pfont-weight: bold;
   font-family: var(--font-display);
   color: var(--choco-medium);
   flex-flow: row wrap;

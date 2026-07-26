@@ -297,35 +297,41 @@ export default function LogbookTab({
                           <div className="flex items-center justify-between mt-1 pt-2.5 border-t border-dashed border-rose-border/40 font-sans">
                             <div className="flex gap-4 flex-wrap">
                               <div className="text-center bg-cream-base border border-rose-border/50 px-3 py-1.5 rounded-xl block shadow-3xs">
-                                <span className="block text-[8px] font-display font-bold text-choco-light uppercase">Attempts</span>
+                                <span className="flex text-[8px] font-display font-bold text-choco-light uppercase">Attempts</span>
                                 <span className="text-[11px] font-display font-semibold text-choco-dark">{route.attempts}</span>
                               </div>
 
                               {route.sends > 0 ? (
-                                <div className="text-center bg-mint-accent/15 border border-mint-accent/50 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-3xs">
-                                  <CheckCircle2 className="w-3.5 h-3.5 text-mint-accent" />
-                                  <div className="text-left">
+                                <div className="flex-col gap-2 text-center bg-mint-accent/15 border border-mint-accent/50 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-3xs">
+                                  <div className="flex items-center gap-1">
+                                    <CheckCircle2 className="w-3.5 h-3.5 text-mint-accent" />
                                     <span className="block text-[8px] font-display font-bold text-choco-medium uppercase">Sends</span>
-                                    <span className="text-[11px] font-display font-semibold text-choco-dark">{route.sends}</span>
                                   </div>
+                                  <span className="text-[11px] font-display font-semibold text-choco-dark">{route.sends}</span>
                                 </div>
                               ) : (
-                                <div className="text-center bg-cream-base border border-rose-border/50 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-3xs">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-choco-light" />
+                                <div className="flex-col gap-2 text-center bg-cream-base border border-rose-border/50 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-3xs">
                                   <div className="text-left">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-choco-light" />
                                     <span className="block text-[8px] font-display font-bold text-choco-light uppercase">Sends</span>
-                                    <span className="text-[11px] font-display font-semibold text-choco-light">None</span>
                                   </div>
+                                  <span className="text-[11px] font-display font-semibold text-choco-light">None</span>
+
                                 </div>
                               )}
 
                               {route.flashes > 0 && (
-                                <div className="text-center bg-sky-accent/20 border border-sky-accent/50 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-3xs animate-pulse">
-                                  <Zap className="w-3.5 h-3.5 text-sky-accent fill-sky-accent" />
-                                  <div className="text-left">
-                                    <span className="block text-[8px] font-display font-bold text-choco-medium uppercase">Flash</span>
-                                    <span className="text-[11px] font-display font-bold text-choco-dark uppercase">1st Try 🌟</span>
+                                <div className="flex-col gap-2 items-center text-center bg-sky-accent/20 border border-sky-accent/50 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-3xs animate-pulse">
+                                  <div className="flex items-center gap-1">
+                                    <Zap className="w-3.5 h-3.5 text-sky-accent fill-sky-accent" />
+                                    <span className="block text-[8px] font-display font-bold text-choco-medium uppercase">
+                                      Flash
+                                    </span>
                                   </div>
+                                  <span className="text-[16px] font-display font-bold text-choco-dark uppercase  mt-[-5px]">
+                                    🏆
+                                  </span>
+
                                 </div>
                               )}
                             </div>
