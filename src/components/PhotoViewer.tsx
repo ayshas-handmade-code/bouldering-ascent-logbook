@@ -53,14 +53,14 @@ export default function PhotoViewer({ photoId, className = 'w-12 h-12 rounded-lg
   return (
     <>
       {thumbnail ? (
-        <div 
+        <div
           id={`photo-thumb-${photoId}`}
           className={`relative group cursor-pointer ${className} overflow-hidden shadow-sm hover:ring-2 hover:ring-accent transition-all`}
           onClick={() => setIsOpen(true)}
         >
-          <img 
-            src={photoData} 
-            alt="Climbing route" 
+          <img
+            src={photoData}
+            alt="Climbing route"
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
@@ -69,10 +69,10 @@ export default function PhotoViewer({ photoId, className = 'w-12 h-12 rounded-lg
           </div>
         </div>
       ) : (
-        <img 
+        <img
           id={`photo-img-${photoId}`}
-          src={photoData} 
-          alt="Climbing route" 
+          src={photoData}
+          alt="Climbing route"
           className={`${className} cursor-pointer`}
           onClick={() => setIsOpen(true)}
           referrerPolicy="no-referrer"
@@ -81,12 +81,12 @@ export default function PhotoViewer({ photoId, className = 'w-12 h-12 rounded-lg
 
       {/* Modal Lightbox */}
       {isOpen && (
-        <div 
+        <div
           id={`lightbox-${photoId}`}
-          className="fixed inset-0 bg-choco-dark/85 z-50 flex items-center justify-center p-4 backdrop-blur-xs transition-opacity duration-200"
+          className=" flex flex-col items-start justify-start fixed inset-0 bg-choco-dark/85 z-50 flex items-center justify-center p-4 backdrop-blur-xs transition-opacity duration-200"
           onClick={() => setIsOpen(false)}
         >
-          <button 
+          <button
             id={`close-lightbox-${photoId}`}
             className="absolute top-6 right-6 p-2 bg-cream-card border border-rose-border hover:bg-cream-base text-choco-medium hover:text-choco-dark rounded-full transition-all shadow-md cursor-pointer"
             onClick={() => setIsOpen(false)}
@@ -94,9 +94,9 @@ export default function PhotoViewer({ photoId, className = 'w-12 h-12 rounded-lg
             <X className="w-5 h-5" />
           </button>
           <div className="max-w-3xl max-h-[85vh] overflow-hidden rounded-[32px] border border-rose-border bg-cream-card shadow-2xl relative" onClick={e => e.stopPropagation()}>
-            <img 
-              src={photoData} 
-              alt="Climbing route fullscreen" 
+            <img
+              src={photoData}
+              alt="Climbing route fullscreen"
               className="max-w-full max-h-[80vh] object-contain"
               referrerPolicy="no-referrer"
             />
