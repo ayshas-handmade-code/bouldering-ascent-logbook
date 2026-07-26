@@ -38,6 +38,16 @@ export default function PhotoViewer({ photoId, className = 'w-12 h-12 rounded-lg
     };
   }, [photoId]);
 
+  useEffect(() => {
+    if (isOpen) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [isOpen]);
+
   if (loading) {
     return (
       <div id={`loader-${photoId}`} className={`${className} bg-slate-100 dark:bg-slate-800 animate-pulse flex items-center justify-center`}>
@@ -83,24 +93,29 @@ export default function PhotoViewer({ photoId, className = 'w-12 h-12 rounded-lg
       {isOpen && (
         <div
           id={`lightbox-${photoId}`}
-          className=" flex flex-col items-start justify-start fixed inset-0 bg-choco-dark/85 z-50 flex items-center justify-center p-4 backdrop-blur-xs transition-opacity duration-200"
+          className="fixed inset-0 bg-choco-dark/85 z-50 flex items-center justify-center p-4 backdrop-blur-xs transition-opacity duration-200"
           onClick={() => setIsOpen(false)}
         >
           <button
             id={`close-lightbox-${photoId}`}
-            className="absolute top-6 right-6 p-2 bg-cream-card border border-rose-border hover:bg-cream-base text-choco-medium hover:text-choco-dark rounded-full transition-all shadow-md cursor-pointer"
+            className="absolute top-6 right-6 p-2 bg-cream-card border border-rose-border hover:bg-cream-base text-choco-medium hover:text-choco-dark rounded-full transition-all shadow-md cursor-pointer z-10"
             onClick={() => setIsOpen(false)}
           >
             <X className="w-5 h-5" />
           </button>
-          <div className="max-w-3xl max-h-[85vh] overflow-hidden rounded-[32px] border border-rose-border bg-cream-card shadow-2xl relative" onClick={e => e.stopPropagation()}>
-            <img
-              src={photoData}
-              alt="Climbing route fullscreen"
-              className="max-w-full max-h-[80vh] object-contain"
-              referrerPolicy="no-referrer"
-            />
-            <div className="bg-cream-base text-choco-dark py-3 px-4 text-center text-[11px] font-display font-bold uppercase tracking-normal flex items-center justify-center gap-2 border-t border-rose-border/40">
+          <div 
+            className="max-w-3xl max-h-[85vh] w-full flex flex-col items-center justify-center overflow-hidden rounded-[32px] border border-rose-border bg-cream-card shadow-2xl relative m-auto" 
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="w-full flex-1 flex items-center justify-center min-h-0 p-3 overflow-hidden">
+              <img
+                src={photoData}
+                alt="Climbing route fullscreen"
+                className="max-w-full max-h-[70vh] object-contain mx-auto my-auto block rounded-2xl"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+            <div className="w-full bg-cream-base text-choco-dark py-3 px-4 text-center text-[11px] font-display font-bold uppercase tracking-normal flex items-center justify-center gap-2 border-t border-rose-border/40 shrink-0">
               <ImageIcon className="w-4 h-4 text-accent" />
               Logged Ascent Attachment 🌸
             </div>
