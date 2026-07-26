@@ -50,9 +50,9 @@ export default function PhotoViewer({ photoId, className = 'w-12 h-12 rounded-lg
     return null; // Don't show anything if no photo data exists
   }
 
-  if (thumbnail) {
-    return (
-      <>
+  return (
+    <>
+      {thumbnail ? (
         <div 
           id={`photo-thumb-${photoId}`}
           className={`relative group cursor-pointer ${className} overflow-hidden shadow-sm hover:ring-2 hover:ring-accent transition-all`}
@@ -68,46 +68,45 @@ export default function PhotoViewer({ photoId, className = 'w-12 h-12 rounded-lg
             <ZoomIn className="w-4 h-4 text-accent" />
           </div>
         </div>
+      ) : (
+        <img 
+          id={`photo-img-${photoId}`}
+          src={photoData} 
+          alt="Climbing route" 
+          className={`${className} cursor-pointer`}
+          onClick={() => setIsOpen(true)}
+          referrerPolicy="no-referrer"
+        />
+      )}
 
-        {/* Modal Lightbox */}
-        {isOpen && (
-          <div 
-            id={`lightbox-${photoId}`}
-            className="fixed inset-0 bg-choco-dark/85 z-50 flex items-center justify-center p-4 backdrop-blur-xs transition-opacity duration-200"
+      {/* Modal Lightbox */}
+      {isOpen && (
+        <div 
+          id={`lightbox-${photoId}`}
+          className="fixed inset-0 bg-choco-dark/85 z-50 flex items-center justify-center p-4 backdrop-blur-xs transition-opacity duration-200"
+          onClick={() => setIsOpen(false)}
+        >
+          <button 
+            id={`close-lightbox-${photoId}`}
+            className="absolute top-6 right-6 p-2 bg-cream-card border border-rose-border hover:bg-cream-base text-choco-medium hover:text-choco-dark rounded-full transition-all shadow-md cursor-pointer"
             onClick={() => setIsOpen(false)}
           >
-            <button 
-              id={`close-lightbox-${photoId}`}
-              className="absolute top-6 right-6 p-2 bg-cream-card border border-rose-border hover:bg-cream-base text-choco-medium hover:text-choco-dark rounded-full transition-all shadow-md cursor-pointer"
-              onClick={() => setIsOpen(false)}
-            >
-              <X className="w-5 h-5" />
-            </button>
-            <div className="max-w-3xl max-h-[85vh] overflow-hidden rounded-[32px] border border-rose-border bg-cream-card shadow-2xl relative" onClick={e => e.stopPropagation()}>
-              <img 
-                src={photoData} 
-                alt="Climbing route fullscreen" 
-                className="max-w-full max-h-[80vh] object-contain"
-                referrerPolicy="no-referrer"
-              />
-              <div className="bg-cream-base text-choco-dark py-3 px-4 text-center text-[11px] font-display font-bold uppercase tracking-normal flex items-center justify-center gap-2 border-t border-rose-border/40">
-                <ImageIcon className="w-4 h-4 text-accent" />
-                Logged Ascent Attachment 🌸
-              </div>
+            <X className="w-5 h-5" />
+          </button>
+          <div className="max-w-3xl max-h-[85vh] overflow-hidden rounded-[32px] border border-rose-border bg-cream-card shadow-2xl relative" onClick={e => e.stopPropagation()}>
+            <img 
+              src={photoData} 
+              alt="Climbing route fullscreen" 
+              className="max-w-full max-h-[80vh] object-contain"
+              referrerPolicy="no-referrer"
+            />
+            <div className="bg-cream-base text-choco-dark py-3 px-4 text-center text-[11px] font-display font-bold uppercase tracking-normal flex items-center justify-center gap-2 border-t border-rose-border/40">
+              <ImageIcon className="w-4 h-4 text-accent" />
+              Logged Ascent Attachment 🌸
             </div>
           </div>
-        )}
-      </>
-    );
-  }
-
-  return (
-    <img 
-      id={`photo-img-${photoId}`}
-      src={photoData} 
-      alt="Climbing route" 
-      className={className}
-      referrerPolicy="no-referrer"
-    />
+        </div>
+      )}
+    </>
   );
 }
