@@ -239,18 +239,22 @@ export default function LogbookTab({
                         >
                           <div className="flex items-start justify-between">
                             <div className="flex items-center gap-2.5">
-                              {/* Color badge tag */}
-                              <span
-                                id={`log-route-color-tag-${route.id}`}
-                                className="w-4 h-4 rounded-full border border-rose-border/60 flex items-center shrink-0 justify-center shadow-xs animate-fade-in"
-                                style={{ backgroundColor: route.color === 'Black' ? '#18181b' : route.color === 'White' ? '#fafafa' : route.color }}
-                              />
+
 
                               <div>
+
                                 <div className="flex items-center gap-1.5 flex-wrap">
-                                  <span className="text-sm font-display font-bold text-choco-dark bg-cream-base px-2 py-0.5 rounded-lg">{route.grade}</span>
+                                  {/* Color badge tag */}
+                                  <span
+                                    id={`log-route-color-tag-${route.id}`}
+                                    className="w-4 h-4 rounded-full border border-rose-border/60 flex items-center shrink-0 justify-center shadow-xs animate-fade-in"
+                                    style={{ backgroundColor: route.color === 'Black' ? '#18181b' : route.color === 'White' ? '#fafafa' : route.color }}
+                                  />
                                   <span className="text-[10px] bg-accent/15 border border-rose-border/40 px-2 py-0.5 rounded-full text-choco-medium font-display font-semibold lowercase">
                                     {route.color}
+                                  </span>
+                                  <span className="text-sm font-display font-bold text-choco-dark bg-cream-base px-2 py-0.5 rounded-lg">
+                                    {route.grade}
                                   </span>
                                   <span className="text-[10px] bg-sky-accent/20 border border-sky-accent/40 px-2 py-0.5 rounded-full text-choco-medium font-display font-semibold lowercase">
                                     {route.wallLocation}
@@ -291,7 +295,7 @@ export default function LogbookTab({
 
                           {/* Climb Route specific stats metrics & Image */}
                           <div className="flex items-center justify-between mt-1 pt-2.5 border-t border-dashed border-rose-border/40 font-sans">
-                            <div className="flex gap-4">
+                            <div className="flex gap-4 flex-wrap">
                               <div className="text-center bg-cream-base border border-rose-border/50 px-3 py-1.5 rounded-xl block shadow-3xs">
                                 <span className="block text-[8px] font-display font-bold text-choco-light uppercase">Attempts</span>
                                 <span className="text-[11px] font-display font-semibold text-choco-dark">{route.attempts}</span>
