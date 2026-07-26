@@ -304,7 +304,7 @@ export default function LogbookTab({
                               {route.sends > 0 ? (
                                 <div className="flex-col gap-2 text-center bg-mint-accent/15 border border-mint-accent/50 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-3xs">
                                   <div className="flex items-center gap-1">
-                                    <CheckCircle2 className="w-3.5 h-3.5 text-mint-accent" />
+                                    <CheckCircle2 className="w-3.5 h-3.5 fill-mint-accent text-white" />
                                     <span className="block text-[8px] font-display font-bold text-choco-medium uppercase">Sends</span>
                                   </div>
                                   <span className="text-[11px] font-display font-semibold text-choco-dark">{route.sends}</span>
