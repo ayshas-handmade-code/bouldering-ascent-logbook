@@ -57,13 +57,6 @@ export default function LogbookCardHeader({ session, onEditSession, onDeleteSess
 
       {/* Quick aggregates and control triggers */}
       <div className="flex items-center gap-2" onClick={e => e.stopPropagation()}>
-        <div className="hidden sm:flex items-center gap-3 text-right">
-          <div className="text-[10px] font-display font-bold uppercase text-choco-medium leading-tight">
-            <p>Sends: <b className="text-berry-accent">{totalSends}</b></p>
-            <p>Flash: <b className="text-sky-accent">{totalFlashes}</b></p>
-          </div>
-        </div>
-
         <button
           id={`btn-edit-session-trigger-${session.id}`}
           onClick={() => onEditSession(session)}
